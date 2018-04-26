@@ -1,4 +1,4 @@
-package com.summer.record.ui.main.text;
+package com.summer.record.ui.main.text.text;
 
 //by summer on 2018-03-27.
 

@@ -13,6 +13,7 @@ import com.android.lib.bean.BaseBean;
 import com.android.lib.network.bean.req.BaseReqBean;
 import com.android.lib.network.bean.res.BaseResBean;
 import com.android.lib.network.news.NetAdapter;
+import com.android.lib.network.news.NetGet;
 import com.android.lib.network.news.NetI;
 import com.android.lib.network.news.UINetAdapter;
 import com.android.lib.util.GsonUtil;
@@ -124,10 +125,10 @@ public class RecordDAOpe extends BaseDAOpe {
         ArrayList<Record> v = new ArrayList<>();
         strs = map.keySet().toArray(strs);
         ArrayList<Long> timestr = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat(DateFormatUtil.YYYY_MM_DD);
+        format.setTimeZone(TimeZone.getTimeZone("UTC"));
         for(int i=0;i<strs.length;i++){
             try {
-                SimpleDateFormat format = new SimpleDateFormat(DateFormatUtil.YYYY_MM_DD);
-                format.setTimeZone(TimeZone.getTimeZone("UTC"));
                 timestr.add(format.parse(strs[i]).getTime());
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -146,9 +147,8 @@ public class RecordDAOpe extends BaseDAOpe {
         ArrayList<String> ss = new ArrayList<>();
         for(int i=timestr.size()-1;i>=0;i--){
             Date d=new Date(timestr.get(i));
-            DateFormat df=new SimpleDateFormat(DateFormatUtil.YYYY_MM_DD);
-            df.setTimeZone(TimeZone.getTimeZone("UTC"));
-            ss.add(df.format(d));
+            format.setTimeZone(TimeZone.getTimeZone("UTC"));
+            ss.add(format.format(d));
         }
 
         for(int i=0;i<ss.size();i++){
@@ -165,9 +165,24 @@ public class RecordDAOpe extends BaseDAOpe {
                 j++;
             }
         }
+        map=null;
         return v;
     }
 
+    public void downLoadRecords(final int index, BaseUIFrag baseUIFrag, final ArrayList<Record> records){
+        downLoadRecord(records.get(index),new NetAdapter(baseUIFrag.getBaseUIAct()){
+            @Override
+            public void onNetFinish(boolean haveData, String url, BaseResBean baseResBean) {
+                super.onNetFinish(haveData, url, baseResBean);
+                downLoadRecords(index,baseUIFrag,records);
+            }
+        });
+    }
+
+
+    public void downLoadRecord(Record record,NetI adapter){
+        NetGet.downLoadFile(record.getNetpath(),record.locpath,adapter);
+    }
 
 
     public void updateRecords(BaseUIFrag baseUIFrag, ArrayList<Record> videos, NetI<ArrayList<Record>> adapter){

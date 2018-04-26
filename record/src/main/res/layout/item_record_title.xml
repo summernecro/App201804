@@ -8,7 +8,8 @@
     </data>
 
     <android.support.constraint.ConstraintLayout
-        android:background="@color/color_base"
+        android:elevation="2dp"
+        android:background="@color/color_red_500"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:paddingTop="20dp"
@@ -18,7 +19,7 @@
 
 
     <TextView
-        android:text="视频(100/345)"
+        android:textSize="@dimen/dimen_text_size_stand"
         android:layout_marginLeft="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -50,7 +51,7 @@
 
         <ImageView
             android:layout_marginRight="15dp"
-            android:src="@drawable/icon_record_refresh"
+            android:src="@drawable/drawable_record_upload"
             android:id="@+id/tv_refresh"
             app:layout_constraintRight_toLeftOf="@+id/tv_search"
             app:layout_constraintTop_toTopOf="parent"
@@ -60,10 +61,10 @@
 
 
         <ImageView
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_marginRight="15dp"
-            android:src="@drawable/drawable_record_upload"
-            android:id="@+id/tv_upload"
+            android:src="@drawable/arrow_down"
+            android:id="@+id/tv_down"
             app:layout_constraintRight_toLeftOf="@+id/tv_refresh"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

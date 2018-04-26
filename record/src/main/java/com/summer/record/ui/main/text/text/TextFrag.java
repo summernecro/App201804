@@ -1,44 +1,48 @@
-package com.summer.record.ui.main.text;
+package com.summer.record.ui.main.text.text;
 
 //by summer on 2018-03-27.
 
-import android.content.BroadcastReceiver;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 
 import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.interf.OnFinishListener;
+import com.android.lib.base.listener.ViewListener;
 import com.android.lib.network.bean.res.BaseResBean;
+import com.android.lib.network.news.NetAdapter;
 import com.android.lib.network.news.UINetAdapter;
 import com.android.lib.util.LogUtil;
-import com.android.lib.util.ToastUtil;
+import com.android.lib.util.fragment.two.FragManager2;
 import com.android.lib.view.bottommenu.MessageEvent;
 import com.raizlabs.android.dbflow.sql.language.Select;
 import com.summer.record.R;
 import com.summer.record.data.NetDataWork;
 import com.summer.record.data.Record;
-import com.summer.record.data.text.Text;
-import com.summer.record.ui.main.image.image.ImageFrag;
+import com.summer.record.data.Records;
+import com.summer.record.ui.main.main.MainValue;
 import com.summer.record.ui.main.record.RecordDAOpe;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import com.summer.record.ui.main.text.textdeail.TextDetailFrag;
 
 import java.util.ArrayList;
 
 import butterknife.OnClick;
 import butterknife.Optional;
 
-public class TextFrag extends BaseUIFrag<TextUIOpe,RecordDAOpe>{
+public class TextFrag extends BaseUIFrag<TextUIOpe,RecordDAOpe> implements ViewListener{
 
     @Override
     public void initdelay() {
         super.initdelay();
         ArrayList<Record> list = (ArrayList<Record>) new Select().from(Record.class).queryList();
-        getP().getU().initTexts(list);
+        getP().getU().initTexts(list,this);
+
+        NetDataWork.Data.getRecordInfo(getBaseUIAct(), Record.ATYPE_TEXT, new UINetAdapter<Records>(getBaseUIFrag()) {
+            @Override
+            public void onSuccess(Records o) {
+                super.onSuccess(o);
+                getP().getD().setRecordsInfo(o);
+                getP().getU().updateTitle(o.getDoneNum()+"/"+o.getAllNum());
+            }
+        });
     }
 
     @Override
@@ -51,13 +55,16 @@ public class TextFrag extends BaseUIFrag<TextUIOpe,RecordDAOpe>{
     public void dealMesage(MessageEvent event) {
         LogUtil.E("TextDB");
         ArrayList<Record> list = (ArrayList<Record>) new Select().from(Record.class).queryList();
-        getP().getU().initTexts(list);
+        getP().getU().initTexts(list,this);
+        ArrayList<Record> records = new ArrayList<>();
+        records.add((Record) event.data);
+        getP().getD().updateRecords(getBaseUIFrag(),records,new NetAdapter<ArrayList<Record>>(getBaseUIAct()));
 
     }
 
 
     @Optional
-    @OnClick({R.id.iv_add,R.id.tv_refresh,R.id.tv_upload})
+    @OnClick({R.id.iv_add,R.id.tv_refresh,R.id.tv_down})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()){
@@ -77,7 +84,7 @@ public class TextFrag extends BaseUIFrag<TextUIOpe,RecordDAOpe>{
                                 @Override
                                 public void onSuccess(ArrayList<Record> o) {
                                     super.onSuccess(o);
-                                    getP().getU().initTexts(o);
+                                    getP().getU().initTexts(o,TextFrag.this);
                                 }
 
                                 @Override
@@ -90,7 +97,7 @@ public class TextFrag extends BaseUIFrag<TextUIOpe,RecordDAOpe>{
                     }
                 });
                 break;
-            case R.id.tv_upload:
+            case R.id.tv_down:
 
                 break;
         }
@@ -101,4 +108,12 @@ public class TextFrag extends BaseUIFrag<TextUIOpe,RecordDAOpe>{
         return R.layout.frag_base;
     }
 
+    @Override
+    public void onInterupt(int i, View view) {
+        switch (i){
+            case ViewListener.TYPE_ONCLICK:
+                FragManager2.getInstance().start(getBaseUIAct(), MainValue.文字, TextDetailFrag.getInstance((Record) view.getTag(R.id.data)));
+                break;
+        }
+    }
 }

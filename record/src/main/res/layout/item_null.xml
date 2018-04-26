@@ -2,7 +2,7 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="item_video_video"
+            name="item_null"
             type="com.summer.record.data.Record" />
     </data>
 
@@ -12,16 +12,6 @@
         android:layout_width="match_parent"
         android:id="@+id/bg"
         android:layout_height="90dp">
-<ImageView
-    android:elevation="2dp"
-    android:background="@color/white"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    android:layout_margin="2dp"
-    android:id="@+id/iv_video"
-    android:padding="1dp"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />
 
 
     </com.summer.record.ui.view.GridConstraintLayout>

@@ -10,17 +10,16 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import com.android.lib.service.main.AppService;
 import com.android.lib.util.LogUtil;
 import com.android.lib.view.bottommenu.MessageEvent;
-import com.google.android.exoplayer2.metadata.emsg.EventMessage;
 import com.summer.record.data.Record;
-import com.summer.record.data.text.Text;
-import com.summer.record.ui.main.text.TextFrag;
+import com.summer.record.ui.main.text.text.TextFrag;
 
 import org.greenrobot.eventbus.EventBus;
 
 public class ClipSevice extends Service {
+
+    long time = 0;
 
     @Override
     public void onCreate() {
@@ -29,6 +28,11 @@ public class ClipSevice extends Service {
         clipboarmanager.addPrimaryClipChangedListener(new ClipboardManager.OnPrimaryClipChangedListener() {
             @Override
             public void onPrimaryClipChanged() {
+                if(System.currentTimeMillis()-time<200){
+                    time = System.currentTimeMillis();
+                    return;
+                }
+                time = System.currentTimeMillis();
                 for(int i=0;i<clipboarmanager.getPrimaryClip().getItemCount();i++){
                     ClipData.Item item = clipboarmanager.getPrimaryClip().getItemAt(i);
                     LogUtil.E( i+"ClipData"+item.getText());
@@ -37,8 +41,8 @@ public class ClipSevice extends Service {
                     record.content = item.getText().toString();
                     record.ctime = System.currentTimeMillis();
                     record.save();
+                    EventBus.getDefault().post(new MessageEvent(ClipSevice.class.getName(), TextFrag.class.getName(),record));
                 }
-                EventBus.getDefault().post(new MessageEvent(ClipSevice.class.getName(), TextFrag.class.getName(),""));
             }
         });
     }

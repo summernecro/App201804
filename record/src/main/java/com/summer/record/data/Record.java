@@ -27,7 +27,7 @@ public class Record extends BaseBean {
 
     @PrimaryKey(autoincrement = true)
     public Integer id;
-    @Column
+
     public Integer pos;
     @Column
     public String locpath;
@@ -51,7 +51,7 @@ public class Record extends BaseBean {
     public String content;
 
     public Uri uri;
-    @Column
+
     public String dateStr;
 
     public int frist = 0;
@@ -108,7 +108,7 @@ public class Record extends BaseBean {
     }
 
     public boolean isNull(){
-        if(getId()==-1){
+        if(NullUtil.isStrEmpty(getAtype())){
             return true;
         }
         return false;
@@ -125,6 +125,13 @@ public class Record extends BaseBean {
             return 本地有服务器有;
         }
         return 其他情况;
+    }
+
+    public String getShortContent(){
+        if(content!=null&&content.length()>99){
+            return content.substring(0,100);
+        }
+        return content;
     }
 
     public boolean isFrist() {

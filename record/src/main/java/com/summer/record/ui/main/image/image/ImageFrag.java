@@ -53,7 +53,7 @@ public class ImageFrag  extends BaseUIFrag<ImageUIOpe,RecordDAOpe> implements Vi
         });
     }
     @Optional
-    @OnClick({R.id.iv_add,R.id.tv_refresh,R.id.tv_upload})
+    @OnClick({R.id.iv_add,R.id.tv_refresh,R.id.tv_down})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()){
@@ -100,21 +100,22 @@ public class ImageFrag  extends BaseUIFrag<ImageUIOpe,RecordDAOpe> implements Vi
                     }
                 });
                 break;
-            case R.id.tv_upload:
+            case R.id.tv_down:
                 v.setSelected(!v.isSelected());
-                getP().getD().setIndex(0);
-                if(!v.isSelected()){
-                    getP().getD().setIndex(getP().getD().getNoNullRecords(getP().getD().getRecords()).size());
-                    return;
-                }
-                getP().getD().uploadRecords(getBaseUIAct(), getP().getD().getNoNullRecords(getP().getD().getRecords()), new OnFinishListener() {
+                NetDataWork.Data.getAllRecords(getBaseAct(), Record.ATYPE_IMAGE,new UINetAdapter<ArrayList<Record>>(getBaseUIFrag(),UINetAdapter.Loading) {
                     @Override
-                    public void onFinish(Object o) {
-                        Record record = (Record) o;
-                        getP().getU().scrollToPos(getP().getD().getRecords(), record);
-                        if(getP().getD().getRecordsInfo()!=null){
-                            getP().getU().updateTitle(record.getPos()+"/"+getP().getD().getRecordsInfo().getAllNum());
-                        }
+                    public void onSuccess(ArrayList<Record> o) {
+                        super.onSuccess(o);
+                        getP().getD().setRecords(getP().getD().dealRecord(o));
+                        getP().getU().loadImages(getP().getD().getRecords(),ImageFrag.this);
+
+
+                    }
+
+                    @Override
+                    public void onNetFinish(boolean haveData, String url, BaseResBean baseResBean) {
+                        super.onNetFinish(haveData, url, baseResBean);
+                        getP().getU().updateTitle(baseResBean.getOther());
                     }
                 });
                 break;

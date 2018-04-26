@@ -57,7 +57,7 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe> implements Vie
 
     }
     @Optional
-    @OnClick({R.id.iv_add,R.id.tv_refresh,R.id.tv_upload})
+    @OnClick({R.id.iv_add,R.id.tv_refresh,R.id.tv_down})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()){
@@ -103,7 +103,7 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe> implements Vie
                     }
                 });
                 break;
-            case R.id.tv_upload:
+            case R.id.tv_down:
                 v.setSelected(!v.isSelected());
                 getP().getD().setIndex(0);
                 if(!v.isSelected()){
