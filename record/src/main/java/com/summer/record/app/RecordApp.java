@@ -2,11 +2,16 @@ package com.summer.record.app;
 
 //by summer on 2018-03-28.
 
+import android.graphics.Color;
+
+import com.android.lib.GlideApp;
 import com.android.lib.aplication.LibAplication;
 import com.android.lib.network.bean.res.BaseResBean;
 import com.android.lib.network.news.NetAdapter;
 import com.android.lib.network.news.NetGet;
 import com.android.lib.util.fragment.two.FragManager2;
+import com.bumptech.glide.GlideBuilder;
+import com.bumptech.glide.request.RequestOptions;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
 import org.xutils.common.Callback;
@@ -41,6 +46,7 @@ public class RecordApp extends LibAplication {
 
             }
         });
+
     }
 
 

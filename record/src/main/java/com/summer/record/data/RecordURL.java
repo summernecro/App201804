@@ -9,7 +9,7 @@ public class RecordURL {
     protected static String 域名 = 正式域名;
     protected static String 正式文件路径;
     protected static String 测试文件路径;
-    protected static String 文件路径;
+    protected static String 文件路径="";
     protected static boolean isOffice;
 
     public RecordURL() {

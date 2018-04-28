@@ -7,6 +7,7 @@ import android.view.View;
 import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.interf.OnFinishListener;
 import com.android.lib.base.interf.OnFinishWithObjI;
+import com.android.lib.base.interf.OnLoadingAdapter;
 import com.android.lib.base.listener.ViewListener;
 import com.android.lib.bean.BaseBean;
 import com.android.lib.network.bean.res.BaseResBean;
@@ -36,10 +37,15 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe> implements Vie
     @Override
     public void initdelay() {
         super.initdelay();
-        startLoading();
-        getP().getD().getVideos(getBaseAct(), new OnFinishWithObjI() {
+
+        getP().getD().getVideos(getBaseAct(), new OnLoadingAdapter(){
             @Override
-            public void onNetFinish(Object o) {
+            public void onStarLoading(Object o) {
+                startLoading();
+            }
+
+            @Override
+            public void onStopLoading(Object o) {
                 getP().getD().setRecords((ArrayList<Record>) o);
                 getP().getU().loadVideos(getP().getD().getRecords(),VideoFrag.this);
                 stopLoading();
@@ -64,15 +70,11 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe> implements Vie
             case R.id.iv_add:
                 break;
             case R.id.tv_refresh:
-                ArrayList<Record>  list = getP().getD().getNoNullRecords(getP().getD().getRecords());
-                getP().getD().setIndex(0);
-                final ArrayList<Record> records = new ArrayList<>();
-                getP().getD().updateRecordsStep(records,getBaseUIFrag(), list, new OnFinishListener() {
+                getP().getD().updateRecordsStep(0,new ArrayList<Record>(),getBaseUIFrag(), getP().getD().getNoNullRecords(getP().getD().getRecords()), new OnFinishListener() {
                     @Override
                     public void onFinish(Object o) {
-                        if(!(o instanceof String)){
-                            getP().getD().setIndex(0);
-                            getP().getD().uploadRecords(getBaseUIAct(),records , new OnFinishListener() {
+                        if(o instanceof ArrayList){
+                            getP().getD().uploadRecords(0,getBaseUIAct(), (ArrayList<Record>) o, new OnFinishListener() {
                                 @Override
                                 public void onFinish(Object o) {
                                     if(o==null){
@@ -105,20 +107,29 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe> implements Vie
                 break;
             case R.id.tv_down:
                 v.setSelected(!v.isSelected());
-                getP().getD().setIndex(0);
-                if(!v.isSelected()){
-                    getP().getD().setIndex(getP().getD().getNoNullRecords(getP().getD().getRecords()).size());
-                    return;
-                }
-
-                getP().getD().uploadRecords(getBaseUIAct(),getP().getD().getNoNullRecords(getP().getD().getRecords()) , new OnFinishListener() {
+                NetDataWork.Data.getAllRecords(getBaseAct(), Record.ATYPE_VIDEO,new UINetAdapter<ArrayList<Record>>(getBaseUIFrag(),UINetAdapter.Loading) {
                     @Override
-                    public void onFinish(Object o) {
-                        Record record = (Record) o;
-                        getP().getU().scrollToPos(getP().getD().getRecords(), record);
-                        if(getP().getD().getRecordsInfo()!=null){
-                            getP().getU().updateTitle(record.getPos()+"/"+getP().getD().getRecordsInfo().getAllNum());
-                        }
+                    public void onSuccess(ArrayList<Record> o) {
+                        super.onSuccess(o);
+                        getP().getD().setRecords(getP().getD().dealRecord(o));
+                        getP().getU().loadVideos(getP().getD().getRecords(),VideoFrag.this);
+
+                        getP().getD().downLoadRecords(0,getBaseUIFrag(),getP().getD().getUnDownloadRecords(getP().getD().getNoNullRecords(getP().getD().getRecords())), new OnFinishListener<Object>() {
+                            @Override
+                            public void onFinish(Object o) {
+                                if(o!=null){
+                                    Record record = (Record) o;
+                                    getP().getU().scrollToPos(record);
+                                }
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onNetFinish(boolean haveData, String url, BaseResBean baseResBean) {
+                        super.onNetFinish(haveData, url, baseResBean);
+                        getP().getU().updateTitle(baseResBean.getOther());
                     }
                 });
                 break;

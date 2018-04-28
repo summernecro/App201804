@@ -122,4 +122,11 @@ public class VideoUIOpe extends BaseUIOpe<FragMainVideoBinding> {
         records.get(record.getId()).setIsDoing(1);
         getBind().recycle.getAdapter().notifyItemChanged(record.getId(),record);
     }
+
+    public void scrollToPos(Record record){
+        LogUtil.E(record.getId());
+        GridLayoutManager gridLayoutManager = (GridLayoutManager) getBind().recycle.getLayoutManager();
+        gridLayoutManager.scrollToPositionWithOffset(record.getId(),0);
+        getBind().recycle.getAdapter().notifyItemChanged(record.getId(),record);
+    }
 }

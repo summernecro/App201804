@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.interf.OnFinishListener;
 import com.android.lib.base.interf.OnFinishWithObjI;
+import com.android.lib.base.interf.OnLoadingInterf;
 import com.android.lib.base.ope.BaseDAOpe;
 import com.android.lib.bean.BaseBean;
 import com.android.lib.network.bean.req.BaseReqBean;
@@ -18,12 +19,15 @@ import com.android.lib.network.news.NetI;
 import com.android.lib.network.news.UINetAdapter;
 import com.android.lib.util.GsonUtil;
 import com.android.lib.util.LogUtil;
+import com.android.lib.util.NullUtil;
 import com.android.lib.util.data.DateFormatUtil;
 import com.google.gson.reflect.TypeToken;
 import com.summer.record.data.NetDataWork;
 import com.summer.record.data.Record;
+import com.summer.record.data.RecordURL;
 import com.summer.record.data.Records;
 import com.summer.record.tool.FileTool;
+import com.yalantis.ucrop.util.FileUtils;
 
 import org.xutils.common.util.KeyValue;
 
@@ -46,8 +50,6 @@ public class RecordDAOpe extends BaseDAOpe {
 
     ArrayList<Record> records;
 
-    private int index=0;
-
     private Records recordsInfo;
 
     BDAOpe bdaOpe ;
@@ -65,7 +67,8 @@ public class RecordDAOpe extends BaseDAOpe {
     }
 
 
-    public void getVideos(final Context context, final OnFinishWithObjI i){
+    public void getVideos(final Context context, final OnLoadingInterf i){
+        i.onStarLoading(context);
         getBDAOpe().dddd();
         new AsyncTask<String, String, ArrayList<Record>>() {
             @Override
@@ -77,13 +80,13 @@ public class RecordDAOpe extends BaseDAOpe {
             @Override
             protected void onPostExecute(ArrayList<Record> videos) {
                 super.onPostExecute(videos);
-                i.onNetFinish(videos);
+                i.onStopLoading(videos);
             }
         }.execute();
     }
 
-    public void getImages(final Context context, final OnFinishWithObjI i){
-
+    public void getImages(final Context context, final OnLoadingInterf i){
+        i.onStarLoading(context);
         new AsyncTask<String, String, ArrayList<Record>>() {
             @Override
             protected ArrayList<Record> doInBackground(String... strings) {
@@ -94,7 +97,7 @@ public class RecordDAOpe extends BaseDAOpe {
             @Override
             protected void onPostExecute(ArrayList<Record> videos) {
                 super.onPostExecute(videos);
-                i.onNetFinish(videos);
+                i.onStopLoading(videos);
             }
         }.execute();
     }
@@ -169,19 +172,31 @@ public class RecordDAOpe extends BaseDAOpe {
         return v;
     }
 
-    public void downLoadRecords(final int index, BaseUIFrag baseUIFrag, final ArrayList<Record> records){
-        downLoadRecord(records.get(index),new NetAdapter(baseUIFrag.getBaseUIAct()){
+    public void downLoadRecords(final int index, final BaseUIFrag frag, final ArrayList<Record> records, final OnFinishListener onFinishListener){
+        downLoadRecord(records.get(index),new NetAdapter(frag.getBaseUIAct()){
             @Override
             public void onNetFinish(boolean haveData, String url, BaseResBean baseResBean) {
                 super.onNetFinish(haveData, url, baseResBean);
-                downLoadRecords(index,baseUIFrag,records);
+                int i = index+1;
+                if(i>=records.size()){
+                    onFinishListener.onFinish(null);
+                    return;
+                }else{
+                    onFinishListener.onFinish(records.get(index));
+                }
+                downLoadRecords(i,frag,records,onFinishListener);
             }
         });
     }
 
 
     public void downLoadRecord(Record record,NetI adapter){
-        NetGet.downLoadFile(record.getNetpath(),record.locpath,adapter);
+        String netpath = record.getNetpath();
+        if(netpath.startsWith("E:")){
+            netpath = netpath.substring(2,netpath.length());
+        }
+
+        NetGet.downLoadFile(RecordURL.获取文件路径(record.getNetpath().replace("\\","//")),record.locpath,adapter);
     }
 
 
@@ -196,9 +211,9 @@ public class RecordDAOpe extends BaseDAOpe {
 
     private int pagesize = 100;
 
-    public void updateRecordsStep(final ArrayList<Record> records, final BaseUIFrag baseUIFrag, final ArrayList<Record> videos, final OnFinishListener adapter){
-        final int start = getIndex()*pagesize;
-        int end = getIndex()*pagesize+pagesize;
+    public void updateRecordsStep(final int index, final ArrayList<Record> records, final BaseUIFrag baseUIFrag, final ArrayList<Record> videos, final OnFinishListener adapter){
+        final int start = index*pagesize;
+        int end = index*pagesize+pagesize;
         if(start>=videos.size()){
             adapter.onFinish(records);
             return;
@@ -217,12 +232,12 @@ public class RecordDAOpe extends BaseDAOpe {
             public void onNetFinish(boolean haveData, String url, BaseResBean baseResBean) {
                 super.onNetFinish(haveData, url, baseResBean);
                 adapter.onFinish(start+""+ finalEnd);
-                setIndex(getIndex()+1);
+                int i = index+1;
                 ArrayList<Record> list1 = GsonUtil.getInstance().fromJson(GsonUtil.getInstance().toJson(baseResBean.getData()),new TypeToken<ArrayList<Record>>(){}.getType());
                 if(list1!=null&&list1.size()!=0){
                     records.addAll(list1);
                 }
-                updateRecordsStep(records,baseUIFrag, videos, adapter);
+                updateRecordsStep(i,records,baseUIFrag, videos, adapter);
             }
         });
     }
@@ -240,12 +255,12 @@ public class RecordDAOpe extends BaseDAOpe {
         NetDataWork.Data.uploadRecords(context,list,adapter);
     }
 
-    public void uploadRecords(final Context context, final ArrayList<Record> list, final OnFinishListener listener){
-        if(list==null||list.size()<=getIndex()){
+    public void uploadRecords(final int index , final Context context, final ArrayList<Record> list, final OnFinishListener listener){
+        if(list==null||list.size()<=index){
             listener.onFinish(null);
             return;
         }
-        final Record record = list.get(getIndex());
+        final Record record = list.get(index);
 
         NetDataWork.Data.isRecordUploaded(context, record, new UINetAdapter<Record>(context) {
             @Override
@@ -255,15 +270,15 @@ public class RecordDAOpe extends BaseDAOpe {
                     uploadRecord(context,record,new NetAdapter<BaseBean>(context){
                         @Override
                         public void onNetFinish(boolean haveData, String url, BaseResBean baseResBean) {
-                            setIndex(getIndex()+1);
+                            int i= index+1;
                             listener.onFinish(record);
-                            uploadRecords(context, list, listener);
+                            uploadRecords(i,context, list, listener);
                         }
                     });
                 }else{
-                    setIndex(getIndex()+1);
+                    int i= index+1;
                     listener.onFinish(record);
-                    uploadRecords(context, list, listener);
+                    uploadRecords(i,context, list, listener);
                 }
             }
         });
@@ -273,7 +288,7 @@ public class RecordDAOpe extends BaseDAOpe {
     public ArrayList<Record> getNoNullRecords(ArrayList<Record> list){
         ArrayList<Record> records = new ArrayList<>();
         for(int i = 0; list!=null&&i< list.size(); i++){
-            if(list.get(i).getLocpath()!=null){
+            if(!NullUtil.isStrEmpty(list.get(i).getAtype())){
                 records.add(list.get(i));
             }
         }
@@ -282,4 +297,16 @@ public class RecordDAOpe extends BaseDAOpe {
         }
         return records;
     }
+
+    public ArrayList<Record> getUnDownloadRecords(ArrayList<Record> list){
+        ArrayList<Record> records = new ArrayList<>();
+        for(int i = 0; list!=null&&i< list.size(); i++){
+            File file = new File(list.get(i).locpath);
+            if(!file.exists()&&!NullUtil.isStrEmpty(list.get(i).netpath)){
+                records.add(list.get(i));
+            }
+        }
+        return records;
+    }
+
 }

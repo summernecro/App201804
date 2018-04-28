@@ -7,6 +7,7 @@ import android.view.View;
 import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.interf.OnFinishListener;
 import com.android.lib.base.interf.OnFinishWithObjI;
+import com.android.lib.base.interf.OnLoadingAdapter;
 import com.android.lib.base.listener.ViewListener;
 import com.android.lib.bean.BaseBean;
 import com.android.lib.network.bean.res.BaseResBean;
@@ -32,10 +33,14 @@ public class ImageFrag  extends BaseUIFrag<ImageUIOpe,RecordDAOpe> implements Vi
     @Override
     public void initdelay() {
         super.initdelay();
-        startLoading();
-        getP().getD().getImages(getBaseAct(), new OnFinishWithObjI() {
+        getP().getD().getImages(getBaseAct(), new OnLoadingAdapter() {
             @Override
-            public void onNetFinish(Object o) {
+            public void onStarLoading(Object o) {
+                startLoading();
+            }
+
+            @Override
+            public void onStopLoading(Object o) {
                 getP().getD().setRecords((ArrayList<Record>) o);
                 getP().getU().loadImages(getP().getD().getRecords(),ImageFrag.this);
                 stopLoading();
@@ -62,14 +67,12 @@ public class ImageFrag  extends BaseUIFrag<ImageUIOpe,RecordDAOpe> implements Vi
                 break;
             case R.id.tv_refresh:
                 ArrayList<Record>  list = getP().getD().getNoNullRecords(getP().getD().getRecords());
-                getP().getD().setIndex(0);
                 final ArrayList<Record> records = new ArrayList<>();
-                getP().getD().updateRecordsStep(records,getBaseUIFrag(), list, new OnFinishListener() {
+                getP().getD().updateRecordsStep(0,records,getBaseUIFrag(), list, new OnFinishListener() {
                     @Override
                     public void onFinish(Object o) {
                         if(!(o instanceof String)){
-                            getP().getD().setIndex(0);
-                            getP().getD().uploadRecords(getBaseUIAct(),records , new OnFinishListener() {
+                            getP().getD().uploadRecords(0,getBaseUIAct(),records , new OnFinishListener() {
                                 @Override
                                 public void onFinish(Object o) {
                                     if(o==null){
@@ -109,6 +112,15 @@ public class ImageFrag  extends BaseUIFrag<ImageUIOpe,RecordDAOpe> implements Vi
                         getP().getD().setRecords(getP().getD().dealRecord(o));
                         getP().getU().loadImages(getP().getD().getRecords(),ImageFrag.this);
 
+                        getP().getD().downLoadRecords(0,getBaseUIFrag(),getP().getD().getUnDownloadRecords(getP().getD().getNoNullRecords(getP().getD().getRecords())), new OnFinishListener<Object>() {
+                            @Override
+                            public void onFinish(Object o) {
+                                if(o!=null){
+                                    Record record = (Record) o;
+                                    getP().getU().scrollToPos(record);
+                                }
+                            }
+                        });
 
                     }
 
