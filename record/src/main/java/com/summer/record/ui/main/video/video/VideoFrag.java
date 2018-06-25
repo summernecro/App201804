@@ -32,11 +32,11 @@ import java.util.ArrayList;
 import butterknife.OnClick;
 import butterknife.Optional;
 
-public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe> implements ViewListener{
+public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe,VideoValue> implements ViewListener{
 
     @Override
-    public void initdelay() {
-        super.initdelay();
+    public void initNow() {
+        super.initNow();
 
         getP().getD().getVideos(getBaseAct(), new OnLoadingAdapter(){
             @Override

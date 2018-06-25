@@ -27,11 +27,11 @@ import java.util.ArrayList;
 import butterknife.OnClick;
 import butterknife.Optional;
 
-public class TextFrag extends BaseUIFrag<TextUIOpe,RecordDAOpe> implements ViewListener{
+public class TextFrag extends BaseUIFrag<TextUIOpe,RecordDAOpe,TextValue> implements ViewListener{
 
     @Override
-    public void initdelay() {
-        super.initdelay();
+    public void initNow() {
+        super.initNow();
         ArrayList<Record> list = (ArrayList<Record>) new Select().from(Record.class).queryList();
         getP().getU().initTexts(list,this);
 

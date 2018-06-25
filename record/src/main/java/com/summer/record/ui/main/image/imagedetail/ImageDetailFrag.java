@@ -15,7 +15,7 @@ import com.summer.record.data.Record;
 
 import java.util.ArrayList;
 
-public class ImageDetailFrag extends BaseUIFrag<ImageDetailUIOpe,ImageDetailDAOpe> {
+public class ImageDetailFrag extends BaseUIFrag<ImageDetailUIOpe,ImageDetailDAOpe,ImageDetailValue> {
 
 
     public static ImageDetailFrag getInstance(ArrayList<Record> images, int pos){
@@ -28,8 +28,8 @@ public class ImageDetailFrag extends BaseUIFrag<ImageDetailUIOpe,ImageDetailDAOp
     }
 
     @Override
-    public void initdelay() {
-        super.initdelay();
+    public void initNow() {
+        super.initNow();
         getP().getU().initImages(getP().getD().getImages(),getArguments().getInt(ValueConstant.DATA_INDEX));
     }
 

@@ -18,7 +18,7 @@ import com.summer.record.ui.main.sett.SettFrag;
 import com.summer.record.ui.main.text.text.TextFrag;
 import com.summer.record.ui.main.video.video.VideoFrag;
 
-public class MainAct extends BaseUIActivity<MainUIOpe,MainDAOpe> implements OnAppItemSelectListener {
+public class MainAct extends BaseUIActivity<MainUIOpe,MainDAOpe,MainValue> implements OnAppItemSelectListener {
 
 
 

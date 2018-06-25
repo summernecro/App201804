@@ -209,7 +209,7 @@ public class RecordDAOpe extends BaseDAOpe {
         NetDataWork.Data.updateRecords(baseUIFrag.getBaseUIAct(),baseReqBean,adapter);
     }
 
-    private int pagesize = 100;
+    private int pagesize = 250;
 
     public void updateRecordsStep(final int index, final ArrayList<Record> records, final BaseUIFrag baseUIFrag, final ArrayList<Record> videos, final OnFinishListener adapter){
         final int start = index*pagesize;

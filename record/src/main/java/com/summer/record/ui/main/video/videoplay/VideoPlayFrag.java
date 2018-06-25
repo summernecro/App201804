@@ -10,7 +10,7 @@ import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.summer.record.R;
 import com.summer.record.data.Record;
 
-public class VideoPlayFrag extends BaseUIFrag<VideoPlayUIOpe,VideoPlayDAOpe> {
+public class VideoPlayFrag extends BaseUIFrag<VideoPlayUIOpe,VideoPlayDAOpe,VideoPlayValue> {
 
 
     public static VideoPlayFrag getInstance(Record video){
@@ -20,15 +20,10 @@ public class VideoPlayFrag extends BaseUIFrag<VideoPlayUIOpe,VideoPlayDAOpe> {
         return videoPlayFrag;
     }
 
+
     @Override
     public void initNow() {
         super.initNow();
-
-    }
-
-    @Override
-    public void initdelay() {
-        super.initdelay();
         getP().getU().play((Record) getArguments().getSerializable(ValueConstant.DATA_DATA));
     }
 

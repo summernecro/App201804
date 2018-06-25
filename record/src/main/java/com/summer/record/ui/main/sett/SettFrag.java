@@ -5,7 +5,7 @@ package com.summer.record.ui.main.sett;
 import com.android.lib.base.fragment.BaseUIFrag;
 import com.summer.record.R;
 
-public class SettFrag extends BaseUIFrag<SettUIOpe,SettDAOpe> {
+public class SettFrag extends BaseUIFrag<SettUIOpe,SettDAOpe,SettValue> {
 
     @Override
     public int getBaseUILayout() {

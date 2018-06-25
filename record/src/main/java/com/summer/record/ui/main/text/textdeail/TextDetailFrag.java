@@ -9,7 +9,7 @@ import com.android.lib.constant.ValueConstant;
 import com.summer.record.R;
 import com.summer.record.data.Record;
 
-public class TextDetailFrag extends BaseUIFrag<TextDetailUIOpe,TextDetailDAOpe>{
+public class TextDetailFrag extends BaseUIFrag<TextDetailUIOpe,TextDetailDAOpe,TextDetailValue>{
 
     public static TextDetailFrag getInstance(Record record){
         TextDetailFrag textDetailFrag = new TextDetailFrag();
@@ -19,8 +19,8 @@ public class TextDetailFrag extends BaseUIFrag<TextDetailUIOpe,TextDetailDAOpe>{
     }
 
     @Override
-    public void initdelay() {
-        super.initdelay();
+    public void initNow() {
+        super.initNow();
         getP().getU().initText((Record) getArguments().getSerializable(ValueConstant.DATA_DATA));
     }
 

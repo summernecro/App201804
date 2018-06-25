@@ -28,11 +28,12 @@ import java.util.ArrayList;
 import butterknife.OnClick;
 import butterknife.Optional;
 
-public class ImageFrag  extends BaseUIFrag<ImageUIOpe,RecordDAOpe> implements ViewListener{
+public class ImageFrag  extends BaseUIFrag<ImageUIOpe,RecordDAOpe,MainValue> implements ViewListener{
+
 
     @Override
-    public void initdelay() {
-        super.initdelay();
+    public void initNow() {
+        super.initNow();
         getP().getD().getImages(getBaseAct(), new OnLoadingAdapter() {
             @Override
             public void onStarLoading(Object o) {

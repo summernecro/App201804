@@ -9,7 +9,7 @@ import com.android.lib.base.ope.BaseUIOpe;
 import com.android.lib.constant.ValueConstant;
 import com.summer.record.data.Record;
 
-public class ImageShowFrag extends BaseUIFrag<ImageShowUIOpe,ImageShowDAOpe> {
+public class ImageShowFrag extends BaseUIFrag<ImageShowUIOpe,ImageShowDAOpe,ImageShowValue> {
 
     public static ImageShowFrag getInstance(Record image){
         ImageShowFrag imageShowFrag = new ImageShowFrag();
@@ -20,8 +20,8 @@ public class ImageShowFrag extends BaseUIFrag<ImageShowUIOpe,ImageShowDAOpe> {
     }
 
     @Override
-    public void initdelay() {
-        super.initdelay();
+    public void initNow() {
+        super.initNow();
         getP().getU().showImage((Record) getArguments().getSerializable(ValueConstant.DATA_DATA));
     }
 

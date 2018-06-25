@@ -2,9 +2,10 @@ package com.summer.record.ui.main.main;
 
 //by summer on 2018-03-27.
 
+import com.android.lib.base.ope.BaseValue;
 import com.summer.record.R;
 
-public class MainValue {
+public class MainValue extends BaseValue{
 
     public static final String 视频 = "视频";
 
