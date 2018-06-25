@@ -14,6 +14,7 @@ import com.android.lib.util.fragment.two.FragManager2;
 import com.android.lib.util.system.PermissionUtil;
 import com.summer.record.service.ClipSevice;
 import com.summer.record.ui.main.image.image.ImageFrag;
+import com.summer.record.ui.main.image.images.ImagesFrag;
 import com.summer.record.ui.main.sett.SettFrag;
 import com.summer.record.ui.main.text.text.TextFrag;
 import com.summer.record.ui.main.video.video.VideoFrag;
@@ -34,7 +35,7 @@ public class MainAct extends BaseUIActivity<MainUIOpe,MainDAOpe,MainValue> imple
 
     public void doThing(){
         FragManager2.getInstance().setAnim(false).start(this,MainValue.视频,MainValue.视频ID,new VideoFrag());
-        FragManager2.getInstance().setAnim(false).start(this,MainValue.图片,MainValue.图片ID,new ImageFrag());
+        FragManager2.getInstance().setAnim(false).start(this,MainValue.图片,MainValue.图片ID,new ImagesFrag());
         FragManager2.getInstance().setAnim(false).start(this,MainValue.文字,MainValue.文字ID,new TextFrag());
         FragManager2.getInstance().setAnim(false).start(this,MainValue.设置,MainValue.设置ID,new SettFrag());
         stopService(new Intent(this, ClipSevice.class));

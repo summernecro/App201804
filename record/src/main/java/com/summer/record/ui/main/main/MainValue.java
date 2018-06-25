@@ -3,7 +3,11 @@ package com.summer.record.ui.main.main;
 //by summer on 2018-03-27.
 
 import com.android.lib.base.ope.BaseValue;
+import com.android.lib.util.LoadUtil;
 import com.summer.record.R;
+import com.summer.record.ui.view.UpdateIndicator;
+
+import lombok.Getter;
 
 public class MainValue extends BaseValue{
 
@@ -24,4 +28,6 @@ public class MainValue extends BaseValue{
     public static final int 设置ID = R.id.contain_setting;
 
     public static final String[] 模块 = new String[]{视频,图片,文字,设置};
+
+
 }

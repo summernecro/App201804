@@ -1,4 +1,4 @@
-package com.summer.record.ui.main.record;
+package com.summer.record.ui.main.image.image;
 
 //by summer on 2018-03-27.
 
@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 
 import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.interf.OnFinishListener;
-import com.android.lib.base.interf.OnFinishWithObjI;
 import com.android.lib.base.interf.OnLoadingInterf;
 import com.android.lib.base.ope.BaseDAOpe;
 import com.android.lib.bean.BaseBean;
@@ -27,15 +26,15 @@ import com.summer.record.data.Record;
 import com.summer.record.data.RecordURL;
 import com.summer.record.data.Records;
 import com.summer.record.tool.FileTool;
-import com.yalantis.ucrop.util.FileUtils;
+import com.summer.record.ui.main.record.BDAOpe;
 
 import org.xutils.common.util.KeyValue;
 
 import java.io.File;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +45,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RecordDAOpe extends BaseDAOpe {
+public class ImageDAOpe extends BaseDAOpe {
 
     ArrayList<Record> records;
 
@@ -54,8 +53,8 @@ public class RecordDAOpe extends BaseDAOpe {
 
     BDAOpe bdaOpe ;
 
-    public RecordDAOpe(){
-        LogUtil.E("RecordDAOpe");
+    public ImageDAOpe(){
+        LogUtil.E("ImageDAOpe");
     }
 
 
@@ -67,13 +66,20 @@ public class RecordDAOpe extends BaseDAOpe {
     }
 
 
-    public void getVideos(final Context context, final OnLoadingInterf i){
+
+
+
+    public void getImages(final Context context, final String[] time, final OnLoadingInterf i){
         i.onStarLoading(context);
-        getBDAOpe().dddd();
         new AsyncTask<String, String, ArrayList<Record>>() {
             @Override
             protected ArrayList<Record> doInBackground(String... strings) {
-                ArrayList<Record> videos =  FileTool.getVideos(context);
+                ArrayList<Record> videos =  FileTool.getImages(context, time,new OnFinishListener() {
+                    @Override
+                    public void onFinish(Object o) {
+                        publishProgress(o.toString());
+                    }
+                });
                 return dealRecord(videos);
             }
 
@@ -82,9 +88,14 @@ public class RecordDAOpe extends BaseDAOpe {
                 super.onPostExecute(videos);
                 i.onStopLoading(videos);
             }
+
+            @Override
+            protected void onProgressUpdate(String... values) {
+                super.onProgressUpdate(values);
+                i.onProgress(values[0]);
+            }
         }.execute();
     }
-
 
 
 

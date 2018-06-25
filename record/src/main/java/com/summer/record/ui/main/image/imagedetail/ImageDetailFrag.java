@@ -30,7 +30,7 @@ public class ImageDetailFrag extends BaseUIFrag<ImageDetailUIOpe,ImageDetailDAOp
     @Override
     public void initNow() {
         super.initNow();
-        getP().getU().initImages(getP().getD().getImages(),getArguments().getInt(ValueConstant.DATA_INDEX));
+        getP().getU().initImages(getChildFragmentManager(),getP().getD().getImages(),getArguments().getInt(ValueConstant.DATA_INDEX));
     }
 
     @Override

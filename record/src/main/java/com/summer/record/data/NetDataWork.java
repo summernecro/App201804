@@ -13,6 +13,7 @@ import com.android.lib.util.GsonUtil;
 import org.xutils.common.util.KeyValue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class NetDataWork {
@@ -29,7 +30,15 @@ public class NetDataWork {
             NetGet.getData(context,RecordURL.获取地址("/record/getAllRecords"),record,adapter);
         }
 
-        public static void getRecordInfo(Context context,String atype, NetI<Records> adapter){
+        public static void getRecordInfo(Context context,String atype,String[] timedu, NetI<Records> adapter){
+            Record record = new Record();
+            record.setAtype(atype);
+            record.setStartTime(timedu[0]+"000");
+            record.setEndTime(timedu[1]+"000");
+            NetGet.getData(context,RecordURL.获取地址("/record/getRecordInfo"),record,adapter);
+        }
+
+        public static void getRecordInfo(Context context,String atype,  NetI<Records> adapter){
             Record record = new Record();
             record.setAtype(atype);
             NetGet.getData(context,RecordURL.获取地址("/record/getRecordInfo"),record,adapter);

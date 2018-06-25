@@ -22,10 +22,10 @@ public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
     public void initUI() {
         super.initUI();
 
-        bottomMenuBeans.add(new BottomMenuBean("视频", R.drawable.drawable_record_main_bottom_video,null,getBind().containVideo,getActivity().getResources().getColorStateList(R.color.color_white_blue)));
-        bottomMenuBeans.add(new BottomMenuBean("图片", R.drawable.drawable_record_main_bottom_image,null,getBind().containImage,getActivity().getResources().getColorStateList(R.color.color_white_blue)));
-        bottomMenuBeans.add(new BottomMenuBean("文字", R.drawable.drawable_record_main_bottom_text,null,getBind().containText,getActivity().getResources().getColorStateList(R.color.color_white_blue)));
-        bottomMenuBeans.add(new BottomMenuBean("设置", R.drawable.drawable_record_main_bottom_setting,null,getBind().containSetting,getActivity().getResources().getColorStateList(R.color.color_white_blue)));
+        bottomMenuBeans.add(new BottomMenuBean("视频", R.drawable.drawable_record_main_bottom_video,null,getBind().containVideo,getActivity().getResources().getColorStateList(R.color.color_white_black)));
+        bottomMenuBeans.add(new BottomMenuBean("图片", R.drawable.drawable_record_main_bottom_image,null,getBind().containImage,getActivity().getResources().getColorStateList(R.color.color_white_black)));
+        bottomMenuBeans.add(new BottomMenuBean("文字", R.drawable.drawable_record_main_bottom_text,null,getBind().containText,getActivity().getResources().getColorStateList(R.color.color_white_black)));
+        bottomMenuBeans.add(new BottomMenuBean("设置", R.drawable.drawable_record_main_bottom_setting,null,getBind().containSetting,getActivity().getResources().getColorStateList(R.color.color_white_black)));
         getBind().bottommenu.initItems(bottomMenuBeans);
         if(getActivity() instanceof OnAppItemSelectListener){
             getBind().bottommenu.setOnAppItemClickListener((OnAppItemSelectListener)getActivity());

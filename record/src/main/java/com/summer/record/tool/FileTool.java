@@ -7,10 +7,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.provider.MediaStore;
 
+import com.android.lib.base.interf.OnFinishListener;
+import com.android.lib.util.LogUtil;
 import com.summer.record.data.Record;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class FileTool {
 
@@ -38,10 +43,11 @@ public class FileTool {
         return  videos;
     }
 
-    public static ArrayList<Record> getImages(Context context){
+    public static ArrayList<Record> getImages(Context context,String[] timeduraion, OnFinishListener onFinishListener){
         ContentResolver contentResolver = context.getContentResolver();
         ArrayList<Record> images = new ArrayList<>();
-        Cursor cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,null,null,null,MediaStore.Images.Media.DATE_MODIFIED+" desc");
+        Cursor cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,null,MediaStore.Images.Media.DATE_ADDED+">=? and "+MediaStore.Images.Media.DATE_ADDED+"< ? ",timeduraion,MediaStore.Images.Media.DATE_MODIFIED+" desc");
+        int i=0;
         while (cursor.moveToNext()){
             File file = new File(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)));
             if(!file.exists()){
@@ -56,7 +62,29 @@ public class FileTool {
             );
             record.init();
             images.add(record);
+            onFinishListener.onFinish(i);
+            i++;
         }
         return  images;
+    }
+
+    public static int[] getTime(Context context){
+        Long max = 0l,min=0l;
+        ContentResolver contentResolver = context.getContentResolver();
+        Cursor cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,new String[]{"max("+MediaStore.Images.Media.DATE_ADDED+")"},null,null,MediaStore.Images.Media.DATE_MODIFIED+" desc");
+        while (cursor.moveToNext()){
+            max = cursor.getLong(0);
+        }
+        Cursor cursor2 = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,new String[]{"min("+MediaStore.Images.Media.DATE_ADDED+")"},null,null,MediaStore.Images.Media.DATE_MODIFIED+" desc");
+        while (cursor2.moveToNext()){
+            min = cursor2.getLong(0);
+        }
+        int ma =0,mi=0;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date(max*1000));
+        ma = calendar.get(Calendar.YEAR);
+        calendar.setTime(new Date(min*1000));
+        mi = calendar.get(Calendar.YEAR);
+        return new int[]{mi,ma};
     }
 }

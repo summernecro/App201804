@@ -60,6 +60,10 @@ public class Record extends BaseBean {
 
     public int isDoing = 0;
 
+    public String startTime;
+
+    public String endTime;
+
     public static final int 本地有服务器无=1;
 
     public static final int 本地有服务器有=2;
@@ -73,6 +77,7 @@ public class Record extends BaseBean {
     public static final String ATYPE_IMAGE = "image";
 
     public static final String ATYPE_TEXT = "text";
+
 
     public Record() {
     }
