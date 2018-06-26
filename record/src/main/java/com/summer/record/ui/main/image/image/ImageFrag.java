@@ -22,6 +22,7 @@ import com.summer.record.data.Record;
 import com.summer.record.data.Records;
 import com.summer.record.tool.FileTool;
 import com.summer.record.ui.main.image.imagedetail.ImageDetailFrag;
+import com.summer.record.ui.main.image.images.ImagesFrag;
 import com.summer.record.ui.main.main.MainValue;
 import com.summer.record.ui.main.record.RecordDAOpe;
 import com.summer.record.ui.view.UpdateIndicator;
@@ -34,10 +35,11 @@ import butterknife.Optional;
 public class ImageFrag  extends BaseUIFrag<ImageUIOpe,ImageDAOpe,ImageValue> implements ViewListener{
 
 
-    public static ImageFrag getInstance(String[] time){
+    public static ImageFrag getInstance(String[] time, ImagesFrag imagesFrag){
         ImageFrag imageFrag = new ImageFrag();
         imageFrag.getP().getV().getTimedu()[0] = time[0];
         imageFrag.getP().getV().getTimedu()[1] = time[1];
+        imageFrag.getP().getV().setImagesFrag(imagesFrag);
         return imageFrag;
     }
 
@@ -56,9 +58,6 @@ public class ImageFrag  extends BaseUIFrag<ImageUIOpe,ImageDAOpe,ImageValue> imp
                 getP().getD().setRecords((ArrayList<Record>) o);
                 getP().getU().loadImages(getP().getD().getRecords(),ImageFrag.this);
                 getP().getV().getLoadUtil().stopLoading(getBaseUIRoot());
-
-
-                FileTool.getTime(getContext());
             }
 
             @Override
@@ -74,19 +73,19 @@ public class ImageFrag  extends BaseUIFrag<ImageUIOpe,ImageDAOpe,ImageValue> imp
             public void onSuccess(Records o) {
                 super.onSuccess(o);
                 getP().getD().setRecordsInfo(o);
-                getP().getU().updateTitle(o.getDoneNum()+"/"+o.getAllNum());
+                getP().getV().setTitleStr(o.getDoneNum()+"/"+o.getAllNum());
+                getP().getV().getImagesFrag().getP().getU().updateTitle(getP().getV().getTitleStr());
             }
         });
     }
     @Optional
-    @OnClick({R.id.iv_add,R.id.tv_refresh,R.id.tv_down,R.id.btn})
+    @OnClick({R.id.iv_add,R.id.tv_refresh,R.id.tv_down})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()){
             case R.id.iv_add:
 
                 break;
-            case R.id.btn:
             case R.id.tv_refresh:
                 ArrayList<Record>  list = getP().getD().getNoNullRecords(getP().getD().getRecords());
                 final ArrayList<Record> records = new ArrayList<>();
@@ -109,14 +108,16 @@ public class ImageFrag  extends BaseUIFrag<ImageUIOpe,ImageDAOpe,ImageValue> imp
                                             @Override
                                             public void onNetFinish(boolean haveData, String url, BaseResBean baseResBean) {
                                                 super.onNetFinish(haveData, url, baseResBean);
-                                                getP().getU().updateTitle(baseResBean.getOther());
+                                                getP().getV().setTitleStr(baseResBean.getOther().toString());
+                                                getP().getV().getImagesFrag().getP().getU().updateTitle(getP().getV().getTitleStr());
                                             }
                                         });
                                     }else{
                                         Record record = (Record) o;
 //                                    getP().getU().scrollToPos(getP().getD().getRecords(), record);
                                         if(getP().getD().getRecordsInfo()!=null){
-                                            getP().getU().updateTitle(record.getPos()+"/"+getP().getD().getRecordsInfo().getAllNum());
+                                            getP().getV().setTitleStr(record.getPos()+"/"+getP().getD().getRecordsInfo().getAllNum());
+                                            getP().getV().getImagesFrag().getP().getU().updateTitle(getP().getV().getTitleStr());
                                         }
                                     }
                                 }
@@ -149,7 +150,8 @@ public class ImageFrag  extends BaseUIFrag<ImageUIOpe,ImageDAOpe,ImageValue> imp
                     @Override
                     public void onNetFinish(boolean haveData, String url, BaseResBean baseResBean) {
                         super.onNetFinish(haveData, url, baseResBean);
-                        getP().getU().updateTitle(baseResBean.getOther());
+                        getP().getV().setTitleStr(baseResBean.getOther().toString());
+                        getP().getV().getImagesFrag().getP().getU().updateTitle(getP().getV().getTitleStr());
                     }
                 });
                 break;
@@ -169,11 +171,4 @@ public class ImageFrag  extends BaseUIFrag<ImageUIOpe,ImageDAOpe,ImageValue> imp
                 break;
         }
     }
-
-    @Override
-    public int getBaseUILayout() {
-        return R.layout.frag_base;
-    }
-
-
 }

@@ -23,6 +23,8 @@ import com.summer.record.ui.main.image.image.ImageFrag;
 import com.summer.record.ui.main.main.MainValue;
 import com.summer.record.ui.main.record.RecordDAOpe;
 import com.summer.record.ui.main.video.videoplay.VideoPlayFrag;
+import com.summer.record.ui.main.video.videos.VideosFrag;
+import com.summer.record.ui.view.UpdateIndicator;
 
 import org.xutils.http.RequestParams;
 import org.xutils.http.body.MultipartBody;
@@ -34,30 +36,48 @@ import butterknife.Optional;
 
 public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe,VideoValue> implements ViewListener{
 
+
+    public static VideoFrag getInstance(String[] time, VideosFrag videosFrag){
+        VideoFrag videoFrag = new VideoFrag();
+        videoFrag.getP().getV().getTimedu()[0] = time[0];
+        videoFrag.getP().getV().getTimedu()[1] = time[1];
+        videoFrag.getP().getV().setVideosFrag(videosFrag);
+        return videoFrag;
+    }
+
+
     @Override
     public void initNow() {
         super.initNow();
 
-        getP().getD().getVideos(getBaseAct(), new OnLoadingAdapter(){
+        getP().getD().getVideos(getBaseAct(),getP().getV().getTimedu(), new OnLoadingAdapter(){
             @Override
             public void onStarLoading(Object o) {
-                startLoading();
+                ((UpdateIndicator)getP().getV().getLoadUtil().getIndicator()).setContext(getContext());
+                getP().getV().getLoadUtil().startLoadingDefault(getContext(), getBaseUIRoot(),getResources().getColor(R.color.color_red_500));
             }
 
             @Override
             public void onStopLoading(Object o) {
                 getP().getD().setRecords((ArrayList<Record>) o);
                 getP().getU().loadVideos(getP().getD().getRecords(),VideoFrag.this);
-                stopLoading();
+                getP().getV().getLoadUtil().stopLoading(getBaseUIRoot());
+            }
+
+            @Override
+            public void onProgress(Object o) {
+                super.onProgress(o);
+                ((UpdateIndicator)getP().getV().getLoadUtil().getIndicator()).setProgress(o.toString());
             }
         });
 
-        NetDataWork.Data.getRecordInfo(getBaseUIAct(), Record.ATYPE_VIDEO, new UINetAdapter<Records>(getBaseUIFrag()) {
+        NetDataWork.Data.getRecordInfo(getBaseUIAct(), Record.ATYPE_VIDEO, getP().getV().getTimedu(),new UINetAdapter<Records>(getBaseUIFrag()) {
             @Override
             public void onSuccess(Records o) {
                 super.onSuccess(o);
                 getP().getD().setRecordsInfo(o);
-                getP().getU().updateTitle(o.getDoneNum()+"/"+o.getAllNum());
+                getP().getV().setTitleStr(o.getDoneNum()+"/"+o.getAllNum());
+                getP().getV().getVideosFrag().getP().getU().updateTitle(getP().getV().getTitleStr());
             }
         });
 
@@ -89,14 +109,16 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe,VideoValue> imp
                                             @Override
                                             public void onNetFinish(boolean haveData, String url, BaseResBean baseResBean) {
                                                 super.onNetFinish(haveData, url, baseResBean);
-                                                getP().getU().updateTitle(baseResBean.getOther());
+                                                getP().getV().setTitleStr(baseResBean.getOther().toString());
+                                                getP().getV().getVideosFrag().getP().getU().updateTitle(getP().getV().getTitleStr());
                                             }
                                         });
                                     }else{
                                         Record record = (Record) o;
                                         getP().getU().scrollToPos(getP().getD().getRecords(), record);
                                         if(getP().getD().getRecordsInfo()!=null){
-                                            getP().getU().updateTitle(record.getPos()+"/"+getP().getD().getRecordsInfo().getAllNum());
+                                            getP().getV().setTitleStr(record.getPos()+"/"+getP().getD().getRecordsInfo().getAllNum());
+                                            getP().getV().getVideosFrag().getP().getU().updateTitle(getP().getV().getTitleStr());
                                         }
                                     }
                                 }
@@ -129,7 +151,8 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe,VideoValue> imp
                     @Override
                     public void onNetFinish(boolean haveData, String url, BaseResBean baseResBean) {
                         super.onNetFinish(haveData, url, baseResBean);
-                        getP().getU().updateTitle(baseResBean.getOther());
+                        getP().getV().setTitleStr(baseResBean.getOther().toString());
+                        getP().getV().getVideosFrag().getP().getU().updateTitle(getP().getV().getTitleStr());
                     }
                 });
                 break;
@@ -147,10 +170,5 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe,VideoValue> imp
                 FragManager2.getInstance().start(getBaseUIAct(), MainValue.视频, VideoPlayFrag.getInstance((Record) view.getTag(R.id.data)));
                 break;
         }
-    }
-
-    @Override
-    public int getBaseUILayout() {
-        return R.layout.frag_base;
     }
 }

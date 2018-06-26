@@ -27,7 +27,7 @@ public class VideoItemDecoration extends RecyclerView.ItemDecoration {
     
     public VideoItemDecoration(Context context,ArrayList<Record> records){
         this.records = records;
-        paint.setColor(Color.GRAY);
+        paint.setColor(Color.DKGRAY);
         paint.setTextSize(ScreenUtil.字宽度*18);
         paint.setAntiAlias(true);
         linecolor= context.getResources().getColor(R.color.color_blue_300);
@@ -44,8 +44,8 @@ public class VideoItemDecoration extends RecyclerView.ItemDecoration {
             if(records.get(pos).isFrist()&&pos%4==0){
 //                paint.setColor(linecolor);
 //                c.drawRect(ScreenUtil.最小DIMEN*2,parent.getChildAt(i).getTop()-ScreenUtil.最小DIMEN*25,parent.getChildAt(i).getWidth(),parent.getChildAt(i).getTop(),paint);
-                paint.setColor(Color.GRAY);
-                c.drawText(records.get(pos).getDateStr(),parent.getChildAt(i).getLeft()+ ScreenUtil.最小DIMEN*2,parent.getChildAt(i).getTop()-ScreenUtil.字宽度*6,paint);
+                //paint.setColor(Color.GRAY);
+                c.drawText(records.get(pos).getDateStr(),parent.getChildAt(i).getLeft()+ ScreenUtil.最小DIMEN*2,parent.getChildAt(i).getTop()-ScreenUtil.字宽度*9,paint);
             }
         }
     }
@@ -70,7 +70,7 @@ public class VideoItemDecoration extends RecyclerView.ItemDecoration {
         }
 
         if(records.get(pos).isFrist()){
-            outRect.top = (int) (ScreenUtil.最小DIMEN*25);
+            outRect.top = (int) (ScreenUtil.最小DIMEN*30);
         }
     }
 }

@@ -16,6 +16,7 @@
 <com.android.lib.view.bottommenu.BottomMenuView
     android:background="@color/color_red_500"
     android:id="@+id/bottommenu"
+    android:elevation="4dp"
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintBottom_toBottomOf="parent"
     android:layout_width="match_parent"

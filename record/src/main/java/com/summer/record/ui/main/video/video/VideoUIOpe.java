@@ -107,10 +107,6 @@ public class VideoUIOpe extends BaseUIOpe<FragMainVideoBinding> {
         getBind().recycle.addItemDecoration(new VideoItemDecoration(getActivity(),videos));
     }
 
-    public void updateTitle(Object o){
-        TextView textView = getView().findViewById(R.id.tv_lab);
-        textView.setText(StringUtil.getStr(o));
-    }
 
     public void scrollToPos(ArrayList<Record> records,Record record){
         LogUtil.E(record.getId());

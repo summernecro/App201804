@@ -67,13 +67,17 @@ public class RecordDAOpe extends BaseDAOpe {
     }
 
 
-    public void getVideos(final Context context, final OnLoadingInterf i){
+    public void getVideos(final Context context, final String[] time,final OnLoadingInterf i){
         i.onStarLoading(context);
-        getBDAOpe().dddd();
         new AsyncTask<String, String, ArrayList<Record>>() {
             @Override
             protected ArrayList<Record> doInBackground(String... strings) {
-                ArrayList<Record> videos =  FileTool.getVideos(context);
+                ArrayList<Record> videos =  FileTool.getVideos(context, time,new OnFinishListener() {
+                    @Override
+                    public void onFinish(Object o) {
+                        publishProgress(o.toString());
+                    }
+                });
                 return dealRecord(videos);
             }
 
@@ -81,6 +85,12 @@ public class RecordDAOpe extends BaseDAOpe {
             protected void onPostExecute(ArrayList<Record> videos) {
                 super.onPostExecute(videos);
                 i.onStopLoading(videos);
+            }
+
+            @Override
+            protected void onProgressUpdate(String... values) {
+                super.onProgressUpdate(values);
+                i.onProgress(values[0]);
             }
         }.execute();
     }

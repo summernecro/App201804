@@ -19,10 +19,11 @@ import java.util.Date;
 
 public class FileTool {
 
-    public static ArrayList<Record> getVideos(Context context){
+    public static ArrayList<Record> getVideos(Context context,String[] timeduraion, OnFinishListener onFinishListener){
         ContentResolver contentResolver = context.getContentResolver();
         ArrayList<Record> videos = new ArrayList<>();
-        Cursor cursor = contentResolver.query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,null,null,null,MediaStore.Video.Media.DATE_MODIFIED+" desc");
+        Cursor cursor = contentResolver.query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,null,MediaStore.Video.Media.DATE_ADDED+">=? and "+MediaStore.Images.Media.DATE_ADDED+"< ? ",timeduraion,MediaStore.Video.Media.DATE_MODIFIED+" desc");
+        int i=0;
         while (cursor.moveToNext()){
             File file = new File(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA)));
             if(!file.exists()){
@@ -39,6 +40,8 @@ public class FileTool {
             );
             record.init();
             videos.add(record);
+            onFinishListener.onFinish(i);
+            i++;
         }
         return  videos;
     }

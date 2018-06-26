@@ -43,7 +43,7 @@ public class ImageUIOpe extends BaseUIOpe<FragMainImageBinding> {
     public void loadImages(final ArrayList<Record> images, ViewListener listener){
 
         final RequestOptions requestOptions = new RequestOptions();
-        requestOptions.encodeQuality(10).centerCrop().placeholder(Color.WHITE).skipMemoryCache(false).override(200,200);
+        requestOptions.encodeQuality(10).centerCrop().placeholder(Color.TRANSPARENT).skipMemoryCache(false).override(200,200);
         getBind().recycle.setLayoutManager(new GridLayoutManager(getActivity(),4));
         getBind().recycle.setAdapter(new AppsDataBindingAdapter(getActivity(), R.layout.item_image_image, BR.item_image_image,images,listener){
 
@@ -74,7 +74,6 @@ public class ImageUIOpe extends BaseUIOpe<FragMainImageBinding> {
                         item.getRoot().setOnClickListener(this);
                         item.getRoot().setClickable(true);
                         item.getRoot().setAlpha(1f);
-                        item.bg.setBackgroundColor(Color.WHITE);
                         switch (images.get(position).getStatus()){
                             case Record.本地无服务器有:
                                 item.getRoot().setAlpha(0.3f);
@@ -97,10 +96,6 @@ public class ImageUIOpe extends BaseUIOpe<FragMainImageBinding> {
         getBind().recycle.addItemDecoration(new VideoItemDecoration(getActivity(),images));
     }
 
-    public void updateTitle(Object o){
-        TextView textView = getView().findViewById(R.id.tv_lab);
-        textView.setText(StringUtil.getStr(o));
-    }
 
     public void scrollToPos(ArrayList<Record> records,Record record){
         LogUtil.E(record.getId());

@@ -1,6 +1,6 @@
-package com.summer.record.ui.main.image.images;
+package com.summer.record.ui.main.video.videos;
 
-//by summer on 2018-06-25.
+//by summer on 2018-06-26.
 
 import android.view.View;
 
@@ -10,22 +10,20 @@ import com.summer.record.R;
 import butterknife.OnClick;
 import butterknife.Optional;
 
-public class ImagesFrag extends BaseUIFrag<ImagesUIOpe,ImagesDAOpe,ImagesValue> {
-
+public class VideosFrag extends BaseUIFrag<VideosUIOpe,VideosDAOpe,VideosValue> {
 
     @Override
     public void initNow() {
         super.initNow();
-        getP().getU().initFrag(this,getP().getD().getYears(getContext()),getP().getV().getImageFrags());
-        getP().getU().initViewPager(getChildFragmentManager(),getContext(),getP().getV().getImageFrags());
+        getP().getU().initFrag(this,getP().getD().getYears(getContext()),getP().getV().getVideoFrags());
+        getP().getU().initViewPager(getChildFragmentManager(),getContext(),getP().getV().getVideoFrags());
     }
-
 
     @Optional
     @OnClick({R.id.iv_add,R.id.tv_refresh,R.id.tv_down})
     public void onClick(View v) {
         super.onClick(v);
-        getP().getU().getCurrentFrag(getP().getV().getImageFrags()).onClick(v);
+        getP().getU().getCurrentFrag(getP().getV().getVideoFrags()).onClick(v);
     }
 
     @Override
