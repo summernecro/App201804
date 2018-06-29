@@ -26,11 +26,17 @@ import java.util.List;
 
 public class VideosUIOpe extends BaseUIOpe<FragMainVideosBinding> {
 
+    @Override
+    public void initUI() {
+        super.initUI();
+//        GlideApp.with(getActivity()).asBitmap()
+//                .load("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1530075352053&di=0ad5544e96bc8475275e1317205c2329&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01d65e5555b6830000009af077ef70.jpg")
+//                .into(getBind().ivBg);
+        getBind().ivBg.setBackgroundColor(getActivity().getResources().getColor(R.color.color_grey_200));
+    }
+
     public void initViewPager(FragmentManager fm, Context context, final List<Fragment> fragments){
 
-        GlideApp.with(context).asBitmap()
-                .load("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1530017238105&di=242a09aac17052ed803ec7f3995d5ef6&imgtype=0&src=http%3A%2F%2Fimg18.3lian.com%2Fd%2Ffile%2F201708%2F25%2F200ffa94581a27c839d0c6fbe1c46ecd.jpg")
-                .into(getBind().ivBg);
         getBind().viewpager.setAdapter(new AppBasePagerAdapter2(fm, context, fragments));
         getBind().viewpager.addOnPageChangeListener(new BaseOnPagerChangeListener(){
             @Override

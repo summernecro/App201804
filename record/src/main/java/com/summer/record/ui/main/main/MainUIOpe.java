@@ -29,6 +29,7 @@ public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
         getBind().bottommenu.initItems(bottomMenuBeans);
         if(getActivity() instanceof OnAppItemSelectListener){
             getBind().bottommenu.setOnAppItemClickListener((OnAppItemSelectListener)getActivity());
+            getBind().bottommenu.setIndex(0);
         }
     }
 

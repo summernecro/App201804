@@ -14,5 +14,5 @@ import lombok.Setter;
 @Setter
 public class ImageDetailDAOpe extends BaseDAOpe {
 
-    ArrayList<Record> images;
+
 }

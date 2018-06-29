@@ -20,6 +20,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp">
 <TextView
+    android:enabled="true"
+    android:textIsSelectable="true"
+    android:focusable="true"
     android:textColor="@color/color_grey_900"
     android:textSize="@dimen/dimen_text_size_stand"
     android:background="@color/white"

@@ -55,8 +55,9 @@ public class ImageFrag  extends BaseUIFrag<ImageUIOpe,ImageDAOpe,ImageValue> imp
 
             @Override
             public void onStopLoading(Object o) {
-                getP().getD().setRecords((ArrayList<Record>) o);
-                getP().getU().loadImages(getP().getD().getRecords(),ImageFrag.this);
+                getP().getV().getAllRecords().addAll((ArrayList<Record>) o);
+                getP().getV().getRecords().addAll((ArrayList<Record>) o);
+                getP().getU().loadImages(getP().getV().getRecords(),ImageFrag.this);
                 getP().getV().getLoadUtil().stopLoading(getBaseUIRoot());
             }
 
@@ -79,15 +80,12 @@ public class ImageFrag  extends BaseUIFrag<ImageUIOpe,ImageDAOpe,ImageValue> imp
         });
     }
     @Optional
-    @OnClick({R.id.iv_add,R.id.tv_refresh,R.id.tv_down})
+    @OnClick({ R.id.tv_refresh,R.id.tv_down,R.id.tv_search})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()){
-            case R.id.iv_add:
-
-                break;
             case R.id.tv_refresh:
-                ArrayList<Record>  list = getP().getD().getNoNullRecords(getP().getD().getRecords());
+                ArrayList<Record>  list = getP().getD().getNoNullRecords(getP().getV().getRecords());
                 final ArrayList<Record> records = new ArrayList<>();
                 getP().getD().updateRecordsStep(0,records,getBaseUIFrag(), list, new OnFinishListener() {
                     @Override
@@ -97,12 +95,13 @@ public class ImageFrag  extends BaseUIFrag<ImageUIOpe,ImageDAOpe,ImageValue> imp
                                 @Override
                                 public void onFinish(Object o) {
                                     if(o==null){
-                                        NetDataWork.Data.getAllRecords(getBaseAct(), Record.ATYPE_IMAGE,new UINetAdapter<ArrayList<Record>>(getBaseUIFrag(),UINetAdapter.Loading) {
+                                        NetDataWork.Data.getAllRecords(getBaseAct(), Record.ATYPE_IMAGE,getP().getV().getTimedu(),new UINetAdapter<ArrayList<Record>>(getBaseUIFrag(),UINetAdapter.Loading) {
                                             @Override
                                             public void onSuccess(ArrayList<Record> o) {
                                                 super.onSuccess(o);
-                                                getP().getD().setRecords(getP().getD().dealRecord(o));
-                                                getP().getU().loadImages(getP().getD().getRecords(),ImageFrag.this);
+                                                getP().getV().getRecords().clear();
+                                                getP().getV().getRecords().addAll(getP().getD().dealRecord(o));
+                                                getP().getU().loadImages(getP().getV().getRecords(),ImageFrag.this);
                                             }
 
                                             @Override
@@ -128,14 +127,15 @@ public class ImageFrag  extends BaseUIFrag<ImageUIOpe,ImageDAOpe,ImageValue> imp
                 break;
             case R.id.tv_down:
                 v.setSelected(!v.isSelected());
-                NetDataWork.Data.getAllRecords(getBaseAct(), Record.ATYPE_IMAGE,new UINetAdapter<ArrayList<Record>>(getBaseUIFrag(),UINetAdapter.Loading) {
+                NetDataWork.Data.getAllRecords(getBaseAct(), Record.ATYPE_IMAGE,getP().getV().getTimedu(),new UINetAdapter<ArrayList<Record>>(getBaseUIFrag(),UINetAdapter.Loading) {
                     @Override
                     public void onSuccess(ArrayList<Record> o) {
                         super.onSuccess(o);
-                        getP().getD().setRecords(getP().getD().dealRecord(o));
-                        getP().getU().loadImages(getP().getD().getRecords(),ImageFrag.this);
+                        getP().getV().getRecords().clear();
+                        getP().getV().getRecords().addAll(getP().getD().dealRecord(o));
+                        getP().getU().loadImages(getP().getV().getRecords(),ImageFrag.this);
 
-                        getP().getD().downLoadRecords(0,getBaseUIFrag(),getP().getD().getUnDownloadRecords(getP().getD().getNoNullRecords(getP().getD().getRecords())), new OnFinishListener<Object>() {
+                        getP().getD().downLoadRecords(0,getBaseUIFrag(),getP().getD().getUnDownloadRecords(getP().getD().getNoNullRecords(getP().getV().getRecords())), new OnFinishListener<Object>() {
                             @Override
                             public void onFinish(Object o) {
                                 if(o!=null){
@@ -155,6 +155,9 @@ public class ImageFrag  extends BaseUIFrag<ImageUIOpe,ImageDAOpe,ImageValue> imp
                     }
                 });
                 break;
+            case R.id.tv_search:
+
+                break;
         }
     }
 
@@ -167,7 +170,7 @@ public class ImageFrag  extends BaseUIFrag<ImageUIOpe,ImageDAOpe,ImageValue> imp
                 if(record.getLocpath()==null){
                     return;
                 }
-                FragManager2.getInstance().start(getBaseUIAct(), MainValue.图片,ImageDetailFrag.getInstance(getP().getD().getNoNullRecords(getP().getD().getRecords()),record.getPos() ));
+                FragManager2.getInstance().start(getBaseUIAct(), MainValue.图片,ImageDetailFrag.getInstance(getP().getD().getNoNullRecords(getP().getV().getRecords()),record.getPos() ));
                 break;
         }
     }

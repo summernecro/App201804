@@ -47,7 +47,6 @@ import lombok.Setter;
 @Setter
 public class ImageDAOpe extends BaseDAOpe {
 
-    ArrayList<Record> records;
 
     private Records recordsInfo;
 
@@ -302,6 +301,12 @@ public class ImageDAOpe extends BaseDAOpe {
             }
         }
         return records;
+    }
+
+    public void initRecords(ArrayList<Record> records){
+        for(int i=0;records!=null&&i<records.size();i++){
+            records.get(i).init();
+        }
     }
 
 }

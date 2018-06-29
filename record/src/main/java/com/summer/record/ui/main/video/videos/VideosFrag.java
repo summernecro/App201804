@@ -20,7 +20,7 @@ public class VideosFrag extends BaseUIFrag<VideosUIOpe,VideosDAOpe,VideosValue> 
     }
 
     @Optional
-    @OnClick({R.id.iv_add,R.id.tv_refresh,R.id.tv_down})
+    @OnClick({ R.id.tv_refresh,R.id.tv_down})
     public void onClick(View v) {
         super.onClick(v);
         getP().getU().getCurrentFrag(getP().getV().getVideoFrags()).onClick(v);

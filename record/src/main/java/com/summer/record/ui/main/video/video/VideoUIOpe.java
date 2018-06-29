@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,6 +33,7 @@ import com.summer.record.databinding.FragMainVideoBinding;
 import com.summer.record.databinding.ItemVideoVideoBinding;
 import com.summer.record.ui.main.image.image.ImageUIOpe;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +52,7 @@ public class VideoUIOpe extends BaseUIOpe<FragMainVideoBinding> {
     public void loadVideos(final ArrayList<Record> videos, ViewListener listener){
 
         final RequestOptions requestOptions = new RequestOptions();
-        requestOptions.encodeQuality(10).centerCrop().placeholder(Color.WHITE).skipMemoryCache(false).override(200,200);
+        requestOptions.encodeQuality(10).centerCrop().placeholder(Color.WHITE).skipMemoryCache(false).override(150,150);
 
         getBind().recycle.setLayoutManager(new GridLayoutManager(getActivity(),4));
         getBind().recycle.setAdapter(new AppsDataBindingAdapter(getActivity(), R.layout.item_video_video, BR.item_video_video,videos,listener){
@@ -79,7 +81,7 @@ public class VideoUIOpe extends BaseUIOpe<FragMainVideoBinding> {
                         itemVideoVideoBinding.getRoot().setTag(com.android.lib.R.id.position, Integer.valueOf(position));
                         itemVideoVideoBinding.setVariable(this.vari, this.list.get(position));
                         itemVideoVideoBinding.executePendingBindings();
-                        GlideApp.with(context).asBitmap().apply(requestOptions).load(videos.get(position).getUri()).into(itemVideoVideoBinding.ivVideo);
+                        GlideApp.with(context).asBitmap().apply(requestOptions).load(Uri.fromFile(new File(videos.get(position).getLocpath()))).into(itemVideoVideoBinding.ivVideo);
                         itemVideoVideoBinding.getRoot().setOnClickListener(this);
                         itemVideoVideoBinding.getRoot().setClickable(true);
                         itemVideoVideoBinding.getRoot().setAlpha(1f);

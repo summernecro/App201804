@@ -7,6 +7,7 @@
     </data>
 
     <RelativeLayout
+        android:id="@+id/root"
         android:layout_below="@+id/recordtitle"
         android:orientation="vertical"
         android:background="@color/white"

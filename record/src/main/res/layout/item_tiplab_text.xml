@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="item_tiplab_text"
+            type="com.summer.record.data.Tiplab" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:elevation="2dp"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+<TextView
+    android:gravity="left|center_vertical"
+    tools:text="133333313333331333333"
+    android:background="@color/white"
+    android:paddingLeft="10dp"
+    android:text="@{item_tiplab_text.content}"
+    android:id="@+id/iv_text"
+    android:textSize="20sp"
+    android:layout_width="match_parent"
+    android:layout_height="50dp" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

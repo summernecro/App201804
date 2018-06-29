@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,6 +35,7 @@ import com.summer.record.databinding.ItemImageImageBinding;
 import com.summer.record.databinding.ItemVideoVideoBinding;
 import com.summer.record.ui.main.video.video.VideoItemDecoration;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,58 +44,62 @@ public class ImageUIOpe extends BaseUIOpe<FragMainImageBinding> {
 
     public void loadImages(final ArrayList<Record> images, ViewListener listener){
 
-        final RequestOptions requestOptions = new RequestOptions();
-        requestOptions.encodeQuality(10).centerCrop().placeholder(Color.TRANSPARENT).skipMemoryCache(false).override(200,200);
-        getBind().recycle.setLayoutManager(new GridLayoutManager(getActivity(),4));
-        getBind().recycle.setAdapter(new AppsDataBindingAdapter(getActivity(), R.layout.item_image_image, BR.item_image_image,images,listener){
+        if(getBind().recycle.getAdapter()==null){
+            final RequestOptions requestOptions = new RequestOptions();
+            requestOptions.encodeQuality(10).centerCrop().placeholder(Color.TRANSPARENT).skipMemoryCache(false).override(100,100);
+            getBind().recycle.setLayoutManager(new GridLayoutManager(getActivity(),4));
+            getBind().recycle.setAdapter(new AppsDataBindingAdapter(getActivity(), R.layout.item_image_image, BR.item_image_image,images,listener){
 
-            @Override
-            public int getItemViewType(int position) {
-                return images.get(position).isNull()?0:1;
-            }
-
-            @Override
-            public AppViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                switch (viewType){
-                    case 1:
-                        return new AppViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_image_image, parent, false));
+                @Override
+                public int getItemViewType(int position) {
+                    return images.get(position).isNull()?0:1;
                 }
-                return new AppViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.item_null, parent, false));
-            }
 
-            @Override
-            public void onBindViewHolder(AppViewHolder holder, int position) {
-                switch (getItemViewType(position)){
-                    case 1:
-                        ItemImageImageBinding item = (ItemImageImageBinding) holder.viewDataBinding;
-                        item.getRoot().setTag(com.android.lib.R.id.data, this.list.get(position));
-                        item.getRoot().setTag(com.android.lib.R.id.position, Integer.valueOf(position));
-                        item.setVariable(this.vari, this.list.get(position));
-                        item.executePendingBindings();
-                        GlideApp.with(context).asBitmap().apply(requestOptions).load(images.get(position).getUri()).into(item.ivVideo);
-                        item.getRoot().setOnClickListener(this);
-                        item.getRoot().setClickable(true);
-                        item.getRoot().setAlpha(1f);
-                        switch (images.get(position).getStatus()){
-                            case Record.本地无服务器有:
-                                item.getRoot().setAlpha(0.3f);
-                                break;
-                            case Record.本地有服务器无:
-                                item.bg.setBackgroundColor(Color.WHITE);
-                                break;
-                            case Record.本地有服务器有:
+                @Override
+                public AppViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                    switch (viewType){
+                        case 1:
+                            return new AppViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_image_image, parent, false));
+                    }
+                    return new AppViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.item_null, parent, false));
+                }
 
-                                break;
-                            default:
-                                break;
-                        }
-                        break;
+                @Override
+                public void onBindViewHolder(AppViewHolder holder, int position) {
+                    switch (getItemViewType(position)){
+                        case 1:
+                            ItemImageImageBinding item = (ItemImageImageBinding) holder.viewDataBinding;
+                            item.getRoot().setTag(com.android.lib.R.id.data, this.list.get(position));
+                            item.getRoot().setTag(com.android.lib.R.id.position, Integer.valueOf(position));
+                            item.setVariable(this.vari, this.list.get(position));
+                            item.executePendingBindings();
+                            GlideApp.with(context).asBitmap().apply(requestOptions).load(Uri.fromFile(new File(images.get(position).getLocpath()))).into(item.ivVideo);
+                            item.getRoot().setOnClickListener(this);
+                            item.getRoot().setClickable(true);
+                            item.getRoot().setAlpha(1f);
+                            switch (images.get(position).getStatus()){
+                                case Record.本地无服务器有:
+                                    item.getRoot().setAlpha(0.3f);
+                                    break;
+                                case Record.本地有服务器无:
+                                    item.bg.setBackgroundColor(Color.WHITE);
+                                    break;
+                                case Record.本地有服务器有:
+
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
                         default:
                             break;
+                    }
                 }
-            }
-        });
-        getBind().recycle.addItemDecoration(new VideoItemDecoration(getActivity(),images));
+            });
+            getBind().recycle.addItemDecoration(new VideoItemDecoration(getActivity(),images));
+        }else{
+            getBind().recycle.getAdapter().notifyDataSetChanged();
+        }
     }
 
 

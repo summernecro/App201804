@@ -41,7 +41,7 @@ public class MainAct extends BaseUIActivity<MainUIOpe,MainDAOpe,MainValue> imple
         FragManager2.getInstance().setAnim(false).start(this,MainValue.设置,MainValue.设置ID,new SettFrag());
         stopService(new Intent(this, ClipSevice.class));
         startService(new Intent(this, ClipSevice.class));
-        getP().getU().showView(0);
+        onAppItemSelect(null,null,0);
     }
 
     @Override

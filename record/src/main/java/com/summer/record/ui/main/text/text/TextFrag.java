@@ -64,13 +64,10 @@ public class TextFrag extends BaseUIFrag<TextUIOpe,RecordDAOpe,TextValue> implem
 
 
     @Optional
-    @OnClick({R.id.iv_add,R.id.tv_refresh,R.id.tv_down})
+    @OnClick({ R.id.tv_refresh,R.id.tv_down})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()){
-            case R.id.iv_add:
-
-                break;
             case R.id.tv_refresh:
                 getP().getD().setPagesize(10);
                 ArrayList<Record> list = (ArrayList<Record>) new Select().from(Record.class).queryList();

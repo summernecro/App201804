@@ -24,7 +24,15 @@ public class NetDataWork {
             NetGet.postData(context,RecordURL.获取地址("/record/updateRecords"),baseBean,adapter);
         }
 
-        public static void getAllRecords(Context context,String atype, NetI<ArrayList<Record>> adapter){
+        public static void getAllRecords(Context context,String atype, String[] timedu,NetI<ArrayList<Record>> adapter){
+            Record record = new Record();
+            record.setAtype(atype);
+            record.setStartTime(timedu[0]+"000");
+            record.setEndTime(timedu[1]+"000");
+            NetGet.getData(context,RecordURL.获取地址("/record/getAllRecords"),record,adapter);
+        }
+
+        public static void getAllRecords(Context context,String atype,NetI<ArrayList<Record>> adapter){
             Record record = new Record();
             record.setAtype(atype);
             NetGet.getData(context,RecordURL.获取地址("/record/getAllRecords"),record,adapter);
@@ -53,6 +61,37 @@ public class NetDataWork {
             BaseReqBean baseReqBean = new BaseReqBean();
             baseReqBean.setData(GsonUtil.getInstance().toJson(record));
             NetGet.postData(context,RecordURL.获取地址("/record/isRecordUploaded"),baseReqBean,adapter);
+        }
+
+    }
+
+    public static class Tip{
+
+        public static void addRecordTipsInfo(Context context, Record record, NetI<Record> adapter){
+            BaseReqBean baseReqBean = new BaseReqBean();
+            baseReqBean.setData(GsonUtil.getInstance().toJson(record));
+            NetGet.postData(context,RecordURL.获取地址("/record/addRecordTipsInfo"),baseReqBean,adapter);
+        }
+
+        public static void getLikeTiplab(Context context,String content, NetI<ArrayList<Tiplab>> adapter){
+            BaseReqBean baseReqBean = new BaseReqBean();
+            Tiplab tiplab = new Tiplab();
+            tiplab.setContent(content);
+            baseReqBean.setData(GsonUtil.getInstance().toJson(tiplab));
+            NetGet.postData(context,RecordURL.获取地址("/tip/getLikeTiplab"),baseReqBean,adapter);
+        }
+
+        public static void getRecordTips(Context context, Record record, NetI<ArrayList<Tiplab>> adapter){
+            BaseReqBean baseReqBean = new BaseReqBean();
+            baseReqBean.setData(GsonUtil.getInstance().toJson(record));
+            NetGet.postData(context,RecordURL.获取地址("/tip/getRecordTips"),baseReqBean,adapter);
+        }
+
+
+        public static void getRecordsFromTip(Context context, Tiplab tiplab, NetI<ArrayList<Record>> adapter){
+            BaseReqBean baseReqBean = new BaseReqBean();
+            baseReqBean.setData(GsonUtil.getInstance().toJson(tiplab));
+            NetGet.postData(context,RecordURL.获取地址("/tip/getRecordsFromTip"),baseReqBean,adapter);
         }
 
     }

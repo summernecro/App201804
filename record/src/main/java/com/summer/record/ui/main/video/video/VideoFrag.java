@@ -83,12 +83,10 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe,VideoValue> imp
 
     }
     @Optional
-    @OnClick({R.id.iv_add,R.id.tv_refresh,R.id.tv_down})
+    @OnClick({ R.id.tv_refresh,R.id.tv_down})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()){
-            case R.id.iv_add:
-                break;
             case R.id.tv_refresh:
                 getP().getD().updateRecordsStep(0,new ArrayList<Record>(),getBaseUIFrag(), getP().getD().getNoNullRecords(getP().getD().getRecords()), new OnFinishListener() {
                     @Override
@@ -98,7 +96,7 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe,VideoValue> imp
                                 @Override
                                 public void onFinish(Object o) {
                                     if(o==null){
-                                        NetDataWork.Data.getAllRecords(getBaseAct(), Record.ATYPE_VIDEO,new UINetAdapter<ArrayList<Record>>(getBaseUIFrag(),UINetAdapter.Loading) {
+                                        NetDataWork.Data.getAllRecords(getBaseAct(), Record.ATYPE_VIDEO,getP().getV().getTimedu(),new UINetAdapter<ArrayList<Record>>(getBaseUIFrag(),UINetAdapter.Loading) {
                                             @Override
                                             public void onSuccess(ArrayList<Record> o) {
                                                 super.onSuccess(o);
@@ -129,7 +127,7 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe,VideoValue> imp
                 break;
             case R.id.tv_down:
                 v.setSelected(!v.isSelected());
-                NetDataWork.Data.getAllRecords(getBaseAct(), Record.ATYPE_VIDEO,new UINetAdapter<ArrayList<Record>>(getBaseUIFrag(),UINetAdapter.Loading) {
+                NetDataWork.Data.getAllRecords(getBaseAct(), Record.ATYPE_VIDEO,getP().getV().getTimedu(),new UINetAdapter<ArrayList<Record>>(getBaseUIFrag(),UINetAdapter.Loading) {
                     @Override
                     public void onSuccess(ArrayList<Record> o) {
                         super.onSuccess(o);

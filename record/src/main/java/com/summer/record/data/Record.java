@@ -14,6 +14,7 @@ import com.summer.record.data.db.RecordDataBase;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -50,7 +51,7 @@ public class Record extends BaseBean {
     @Column
     public String content;
 
-    public Uri uri;
+    //public Uri uri;
 
     public String dateStr;
 
@@ -78,6 +79,8 @@ public class Record extends BaseBean {
 
     public static final String ATYPE_TEXT = "text";
 
+    public ArrayList<Tiplab> tiplabs;
+
 
     public Record() {
     }
@@ -104,7 +107,7 @@ public class Record extends BaseBean {
 
     public void init(){
         if(locpath!=null){
-            uri = Uri.fromFile(new File(locpath));
+            //uri = Uri.fromFile(new File(locpath));
         }
         Date d=new Date((ctime));
         DateFormat df=new SimpleDateFormat(DateFormatUtil.YYYY_MM_DD);
