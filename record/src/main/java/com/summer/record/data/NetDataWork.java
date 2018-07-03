@@ -73,6 +73,13 @@ public class NetDataWork {
             NetGet.postData(context,RecordURL.获取地址("/record/addRecordTipsInfo"),baseReqBean,adapter);
         }
 
+        public static void addTextTipsInfo(Context context, Record record, NetI<Record> adapter){
+            BaseReqBean baseReqBean = new BaseReqBean();
+            baseReqBean.setData(GsonUtil.getInstance().toJson(record));
+            NetGet.postData(context,RecordURL.获取地址("/record/addTextTipsInfo"),baseReqBean,adapter);
+        }
+
+
         public static void getLikeTiplab(Context context,String content, NetI<ArrayList<Tiplab>> adapter){
             BaseReqBean baseReqBean = new BaseReqBean();
             Tiplab tiplab = new Tiplab();
@@ -94,6 +101,15 @@ public class NetDataWork {
             NetGet.postData(context,RecordURL.获取地址("/tip/getRecordsFromTip"),baseReqBean,adapter);
         }
 
+    }
+
+    public static class Crash{
+
+        public static void insert(Context context, com.summer.record.data.Crash crash, NetI<Boolean> adapter){
+            BaseReqBean baseReqBean = new BaseReqBean();
+            baseReqBean.setData(GsonUtil.getInstance().toJson(crash));
+            NetGet.postData(context,RecordURL.获取地址("/record/crash"),baseReqBean,adapter);
+        }
     }
 
 

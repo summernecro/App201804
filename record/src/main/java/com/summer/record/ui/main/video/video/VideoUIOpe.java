@@ -81,7 +81,7 @@ public class VideoUIOpe extends BaseUIOpe<FragMainVideoBinding> {
                         itemVideoVideoBinding.getRoot().setTag(com.android.lib.R.id.position, Integer.valueOf(position));
                         itemVideoVideoBinding.setVariable(this.vari, this.list.get(position));
                         itemVideoVideoBinding.executePendingBindings();
-                        GlideApp.with(context).asBitmap().apply(requestOptions).load(Uri.fromFile(new File(videos.get(position).getLocpath()))).into(itemVideoVideoBinding.ivVideo);
+                        GlideApp.with(context).asBitmap().apply(requestOptions).load(videos.get(position).getUri()).into(itemVideoVideoBinding.ivVideo);
                         itemVideoVideoBinding.getRoot().setOnClickListener(this);
                         itemVideoVideoBinding.getRoot().setClickable(true);
                         itemVideoVideoBinding.getRoot().setAlpha(1f);

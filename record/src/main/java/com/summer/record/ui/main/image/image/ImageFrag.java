@@ -2,6 +2,8 @@ package com.summer.record.ui.main.image.image;
 
 //by summer on 2018-03-27.
 
+import android.support.annotation.ArrayRes;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,11 +19,13 @@ import com.android.lib.util.GsonUtil;
 import com.android.lib.util.LogUtil;
 import com.android.lib.util.fragment.two.FragManager2;
 import com.summer.record.R;
+import com.summer.record.data.Crash;
 import com.summer.record.data.NetDataWork;
 import com.summer.record.data.Record;
 import com.summer.record.data.Records;
 import com.summer.record.tool.FileTool;
 import com.summer.record.ui.main.image.imagedetail.ImageDetailFrag;
+import com.summer.record.ui.main.image.imagedetail.NetAdapter;
 import com.summer.record.ui.main.image.images.ImagesFrag;
 import com.summer.record.ui.main.main.MainValue;
 import com.summer.record.ui.main.record.RecordDAOpe;
@@ -78,6 +82,10 @@ public class ImageFrag  extends BaseUIFrag<ImageUIOpe,ImageDAOpe,ImageValue> imp
                 getP().getV().getImagesFrag().getP().getU().updateTitle(getP().getV().getTitleStr());
             }
         });
+
+
+        ArrayList<String> list = new ArrayList<>();
+        //list.get(1).toLowerCase();
     }
     @Optional
     @OnClick({ R.id.tv_refresh,R.id.tv_down,R.id.tv_search})

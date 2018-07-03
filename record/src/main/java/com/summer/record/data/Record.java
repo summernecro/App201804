@@ -51,7 +51,7 @@ public class Record extends BaseBean {
     @Column
     public String content;
 
-    //public Uri uri;
+    public Uri uri;
 
     public String dateStr;
 
@@ -107,7 +107,7 @@ public class Record extends BaseBean {
 
     public void init(){
         if(locpath!=null){
-            //uri = Uri.fromFile(new File(locpath));
+            uri = Uri.fromFile(new File(locpath));
         }
         Date d=new Date((ctime));
         DateFormat df=new SimpleDateFormat(DateFormatUtil.YYYY_MM_DD);
@@ -152,5 +152,12 @@ public class Record extends BaseBean {
 
     public boolean isDoing() {
         return isDoing==1;
+    }
+
+    public Uri getUri() {
+        if(uri==null){
+            init();
+        }
+        return uri;
     }
 }

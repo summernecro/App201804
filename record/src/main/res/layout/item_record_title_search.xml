@@ -18,7 +18,7 @@
         <android.support.constraint.ConstraintLayout
             android:id="@+id/searchtitle"
             android:elevation="4dp"
-            android:background="@color/color_red_300"
+            android:background="@drawable/drwable_main_color"
             android:layout_width="match_parent"
             android:paddingTop="20dp"
             android:layout_height="58dp">

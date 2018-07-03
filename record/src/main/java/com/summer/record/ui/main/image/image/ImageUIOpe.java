@@ -73,7 +73,7 @@ public class ImageUIOpe extends BaseUIOpe<FragMainImageBinding> {
                             item.getRoot().setTag(com.android.lib.R.id.position, Integer.valueOf(position));
                             item.setVariable(this.vari, this.list.get(position));
                             item.executePendingBindings();
-                            GlideApp.with(context).asBitmap().apply(requestOptions).load(Uri.fromFile(new File(images.get(position).getLocpath()))).into(item.ivVideo);
+                            GlideApp.with(context).asBitmap().apply(requestOptions).load(images.get(position).getUri()).into(item.ivVideo);
                             item.getRoot().setOnClickListener(this);
                             item.getRoot().setClickable(true);
                             item.getRoot().setAlpha(1f);
@@ -97,6 +97,12 @@ public class ImageUIOpe extends BaseUIOpe<FragMainImageBinding> {
                 }
             });
             getBind().recycle.addItemDecoration(new VideoItemDecoration(getActivity(),images));
+            getBind().recycle.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                }
+            });
         }else{
             getBind().recycle.getAdapter().notifyDataSetChanged();
         }
