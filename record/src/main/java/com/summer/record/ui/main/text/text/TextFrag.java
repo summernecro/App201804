@@ -11,6 +11,7 @@ import com.android.lib.base.listener.ViewListener;
 import com.android.lib.network.bean.res.BaseResBean;
 import com.android.lib.network.news.NetAdapter;
 import com.android.lib.network.news.UINetAdapter;
+import com.android.lib.util.GsonUtil;
 import com.android.lib.util.LogUtil;
 import com.android.lib.util.NullUtil;
 import com.android.lib.util.fragment.two.FragManager2;
@@ -78,6 +79,10 @@ public class TextFrag extends BaseUIFrag<TextUIOpe,RecordDAOpe,TextValue> implem
         getP().getU().initTexts(list,this);
         ArrayList<Record> records = new ArrayList<>();
         records.add((Record) event.data);
+        if(GsonUtil.getInstance().toJson(records.get(0)).equals(getP().getV().getTemStr())){
+            return;
+        }
+        getP().getV().setTemStr(GsonUtil.getInstance().toJson(records.get(0)));
         getP().getD().updateRecords(getBaseUIFrag(),records,new NetAdapter<ArrayList<Record>>(getBaseUIAct()));
 
     }

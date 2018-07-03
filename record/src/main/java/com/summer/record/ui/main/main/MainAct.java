@@ -147,7 +147,8 @@ public class MainAct extends BaseUIActivity<MainUIOpe,MainDAOpe,MainValue> imple
                 getP().getU().refreshList(getP().getV().getTiplabs(), new ViewListener() {
                     @Override
                     public void onInterupt(final int i, final View view) {
-                        NetDataWork.Tip.getRecordsFromTip(getBaseContext(), getP().getV().getTiplabs().get(i), new UINetAdapter<ArrayList<Record>>(getBaseContext()) {
+                        int pos = (int) view.getTag(R.id.position);
+                        NetDataWork.Tip.getRecordsFromTip(getBaseContext(), getP().getV().getTiplabs().get(pos), new UINetAdapter<ArrayList<Record>>(getBaseContext()) {
                             @Override
                             public void onSuccess(ArrayList<Record> o) {
                                 super.onSuccess(o);

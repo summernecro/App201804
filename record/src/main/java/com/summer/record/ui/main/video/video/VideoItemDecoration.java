@@ -28,7 +28,7 @@ public class VideoItemDecoration extends RecyclerView.ItemDecoration {
     public VideoItemDecoration(Context context,ArrayList<Record> records){
         this.records = records;
         paint.setColor(Color.DKGRAY);
-        paint.setTextSize(ScreenUtil.字宽度*18);
+        paint.setTextSize(ScreenUtil.字宽度*16);
         paint.setAntiAlias(true);
         linecolor= context.getResources().getColor(R.color.color_blue_300);
     }

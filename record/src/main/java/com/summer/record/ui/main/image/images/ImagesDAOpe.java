@@ -15,12 +15,12 @@ public class ImagesDAOpe extends BaseDAOpe {
 
     public ArrayList<String[]> getYears(Context context){
         int[] y = FileTool.getTime(context);
-        int start = y[0];
+        int start = y[1];
         ArrayList<Integer> years = new ArrayList<>();
-        while (start<=y[1]){
+        while (start>=y[0]){
             int a = start;
             years.add(a);
-            ++start;
+            --start;
         }
         ArrayList<String[]> strs = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();

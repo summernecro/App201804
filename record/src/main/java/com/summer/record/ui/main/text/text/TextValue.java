@@ -21,4 +21,6 @@ public class TextValue extends BaseValue{
 
 
     private ArrayList<Tiplab> tiplabs = new ArrayList<>();
+
+    private String temStr = "";
 }
