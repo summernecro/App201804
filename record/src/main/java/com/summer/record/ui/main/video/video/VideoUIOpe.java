@@ -50,63 +50,67 @@ public class VideoUIOpe extends BaseUIOpe<FragMainVideoBinding> {
     }
 
     public void loadVideos(final ArrayList<Record> videos, ViewListener listener){
+        if(getBind().recycle.getAdapter()==null){
+            final RequestOptions requestOptions = new RequestOptions();
+            requestOptions.encodeQuality(10).centerCrop().placeholder(Color.WHITE).skipMemoryCache(false).override(150,150);
 
-        final RequestOptions requestOptions = new RequestOptions();
-        requestOptions.encodeQuality(10).centerCrop().placeholder(Color.WHITE).skipMemoryCache(false).override(150,150);
+            getBind().recycle.setLayoutManager(new GridLayoutManager(getActivity(),4));
+            getBind().recycle.setAdapter(new AppsDataBindingAdapter(getActivity(), R.layout.item_video_video, BR.item_video_video,videos,listener){
 
-        getBind().recycle.setLayoutManager(new GridLayoutManager(getActivity(),4));
-        getBind().recycle.setAdapter(new AppsDataBindingAdapter(getActivity(), R.layout.item_video_video, BR.item_video_video,videos,listener){
-
-            @Override
-            public int getItemViewType(int position) {
-                return videos.get(position).isNull()?0:1;
-            }
-
-            @Override
-            public AppViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                switch (viewType){
-                    case 1:
-                        return new AppViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_video_video, parent, false));
+                @Override
+                public int getItemViewType(int position) {
+                    return videos.get(position).isNull()?0:1;
                 }
-                return new AppViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.item_null, parent, false));
-            }
 
-            @Override
-            public void onBindViewHolder(AppViewHolder holder, int position) {
-                LogUtil.E(position+":"+getItemViewType(position));
-                switch (getItemViewType(position)){
-                    case 1:
-                        ItemVideoVideoBinding itemVideoVideoBinding = (ItemVideoVideoBinding) holder.viewDataBinding;
-                        itemVideoVideoBinding.getRoot().setTag(com.android.lib.R.id.data, this.list.get(position));
-                        itemVideoVideoBinding.getRoot().setTag(com.android.lib.R.id.position, Integer.valueOf(position));
-                        itemVideoVideoBinding.setVariable(this.vari, this.list.get(position));
-                        itemVideoVideoBinding.executePendingBindings();
-                        GlideApp.with(context).asBitmap().apply(requestOptions).load(videos.get(position).getUri()).into(itemVideoVideoBinding.ivVideo);
-                        itemVideoVideoBinding.getRoot().setOnClickListener(this);
-                        itemVideoVideoBinding.getRoot().setClickable(true);
-                        itemVideoVideoBinding.getRoot().setAlpha(1f);
-                        itemVideoVideoBinding.bg.setBackgroundColor(Color.WHITE);
-                        switch (videos.get(position).getStatus()){
-                            case Record.本地无服务器有:
-                                itemVideoVideoBinding.getRoot().setAlpha(0.3f);
-                                break;
-                            case Record.本地有服务器无:
-                                itemVideoVideoBinding.bg.setBackgroundColor(Color.WHITE);
-                                break;
-                            case Record.本地有服务器有:
+                @Override
+                public AppViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                    switch (viewType){
+                        case 1:
+                            return new AppViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_video_video, parent, false));
+                    }
+                    return new AppViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.item_null, parent, false));
+                }
 
-                                break;
-                            default:
-                                break;
-                        }
-                        break;
+                @Override
+                public void onBindViewHolder(AppViewHolder holder, int position) {
+                    LogUtil.E(position+":"+getItemViewType(position));
+                    switch (getItemViewType(position)){
+                        case 1:
+                            ItemVideoVideoBinding itemVideoVideoBinding = (ItemVideoVideoBinding) holder.viewDataBinding;
+                            itemVideoVideoBinding.getRoot().setTag(com.android.lib.R.id.data, this.list.get(position));
+                            itemVideoVideoBinding.getRoot().setTag(com.android.lib.R.id.position, Integer.valueOf(position));
+                            itemVideoVideoBinding.setVariable(this.vari, this.list.get(position));
+                            itemVideoVideoBinding.executePendingBindings();
+                            GlideApp.with(context).asBitmap().apply(requestOptions).load(videos.get(position).getUri()).into(itemVideoVideoBinding.ivVideo);
+                            itemVideoVideoBinding.getRoot().setOnClickListener(this);
+                            itemVideoVideoBinding.getRoot().setClickable(true);
+                            itemVideoVideoBinding.getRoot().setAlpha(1f);
+                            itemVideoVideoBinding.bg.setBackgroundColor(Color.WHITE);
+                            switch (videos.get(position).getStatus()){
+                                case Record.本地无服务器有:
+                                    itemVideoVideoBinding.getRoot().setAlpha(0.3f);
+                                    break;
+                                case Record.本地有服务器无:
+                                    itemVideoVideoBinding.bg.setBackgroundColor(Color.WHITE);
+                                    break;
+                                case Record.本地有服务器有:
+
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
                         default:
 
                             break;
+                    }
                 }
-            }
-        });
-        getBind().recycle.addItemDecoration(new VideoItemDecoration(getActivity(),videos));
+            });
+            getBind().recycle.addItemDecoration(new VideoItemDecoration(getActivity(),videos));
+        }else{
+            getBind().recycle.getAdapter().notifyDataSetChanged();
+        }
+
     }
 
 

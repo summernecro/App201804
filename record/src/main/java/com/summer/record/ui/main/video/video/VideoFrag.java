@@ -20,6 +20,7 @@ import com.summer.record.data.NetDataWork;
 import com.summer.record.data.Record;
 import com.summer.record.data.Records;
 import com.summer.record.ui.main.image.image.ImageFrag;
+import com.summer.record.ui.main.main.MainAct;
 import com.summer.record.ui.main.main.MainValue;
 import com.summer.record.ui.main.record.RecordDAOpe;
 import com.summer.record.ui.main.video.videoplay.VideoPlayFrag;
@@ -59,8 +60,9 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe,VideoValue> imp
 
             @Override
             public void onStopLoading(Object o) {
-                getP().getD().setRecords((ArrayList<Record>) o);
-                getP().getU().loadVideos(getP().getD().getRecords(),VideoFrag.this);
+                getP().getV().getAllRecords().addAll((ArrayList<Record>) o);
+                getP().getV().getRecords().addAll(getP().getV().getAllRecords());
+                getP().getU().loadVideos(getP().getV().getRecords(),VideoFrag.this);
                 getP().getV().getLoadUtil().stopLoading(getBaseUIRoot());
             }
 
@@ -77,7 +79,7 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe,VideoValue> imp
                 super.onSuccess(o);
                 getP().getD().setRecordsInfo(o);
                 getP().getV().setTitleStr(o.getDoneNum()+"/"+o.getAllNum());
-                getP().getV().getVideosFrag().getP().getU().updateTitle(getP().getV().getTitleStr());
+                ( (MainAct)getBaseUIAct()).getP().getU().updateTitle(getP().getV().getTitleStr());
             }
         });
 
@@ -88,7 +90,7 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe,VideoValue> imp
         super.onClick(v);
         switch (v.getId()){
             case R.id.tv_refresh:
-                getP().getD().updateRecordsStep(0,new ArrayList<Record>(),getBaseUIFrag(), getP().getD().getNoNullRecords(getP().getD().getRecords()), new OnFinishListener() {
+                getP().getD().updateRecordsStep(0,new ArrayList<Record>(),getBaseUIFrag(), getP().getD().getNoNullRecords(getP().getV().getRecords()), new OnFinishListener() {
                     @Override
                     public void onFinish(Object o) {
                         if(o instanceof ArrayList){
@@ -100,23 +102,23 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe,VideoValue> imp
                                             @Override
                                             public void onSuccess(ArrayList<Record> o) {
                                                 super.onSuccess(o);
-                                                getP().getD().setRecords(getP().getD().dealRecord(o));
-                                                getP().getU().loadVideos(getP().getD().getRecords(),VideoFrag.this);
+                                                getP().getV().getRecords().addAll(getP().getD().dealRecord(o));
+                                                getP().getU().loadVideos(getP().getV().getRecords(),VideoFrag.this);
                                             }
 
                                             @Override
                                             public void onNetFinish(boolean haveData, String url, BaseResBean baseResBean) {
                                                 super.onNetFinish(haveData, url, baseResBean);
                                                 getP().getV().setTitleStr(baseResBean.getOther().toString());
-                                                getP().getV().getVideosFrag().getP().getU().updateTitle(getP().getV().getTitleStr());
+                                                ( (MainAct)getBaseUIAct()).getP().getU().updateTitle(getP().getV().getTitleStr());
                                             }
                                         });
                                     }else{
                                         Record record = (Record) o;
-                                        getP().getU().scrollToPos(getP().getD().getRecords(), record);
+                                        getP().getU().scrollToPos(getP().getV().getRecords(), record);
                                         if(getP().getD().getRecordsInfo()!=null){
                                             getP().getV().setTitleStr(record.getPos()+"/"+getP().getD().getRecordsInfo().getAllNum());
-                                            getP().getV().getVideosFrag().getP().getU().updateTitle(getP().getV().getTitleStr());
+                                            ( (MainAct)getBaseUIAct()).getP().getU().updateTitle(getP().getV().getTitleStr());
                                         }
                                     }
                                 }
@@ -131,10 +133,12 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe,VideoValue> imp
                     @Override
                     public void onSuccess(ArrayList<Record> o) {
                         super.onSuccess(o);
-                        getP().getD().setRecords(getP().getD().dealRecord(o));
-                        getP().getU().loadVideos(getP().getD().getRecords(),VideoFrag.this);
+                        getP().getV().getAllRecords().clear();
+                        getP().getV().getAllRecords().addAll(getP().getD().dealRecord(o));
+                        getP().getV().getRecords().addAll(getP().getV().getAllRecords());
+                        getP().getU().loadVideos(getP().getV().getRecords(),VideoFrag.this);
 
-                        getP().getD().downLoadRecords(0,getBaseUIFrag(),getP().getD().getUnDownloadRecords(getP().getD().getNoNullRecords(getP().getD().getRecords())), new OnFinishListener<Object>() {
+                        getP().getD().downLoadRecords(0,getBaseUIFrag(),getP().getD().getUnDownloadRecords(getP().getD().getNoNullRecords(getP().getV().getRecords())), new OnFinishListener<Object>() {
                             @Override
                             public void onFinish(Object o) {
                                 if(o!=null){
@@ -150,7 +154,7 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe,VideoValue> imp
                     public void onNetFinish(boolean haveData, String url, BaseResBean baseResBean) {
                         super.onNetFinish(haveData, url, baseResBean);
                         getP().getV().setTitleStr(baseResBean.getOther().toString());
-                        getP().getV().getVideosFrag().getP().getU().updateTitle(getP().getV().getTitleStr());
+                        ( (MainAct)getBaseUIAct()).getP().getU().updateTitle(getP().getV().getTitleStr());
                     }
                 });
                 break;

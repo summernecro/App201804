@@ -22,5 +22,7 @@ public class ImagesValue extends BaseValue {
 
     ArrayList<Tiplab> tiplabs = new ArrayList<>();
 
+    private int pos[] = new int[2];
+
 
 }

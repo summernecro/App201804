@@ -4,8 +4,11 @@ package com.summer.record.ui.main.video.video;
 
 import com.android.lib.base.ope.BaseValue;
 import com.android.lib.util.LoadUtil;
+import com.summer.record.data.Record;
 import com.summer.record.ui.main.video.videos.VideosFrag;
 import com.summer.record.ui.view.UpdateIndicator;
+
+import java.util.ArrayList;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +26,14 @@ public class VideoValue extends BaseValue {
     @Setter
     @Getter
     private VideosFrag videosFrag;
+
+    @Getter
+    ArrayList<Record> records = new ArrayList<>();
+
+    private int[] pos = new int[2];
+
+    @Getter
+    ArrayList<Record> allRecords = new ArrayList<>();
 
     public VideoValue(){
         UpdateIndicator updateIndicator = new UpdateIndicator();

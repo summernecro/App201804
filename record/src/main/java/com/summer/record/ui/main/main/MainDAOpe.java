@@ -3,9 +3,17 @@ package com.summer.record.ui.main.main;
 //by summer on 2018-03-27.
 
 import android.Manifest;
+import android.content.Context;
+import android.support.v4.app.Fragment;
 
+import com.android.lib.base.activity.BaseUIActivity;
+import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.ope.BaseDAOpe;
+import com.android.lib.util.fragment.two.FragManager2;
 import com.android.lib.util.system.PermissionUtil;
+import com.summer.record.ui.main.video.videos.VideosFrag;
+
+import java.util.ArrayList;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -30,6 +38,7 @@ public class MainDAOpe extends BaseDAOpe {
             Manifest.permission.RECEIVE_BOOT_COMPLETED,
             Manifest.permission.DISABLE_KEYGUARD
     };
+
 
 
 }

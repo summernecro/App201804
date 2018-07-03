@@ -48,8 +48,6 @@ import lombok.Setter;
 @Setter
 public class RecordDAOpe extends BaseDAOpe {
 
-    ArrayList<Record> records;
-
     private Records recordsInfo;
 
     BDAOpe bdaOpe ;
@@ -98,7 +96,7 @@ public class RecordDAOpe extends BaseDAOpe {
 
 
 
-    public static ArrayList<Record> dealRecord(ArrayList<Record> videos){
+    public ArrayList<Record> dealRecord(ArrayList<Record> videos){
         HashMap<String,ArrayList<Record>> map = new HashMap<>();
         for(int i=0;i<videos.size();i++){
             videos.get(i).init();

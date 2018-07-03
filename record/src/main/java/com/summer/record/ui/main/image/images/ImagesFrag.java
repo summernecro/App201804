@@ -19,95 +19,54 @@ import com.summer.record.data.NetDataWork;
 import com.summer.record.data.Record;
 import com.summer.record.data.Tiplab;
 import com.summer.record.ui.main.image.image.ImageFrag;
+import com.summer.record.ui.main.main.RefreshI;
 
 import java.util.ArrayList;
 
 import butterknife.OnClick;
 import butterknife.Optional;
 
-public class ImagesFrag extends BaseUIFrag<ImagesUIOpe,ImagesDAOpe,ImagesValue> implements TextView.OnEditorActionListener,OnFinishListener{
+public class ImagesFrag extends BaseUIFrag<ImagesUIOpe,ImagesDAOpe,ImagesValue> implements RefreshI,View.OnClickListener {
 
 
     @Override
     public void initNow() {
         super.initNow();
         getP().getU().initFrag(this,getP().getD().getYears(getContext()),getP().getV().getImageFrags());
-        getP().getU().initViewPager(getChildFragmentManager(),getContext(),getP().getV().getImageFrags());
+        getP().getU().initViewPager(getChildFragmentManager(),getContext(),getP().getV().getImageFrags(),getP().getV().getPos());
     }
-
 
     @Optional
-    @OnClick({ R.id.tv_refresh,R.id.tv_down,R.id.tv_search,R.id.iv_search_back})
+    @OnClick({ R.id.tv_refresh,R.id.tv_down,R.id.tv_search})
     public void onClick(View v) {
         super.onClick(v);
-        switch (v.getId()){
-            case R.id.iv_search_back:
-                getP().getU().showHideSearch();
-                ArrayList<Fragment> fragments = getP().getV().getImageFrags();
-                for(int i=0;i<fragments.size();i++){
-                    ImageFrag imageFrag = (ImageFrag) fragments.get(i);
-                    imageFrag.getP().getV().getRecords().clear();
-                    imageFrag.getP().getV().getRecords().addAll(imageFrag.getP().getV().getAllRecords());
-                    imageFrag.getP().getU().loadImages(imageFrag.getP().getV().getRecords(),imageFrag);
-                }
-                break;
-            case R.id.tv_search:
-                getP().getU().showHideSearch();
-                break;
-                default:
-                    getP().getU().getCurrentFrag(getP().getV().getImageFrags()).onClick(v);
-                    break;
-        }
+        ImageFrag imageFrag = (ImageFrag) getP().getV().getImageFrags().get(getP().getV().getPos()[0]);
+        imageFrag.onClick(v);
     }
 
-    @Override
-    public int getBaseUILayout() {
-        return R.layout.frag_base;
-    }
 
     @Override
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        if(actionId== EditorInfo.IME_ACTION_GO){
-            getP().getU().showHideSearch();
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public void onFinish(Object o) {
-        if(NullUtil.isStrEmpty(o.toString())){
+    public void refresh(ArrayList<Record> o){
+        ImageFrag imageFrag = (ImageFrag) getP().getV().getImageFrags().get(0);
+        if(o==null){
+            imageFrag.getP().getV().getRecords().clear();
+            imageFrag.getP().getV().getRecords().addAll(imageFrag.getP().getV().getAllRecords());
+            imageFrag.getP().getD().initRecords(imageFrag.getP().getV().getRecords());
+            imageFrag.getP().getU().loadImages(o,imageFrag);
             return;
         }
-
-        NetDataWork.Tip.getLikeTiplab(getContext(),o.toString(),new NetAdapter<ArrayList<Tiplab>>(getContext()){
-
-            @Override
-            public void onSuccess(ArrayList<Tiplab> o) {
-                super.onSuccess(o);
-                getP().getV().getTiplabs().clear();
-                if(o!=null&&o.size()>0){
-                    getP().getV().getTiplabs().addAll(o);
-                }
-                getP().getU().refreshList(getP().getV().getTiplabs(), new ViewListener() {
-                    @Override
-                    public void onInterupt(final int i, View view) {
-                        NetDataWork.Tip.getRecordsFromTip(getContext(), getP().getV().getTiplabs().get(i), new UINetAdapter<ArrayList<Record>>(getBaseUIFrag()) {
-                            @Override
-                            public void onSuccess(ArrayList<Record> o) {
-                                super.onSuccess(o);
-                                getP().getU().showHideSearch();
-                                ImageFrag imageFrag = (ImageFrag) getP().getV().getImageFrags().get(0);
-                                imageFrag.getP().getV().getRecords().clear();
-                                imageFrag.getP().getV().getRecords().addAll(o);
-                                imageFrag.getP().getD().initRecords(imageFrag.getP().getV().getRecords());
-                                imageFrag.getP().getU().loadImages(o,imageFrag);
-
-                            }
-                        });
-                    }
-                });
+        ArrayList<Record> records = new ArrayList<>();
+        for(int i=0;o!=null&&i<o.size();i++){
+            if(o.get(i).getAtype().equals("image")){
+                records.add(o.get(i));
             }
-        });
+        }
+        if(records.size()==0){
+            return;
+        }
+        imageFrag.getP().getV().getRecords().clear();
+        imageFrag.getP().getV().getRecords().addAll(imageFrag.getP().getD().dealRecord(records));
+        imageFrag.getP().getD().initRecords(imageFrag.getP().getV().getRecords());
+        imageFrag.getP().getU().loadImages(o,imageFrag);
     }
 }

@@ -4,11 +4,15 @@ package com.summer.record.ui.main.sett;
 
 import com.android.lib.base.fragment.BaseUIFrag;
 import com.summer.record.R;
+import com.summer.record.data.Record;
+import com.summer.record.ui.main.main.RefreshI;
 
-public class SettFrag extends BaseUIFrag<SettUIOpe,SettDAOpe,SettValue> {
+import java.util.ArrayList;
+
+public class SettFrag extends BaseUIFrag<SettUIOpe,SettDAOpe,SettValue> implements RefreshI {
 
     @Override
-    public int getBaseUILayout() {
-        return R.layout.frag_base;
+    public void refresh(ArrayList<Record> o) {
+
     }
 }

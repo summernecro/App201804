@@ -2,16 +2,34 @@ package com.summer.record.ui.main.main;
 
 //by summer on 2018-03-27.
 
+import android.databinding.DataBindingUtil;
+import android.support.v7.widget.LinearLayoutManager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.android.lib.base.activity.BaseUIActivity;
+import com.android.lib.base.adapter.AppsDataBindingAdapter;
+import com.android.lib.base.fragment.BaseUIFrag;
+import com.android.lib.base.interf.OnFinishListener;
 import com.android.lib.base.interf.view.OnAppItemSelectListener;
+import com.android.lib.base.listener.BaseTextWather;
+import com.android.lib.base.listener.ViewListener;
 import com.android.lib.base.ope.BaseUIOpe;
+import com.android.lib.util.StringUtil;
+import com.android.lib.util.fragment.two.FragManager2;
 import com.android.lib.view.bottommenu.BottomMenuBean;
+import com.summer.record.BR;
 import com.summer.record.R;
+import com.summer.record.data.Tiplab;
 import com.summer.record.databinding.ActMainBinding;
+import com.summer.record.databinding.ItemRecordTitleSearchBinding;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+
+import butterknife.ButterKnife;
 
 public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
 
@@ -21,7 +39,7 @@ public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
     @Override
     public void initUI() {
         super.initUI();
-
+        addSearhView();
         bottomMenuBeans.add(new BottomMenuBean("视频", R.drawable.drawable_record_main_bottom_video,null,getBind().containVideo,getActivity().getResources().getColorStateList(R.color.color_white_black)));
         bottomMenuBeans.add(new BottomMenuBean("图片", R.drawable.drawable_record_main_bottom_image,null,getBind().containImage,getActivity().getResources().getColorStateList(R.color.color_white_black)));
         bottomMenuBeans.add(new BottomMenuBean("文字", R.drawable.drawable_record_main_bottom_text,null,getBind().containText,getActivity().getResources().getColorStateList(R.color.color_white_black)));
@@ -41,5 +59,63 @@ public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
                bottomMenuBeans.get(i).getContainerView().setVisibility(View.GONE);
            }
        }
+    }
+
+    public void initFrag(BaseUIActivity activity, ArrayList<BaseUIFrag> fragments, int[] 模块ID, String[] 模块){
+        for(int i=0;i<fragments.size();i++){
+            FragManager2.getInstance().setAnim(false).start(activity,模块[i],模块ID[i],fragments.get(i));
+        }
+    }
+
+
+    public void addSearhView(){
+        MainAct mainAct = (MainAct) getActivity();
+        ViewGroup viewGroup =mainAct.getBaseUIRoot();
+        ItemRecordTitleSearchBinding itemRecordTitleSearchBinding = ItemRecordTitleSearchBinding.inflate(LayoutInflater.from(getActivity()));
+        itemRecordTitleSearchBinding.getRoot().setVisibility(View.GONE);
+        viewGroup.addView(itemRecordTitleSearchBinding.getRoot());
+        ButterKnife.bind(viewGroup);
+        itemRecordTitleSearchBinding.recycleTips.setLayoutManager(new LinearLayoutManager(getActivity()));
+        if(mainAct instanceof TextView.OnEditorActionListener){
+            itemRecordTitleSearchBinding.edtSearch.setOnEditorActionListener((TextView.OnEditorActionListener) mainAct);
+        }
+
+        if(mainAct instanceof OnFinishListener){
+            final OnFinishListener listener = (OnFinishListener) mainAct;
+            itemRecordTitleSearchBinding.edtSearch.addTextChangedListener(new BaseTextWather(){
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    super.onTextChanged(s, start, before, count);
+                    listener.onFinish(s.toString());
+                }
+            });
+        }
+    }
+
+    public int showHideSearch(){
+        MainAct mainAct = (MainAct) getActivity();
+        ViewGroup viewGroup =mainAct.getBaseUIRoot();
+        ItemRecordTitleSearchBinding itemRecordTitleSearchBinding = DataBindingUtil.bind((viewGroup).getChildAt( (viewGroup).getChildCount()-1));
+        if(itemRecordTitleSearchBinding.getRoot().getVisibility()==View.GONE){
+            itemRecordTitleSearchBinding.getRoot().setVisibility(View.VISIBLE);
+        }else{
+            itemRecordTitleSearchBinding.getRoot().setVisibility(View.GONE);
+        }
+        return itemRecordTitleSearchBinding.getRoot().getVisibility();
+    }
+
+    public void refreshList(ArrayList<Tiplab> tiplabs, ViewListener listener){
+        MainAct mainAct = (MainAct) getActivity();
+        ViewGroup viewGroup =mainAct.getBaseUIRoot();
+        ItemRecordTitleSearchBinding itemRecordTitleSearchBinding = DataBindingUtil.bind((viewGroup).getChildAt( (viewGroup).getChildCount()-1));
+        if(itemRecordTitleSearchBinding.recycleTips.getAdapter()==null){
+            itemRecordTitleSearchBinding.recycleTips.setAdapter(new AppsDataBindingAdapter(getActivity(), R.layout.item_tiplab_text, BR.item_tiplab_text,tiplabs,listener));
+        }else{
+            itemRecordTitleSearchBinding.recycleTips.getAdapter().notifyDataSetChanged();
+        }
+    }
+
+    public void updateTitle(Object o){
+        getBind().recordtitle.tvLab.setText(StringUtil.getStr(o));
     }
 }

@@ -23,6 +23,7 @@ import com.summer.record.data.Records;
 import com.summer.record.data.Tiplab;
 import com.summer.record.ui.main.image.image.ImageFrag;
 import com.summer.record.ui.main.main.MainValue;
+import com.summer.record.ui.main.main.RefreshI;
 import com.summer.record.ui.main.record.RecordDAOpe;
 import com.summer.record.ui.main.text.textdeail.TextDetailFrag;
 
@@ -31,7 +32,7 @@ import java.util.ArrayList;
 import butterknife.OnClick;
 import butterknife.Optional;
 
-public class TextFrag extends BaseUIFrag<TextUIOpe,RecordDAOpe,TextValue> implements ViewListener,OnFinishListener{
+public class TextFrag extends BaseUIFrag<TextUIOpe,RecordDAOpe,TextValue> implements ViewListener,RefreshI {
 
     @Override
     public void initNow() {
@@ -127,10 +128,6 @@ public class TextFrag extends BaseUIFrag<TextUIOpe,RecordDAOpe,TextValue> implem
         }
     }
 
-    @Override
-    public int getBaseUILayout() {
-        return R.layout.frag_base;
-    }
 
     @Override
     public void onInterupt(int i, View view) {
@@ -142,37 +139,19 @@ public class TextFrag extends BaseUIFrag<TextUIOpe,RecordDAOpe,TextValue> implem
     }
 
     @Override
-    public void onFinish(Object o) {
-        if(NullUtil.isStrEmpty(o.toString())){
+    public void refresh(ArrayList<Record> o) {
+        ArrayList<Record> records = new ArrayList<>();
+        for(int i=0;o!=null&&i<o.size();i++){
+            if(o.get(i).getAtype().equals("text")){
+                records.add(o.get(i));
+            }
+        }
+        if(records.size()==0){
             return;
         }
-
-        NetDataWork.Tip.getLikeTiplab(getContext(),o.toString(),new NetAdapter<ArrayList<Tiplab>>(getContext()){
-
-            @Override
-            public void onSuccess(ArrayList<Tiplab> o) {
-                super.onSuccess(o);
-                getP().getV().getTiplabs().clear();
-                if(o!=null&&o.size()>0){
-                    getP().getV().getTiplabs().addAll(o);
-                }
-                getP().getU().refreshList(getP().getV().getTiplabs(), new ViewListener() {
-                    @Override
-                    public void onInterupt(final int i, View view) {
-                        NetDataWork.Tip.getRecordsFromTip(getContext(), getP().getV().getTiplabs().get(i), new UINetAdapter<ArrayList<Record>>(getBaseUIFrag()) {
-                            @Override
-                            public void onSuccess(ArrayList<Record> o) {
-                                super.onSuccess(o);
-                                getP().getU().showHideSearch();
-                                getP().getV().getList().clear();
-                                getP().getV().getList().addAll(o);
-                                getP().getU().initTexts(getP().getV().getList(),TextFrag.this);
-
-                            }
-                        });
-                    }
-                });
-            }
-        });
+        getP().getU().showHideSearch();
+        getP().getV().getList().clear();
+        getP().getV().getList().addAll(records);
+        getP().getU().initTexts(getP().getV().getList(),TextFrag.this);
     }
 }

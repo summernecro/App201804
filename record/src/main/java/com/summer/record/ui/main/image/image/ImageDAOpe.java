@@ -98,7 +98,7 @@ public class ImageDAOpe extends BaseDAOpe {
 
 
 
-    public static ArrayList<Record> dealRecord(ArrayList<Record> videos){
+    public  ArrayList<Record> dealRecord(ArrayList<Record> videos){
         HashMap<String,ArrayList<Record>> map = new HashMap<>();
         for(int i=0;i<videos.size();i++){
             videos.get(i).init();

@@ -27,6 +27,7 @@ import com.summer.record.tool.FileTool;
 import com.summer.record.ui.main.image.imagedetail.ImageDetailFrag;
 import com.summer.record.ui.main.image.imagedetail.NetAdapter;
 import com.summer.record.ui.main.image.images.ImagesFrag;
+import com.summer.record.ui.main.main.MainAct;
 import com.summer.record.ui.main.main.MainValue;
 import com.summer.record.ui.main.record.RecordDAOpe;
 import com.summer.record.ui.view.UpdateIndicator;
@@ -79,7 +80,7 @@ public class ImageFrag  extends BaseUIFrag<ImageUIOpe,ImageDAOpe,ImageValue> imp
                 super.onSuccess(o);
                 getP().getD().setRecordsInfo(o);
                 getP().getV().setTitleStr(o.getDoneNum()+"/"+o.getAllNum());
-                getP().getV().getImagesFrag().getP().getU().updateTitle(getP().getV().getTitleStr());
+                ( (MainAct)getBaseUIAct()).getP().getU().updateTitle(getP().getV().getTitleStr());
             }
         });
 
@@ -116,7 +117,7 @@ public class ImageFrag  extends BaseUIFrag<ImageUIOpe,ImageDAOpe,ImageValue> imp
                                             public void onNetFinish(boolean haveData, String url, BaseResBean baseResBean) {
                                                 super.onNetFinish(haveData, url, baseResBean);
                                                 getP().getV().setTitleStr(baseResBean.getOther().toString());
-                                                getP().getV().getImagesFrag().getP().getU().updateTitle(getP().getV().getTitleStr());
+                                                ( (MainAct)getBaseUIAct()).getP().getU().updateTitle(getP().getV().getTitleStr());
                                             }
                                         });
                                     }else{
@@ -124,7 +125,7 @@ public class ImageFrag  extends BaseUIFrag<ImageUIOpe,ImageDAOpe,ImageValue> imp
 //                                    getP().getU().scrollToPos(getP().getD().getRecords(), record);
                                         if(getP().getD().getRecordsInfo()!=null){
                                             getP().getV().setTitleStr(record.getPos()+"/"+getP().getD().getRecordsInfo().getAllNum());
-                                            getP().getV().getImagesFrag().getP().getU().updateTitle(getP().getV().getTitleStr());
+                                            ( (MainAct)getBaseUIAct()).getP().getU().updateTitle(getP().getV().getTitleStr());
                                         }
                                     }
                                 }
@@ -159,7 +160,7 @@ public class ImageFrag  extends BaseUIFrag<ImageUIOpe,ImageDAOpe,ImageValue> imp
                     public void onNetFinish(boolean haveData, String url, BaseResBean baseResBean) {
                         super.onNetFinish(haveData, url, baseResBean);
                         getP().getV().setTitleStr(baseResBean.getOther().toString());
-                        getP().getV().getImagesFrag().getP().getU().updateTitle(getP().getV().getTitleStr());
+                        ( (MainAct)getBaseUIAct()).getP().getU().updateTitle(getP().getV().getTitleStr());
                     }
                 });
                 break;

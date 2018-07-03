@@ -19,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.summer.record.R;
 import com.summer.record.databinding.FragMainVideosBinding;
 import com.summer.record.ui.main.image.image.ImageFrag;
+import com.summer.record.ui.main.main.MainAct;
 import com.summer.record.ui.main.video.video.VideoFrag;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class VideosUIOpe extends BaseUIOpe<FragMainVideosBinding> {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                updateTitle(((VideoFrag)fragments.get(position)).getP().getV().getTitleStr());
+                ((MainAct)getActivity()).getP().getU().updateTitle(((VideoFrag)fragments.get(position)).getP().getV().getTitleStr());
             }
         });
     }
@@ -58,8 +59,4 @@ public class VideosUIOpe extends BaseUIOpe<FragMainVideosBinding> {
         return (VideoFrag) videoFrags.get(getBind().viewpager.getCurrentItem());
     }
 
-    public void updateTitle(Object o){
-        TextView textView = getView().findViewById(R.id.tv_lab);
-        textView.setText(StringUtil.getStr(o));
-    }
 }
