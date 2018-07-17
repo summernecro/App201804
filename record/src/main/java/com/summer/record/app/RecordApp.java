@@ -20,6 +20,9 @@ import com.summer.record.data.NetDataWork;
 
 import org.xutils.common.Callback;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class RecordApp extends LibAplication {
 
     @Override
@@ -56,6 +59,7 @@ public class RecordApp extends LibAplication {
             public void onFinish(Object o) {
                 Crash crash = new Crash();
                 crash.setCreatedtime(System.currentTimeMillis());
+                crash.setTimestr(new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(new Date()));
                 crash.setError(o.toString());
                 crash.setPlatform(1);
                 crash.setUser("tangjie");

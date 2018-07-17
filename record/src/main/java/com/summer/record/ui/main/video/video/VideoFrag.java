@@ -115,7 +115,7 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe,VideoValue> imp
                                         });
                                     }else{
                                         Record record = (Record) o;
-                                        getP().getU().scrollToPos(getP().getV().getRecords(), record);
+                                        //getP().getU().scrollToPos(getP().getV().getRecords(), record);
                                         if(getP().getD().getRecordsInfo()!=null){
                                             getP().getV().setTitleStr(record.getPos()+"/"+getP().getD().getRecordsInfo().getAllNum());
                                             ( (MainAct)getBaseUIAct()).getP().getU().updateTitle(getP().getV().getTitleStr());

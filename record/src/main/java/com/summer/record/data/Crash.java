@@ -16,4 +16,6 @@ public class Crash {
     private String user;
 
     private int platform;
+
+    private String timestr;
 }
