@@ -32,12 +32,19 @@ public class VideoValue extends BaseValue {
 
     private int[] pos = new int[2];
 
+    @Setter
+    int year = 0;
+
     @Getter
     ArrayList<Record> allRecords = new ArrayList<>();
 
     public VideoValue(){
         UpdateIndicator updateIndicator = new UpdateIndicator();
         loadUtil.setIndicator(updateIndicator);
+    }
+
+    public String getYear(){
+        return "\u3000\u3000"+year;
     }
 
 }

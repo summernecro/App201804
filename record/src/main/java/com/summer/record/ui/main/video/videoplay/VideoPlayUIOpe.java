@@ -18,6 +18,7 @@ import java.io.File;
 public class VideoPlayUIOpe extends BaseUIOpe<FragMainVideoVideoplayBinding> {
 
     public void play(Record video) {
+        getBind().tvDes.setText(video.getLocpath());
         getBind().videoplayer.setUp(video.getLocpath(), false, new File(""), "视频播放");
         //外部辅助的旋转，帮助全屏
         final OrientationUtils orientationUtils = new OrientationUtils((Activity) getActivity(), getBind().videoplayer);

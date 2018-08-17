@@ -2,6 +2,7 @@ package com.summer.record.ui.main.image.images;
 
 //by summer on 2018-06-25.
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.View;
@@ -32,8 +33,13 @@ public class ImagesFrag extends BaseUIFrag<ImagesUIOpe,ImagesDAOpe,ImagesValue> 
     @Override
     public void initNow() {
         super.initNow();
-        getP().getU().initFrag(this,getP().getD().getYears(getContext()),getP().getV().getImageFrags());
-        getP().getU().initViewPager(getChildFragmentManager(),getContext(),getP().getV().getImageFrags(),getP().getV().getPos());
+        getP().getD().getMaxMinYear(getContext(), new OnFinishListener() {
+            @Override
+            public void onFinish(Object o) {
+                getP().getU().initFrag(ImagesFrag.this,(ArrayList<String[]>)o,getP().getV().getImageFrags());
+                getP().getU().initViewPager(getChildFragmentManager(),getContext(),getP().getV().getImageFrags(),getP().getV().getPos());
+            }
+        });
     }
 
     @Optional

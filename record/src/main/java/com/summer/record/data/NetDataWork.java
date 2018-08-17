@@ -63,6 +63,12 @@ public class NetDataWork {
             NetGet.postData(context,RecordURL.获取地址("/record/isRecordUploaded"),baseReqBean,adapter);
         }
 
+        public static void getMaxMinYear(Context context, String atype,NetI<int[]> adapter){
+            Record record = new Record();
+            record.setAtype(atype);
+            NetGet.getData(context,RecordURL.获取地址("/record/getMaxMinYear"),record,adapter);
+        }
+
     }
 
     public static class Tip{

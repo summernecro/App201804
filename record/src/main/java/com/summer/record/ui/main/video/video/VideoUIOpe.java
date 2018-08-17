@@ -52,7 +52,7 @@ public class VideoUIOpe extends BaseUIOpe<FragMainVideoBinding> {
     public void loadVideos(final ArrayList<Record> videos, ViewListener listener){
         if(getBind().recycle.getAdapter()==null){
             final RequestOptions requestOptions = new RequestOptions();
-            requestOptions.encodeQuality(10).centerCrop().placeholder(Color.WHITE).skipMemoryCache(false).override(150,150);
+            requestOptions.encodeQuality(10).centerCrop().placeholder(R.color.transparent).skipMemoryCache(false).override(150,150);
 
             getBind().recycle.setLayoutManager(new GridLayoutManager(getActivity(),4));
             getBind().recycle.setAdapter(new AppsDataBindingAdapter(getActivity(), R.layout.item_video_video, BR.item_video_video,videos,listener){

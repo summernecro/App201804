@@ -90,4 +90,12 @@ public class FileTool {
         mi = calendar.get(Calendar.YEAR);
         return new int[]{mi,ma};
     }
+
+    public static void changeFileCreateDate(Record record){
+        File file = new File(record.getLocpath());
+        if(!file.exists()){
+            return;
+        }
+        file.setLastModified(record.getUtime());
+    }
 }

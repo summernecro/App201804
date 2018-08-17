@@ -26,6 +26,7 @@ import com.summer.record.data.Record;
 import com.summer.record.data.RecordURL;
 import com.summer.record.data.Records;
 import com.summer.record.tool.FileTool;
+import com.summer.record.tool.UrlTool;
 import com.summer.record.ui.main.record.BDAOpe;
 
 import org.xutils.common.util.KeyValue;
@@ -185,12 +186,8 @@ public class ImageDAOpe extends BaseDAOpe {
 
 
     public void downLoadRecord(Record record,NetI adapter){
-        String netpath = record.getNetpath();
-        if(netpath.startsWith("E:")){
-            netpath = netpath.substring(2,netpath.length());
-        }
 
-        NetGet.downLoadFile(RecordURL.获取文件路径(record.getNetpath().replace("\\","//")),record.locpath,adapter);
+        NetGet.downLoadFile(UrlTool.getNetUrl(record.getNetpath()),record.locpath,adapter);
     }
 
 

@@ -5,9 +5,11 @@ package com.summer.record.ui.main.video.videos;
 import android.view.View;
 
 import com.android.lib.base.fragment.BaseUIFrag;
+import com.android.lib.base.interf.OnFinishListener;
 import com.summer.record.R;
 import com.summer.record.data.Record;
 import com.summer.record.ui.main.image.image.ImageFrag;
+import com.summer.record.ui.main.image.images.ImagesFrag;
 import com.summer.record.ui.main.main.RefreshI;
 import com.summer.record.ui.main.video.video.VideoFrag;
 
@@ -21,8 +23,13 @@ public class VideosFrag extends BaseUIFrag<VideosUIOpe,VideosDAOpe,VideosValue> 
     @Override
     public void initNow() {
         super.initNow();
-        getP().getU().initFrag(this,getP().getD().getYears(getContext()),getP().getV().getVideoFrags());
-        getP().getU().initViewPager(getChildFragmentManager(),getContext(),getP().getV().getVideoFrags());
+        getP().getD().getMaxMinYear(getContext(), new OnFinishListener() {
+            @Override
+            public void onFinish(Object o) {
+                getP().getU().initFrag(VideosFrag.this,(ArrayList<String[]>)o,getP().getV().getVideoFrags());
+                getP().getU().initViewPager(getChildFragmentManager(),getContext(),getP().getV().getVideoFrags());
+            }
+        });
     }
 
     @Optional

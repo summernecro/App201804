@@ -14,11 +14,13 @@ import com.android.lib.network.bean.res.BaseResBean;
 import com.android.lib.network.news.UINetAdapter;
 import com.android.lib.util.GsonUtil;
 import com.android.lib.util.LogUtil;
+import com.android.lib.util.ToastUtil;
 import com.android.lib.util.fragment.two.FragManager2;
 import com.summer.record.R;
 import com.summer.record.data.NetDataWork;
 import com.summer.record.data.Record;
 import com.summer.record.data.Records;
+import com.summer.record.tool.DateUtil;
 import com.summer.record.ui.main.image.image.ImageFrag;
 import com.summer.record.ui.main.main.MainAct;
 import com.summer.record.ui.main.main.MainValue;
@@ -42,6 +44,7 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe,VideoValue> imp
         VideoFrag videoFrag = new VideoFrag();
         videoFrag.getP().getV().getTimedu()[0] = time[0];
         videoFrag.getP().getV().getTimedu()[1] = time[1];
+        videoFrag.getP().getV().setYear(DateUtil.toYear(time[0]));
         videoFrag.getP().getV().setVideosFrag(videosFrag);
         return videoFrag;
     }
@@ -78,7 +81,7 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe,VideoValue> imp
             public void onSuccess(Records o) {
                 super.onSuccess(o);
                 getP().getD().setRecordsInfo(o);
-                getP().getV().setTitleStr(o.getDoneNum()+"/"+o.getAllNum());
+                getP().getV().setTitleStr(o.getDoneNum()+"/"+o.getAllNum()+getP().getV().getYear());
                 ( (MainAct)getBaseUIAct()).getP().getU().updateTitle(getP().getV().getTitleStr());
             }
         });
@@ -109,7 +112,7 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe,VideoValue> imp
                                             @Override
                                             public void onNetFinish(boolean haveData, String url, BaseResBean baseResBean) {
                                                 super.onNetFinish(haveData, url, baseResBean);
-                                                getP().getV().setTitleStr(baseResBean.getOther().toString());
+                                                getP().getV().setTitleStr(baseResBean.getOther().toString()+getP().getV().getYear());
                                                 ( (MainAct)getBaseUIAct()).getP().getU().updateTitle(getP().getV().getTitleStr());
                                             }
                                         });
@@ -117,7 +120,7 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe,VideoValue> imp
                                         Record record = (Record) o;
                                         //getP().getU().scrollToPos(getP().getV().getRecords(), record);
                                         if(getP().getD().getRecordsInfo()!=null){
-                                            getP().getV().setTitleStr(record.getPos()+"/"+getP().getD().getRecordsInfo().getAllNum());
+                                            getP().getV().setTitleStr(record.getPos()+"/"+getP().getD().getRecordsInfo().getAllNum()+getP().getV().getYear());
                                             ( (MainAct)getBaseUIAct()).getP().getU().updateTitle(getP().getV().getTitleStr());
                                         }
                                     }
@@ -143,7 +146,8 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe,VideoValue> imp
                             public void onFinish(Object o) {
                                 if(o!=null){
                                     Record record = (Record) o;
-                                    getP().getU().scrollToPos(record);
+                                    ToastUtil.getInstance().showShort(getBaseAct(),record.getLocpath());
+                                    //getP().getU().scrollToPos(record);
                                 }
                             }
                         });
@@ -153,7 +157,7 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe,VideoValue> imp
                     @Override
                     public void onNetFinish(boolean haveData, String url, BaseResBean baseResBean) {
                         super.onNetFinish(haveData, url, baseResBean);
-                        getP().getV().setTitleStr(baseResBean.getOther().toString());
+                        getP().getV().setTitleStr(baseResBean.getOther().toString()+getP().getV().getYear());
                         ( (MainAct)getBaseUIAct()).getP().getU().updateTitle(getP().getV().getTitleStr());
                     }
                 });

@@ -17,6 +17,7 @@ import com.android.lib.base.interf.view.OnAppItemSelectListener;
 import com.android.lib.base.listener.BaseTextWather;
 import com.android.lib.base.listener.ViewListener;
 import com.android.lib.base.ope.BaseUIOpe;
+import com.android.lib.util.ScreenUtil;
 import com.android.lib.util.StringUtil;
 import com.android.lib.util.fragment.two.FragManager2;
 import com.android.lib.view.bottommenu.BottomMenuBean;
@@ -40,6 +41,10 @@ public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
     public void initUI() {
         super.initUI();
         addSearhView();
+        getBind().recordtitle.getRoot().setPadding(0, (int) ScreenUtil.getInstance().getStatusBarHeight(getActivity()),0,0);
+        ViewGroup.LayoutParams params = getBind().recordtitle.getRoot().getLayoutParams();
+        params.height = (int) (ScreenUtil.getInstance().getStatusBarHeight(getActivity())+ScreenUtil.最小DIMEN*38);
+        getBind().recordtitle.getRoot().setLayoutParams(params);
         bottomMenuBeans.add(new BottomMenuBean("视频", R.drawable.drawable_record_main_bottom_video,null,getBind().containVideo,getActivity().getResources().getColorStateList(R.color.color_white_black)));
         bottomMenuBeans.add(new BottomMenuBean("图片", R.drawable.drawable_record_main_bottom_image,null,getBind().containImage,getActivity().getResources().getColorStateList(R.color.color_white_black)));
         bottomMenuBeans.add(new BottomMenuBean("文字", R.drawable.drawable_record_main_bottom_text,null,getBind().containText,getActivity().getResources().getColorStateList(R.color.color_white_black)));
@@ -72,6 +77,10 @@ public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
         MainAct mainAct = (MainAct) getActivity();
         ViewGroup viewGroup =mainAct.getBaseUIRoot();
         ItemRecordTitleSearchBinding itemRecordTitleSearchBinding = ItemRecordTitleSearchBinding.inflate(LayoutInflater.from(getActivity()));
+        ViewGroup.LayoutParams params = itemRecordTitleSearchBinding.searchtitle.getLayoutParams();
+        itemRecordTitleSearchBinding.searchtitle.setPadding(0, (int) ScreenUtil.getInstance().getStatusBarHeight(getActivity()),0,0);
+        params.height = (int) (ScreenUtil.getInstance().getStatusBarHeight(getActivity())+ScreenUtil.最小DIMEN*38);
+        itemRecordTitleSearchBinding.searchtitle.setLayoutParams(params);
         itemRecordTitleSearchBinding.getRoot().setVisibility(View.GONE);
         viewGroup.addView(itemRecordTitleSearchBinding.getRoot());
         ButterKnife.bind(viewGroup);
@@ -118,4 +127,6 @@ public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
     public void updateTitle(Object o){
         getBind().recordtitle.tvLab.setText(StringUtil.getStr(o));
     }
+
+
 }

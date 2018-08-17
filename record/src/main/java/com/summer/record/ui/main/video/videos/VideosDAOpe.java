@@ -4,19 +4,45 @@ package com.summer.record.ui.main.video.videos;
 
 import android.content.Context;
 
+import com.android.lib.base.interf.OnFinishListener;
 import com.android.lib.base.ope.BaseDAOpe;
+import com.summer.record.data.NetDataWork;
+import com.summer.record.data.Record;
 import com.summer.record.tool.FileTool;
+import com.summer.record.ui.main.image.imagedetail.NetAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 public class VideosDAOpe extends BaseDAOpe {
 
-    public ArrayList<String[]> getYears(Context context){
+    public void getMaxMinYear(Context context,final OnFinishListener listener){
+        NetDataWork.Data.getMaxMinYear(context, Record.ATYPE_VIDEO,new NetAdapter<int[]>(context){
+            @Override
+            public void onSuccess(int[] o) {
+                super.onSuccess(o);
+                listener.onFinish(getYears(context,o));
+            }
+
+            @Override
+            public void onFail(boolean haveData, String msg) {
+                super.onFail(haveData, msg);
+                listener.onFinish(getYears(context,null));
+            }
+        });
+    }
+
+
+    public ArrayList<String[]> getYears(Context context,int[] o){
         int[] y = FileTool.getTime(context);
         int start = y[1];
+        int end = y[0];
+        if(o!=null){
+            start = Math.max(y[1],o[1]);
+            end = Math.min(y[0],o[0]);
+        }
         ArrayList<Integer> years = new ArrayList<>();
-        while (start>=y[0]){
+        while (start>=end){
             int a = start;
             years.add(a);
             --start;

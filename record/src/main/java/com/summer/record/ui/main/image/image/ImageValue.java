@@ -32,9 +32,21 @@ public class ImageValue extends BaseValue {
     @Getter
     ArrayList<Record> allRecords = new ArrayList<>();
 
+    @Setter
+    int year = 0;
+
     public ImageValue(){
         UpdateIndicator updateIndicator = new UpdateIndicator();
         loadUtil.setIndicator(updateIndicator);
+    }
+
+    public void clearAllRecord(){
+        records.clear();
+        allRecords.clear();
+    }
+
+    public String getYear(){
+        return "\u3000\u3000"+year;
     }
 
 

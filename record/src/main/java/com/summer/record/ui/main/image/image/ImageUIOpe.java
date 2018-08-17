@@ -33,6 +33,7 @@ import com.summer.record.databinding.FragBaseBinding;
 import com.summer.record.databinding.FragMainImageBinding;
 import com.summer.record.databinding.ItemImageImageBinding;
 import com.summer.record.databinding.ItemVideoVideoBinding;
+import com.summer.record.tool.UrlTool;
 import com.summer.record.ui.main.video.video.VideoItemDecoration;
 
 import java.io.File;
@@ -46,7 +47,7 @@ public class ImageUIOpe extends BaseUIOpe<FragMainImageBinding> {
 
         if(getBind().recycle.getAdapter()==null){
             final RequestOptions requestOptions = new RequestOptions();
-            requestOptions.encodeQuality(10).centerCrop().placeholder(Color.TRANSPARENT).skipMemoryCache(false).override(100,100);
+            requestOptions.encodeQuality(10).centerCrop().placeholder(R.color.color_TRANSPARENT).skipMemoryCache(false).override(100,100);
             getBind().recycle.setLayoutManager(new GridLayoutManager(getActivity(),4));
             getBind().recycle.setAdapter(new AppsDataBindingAdapter(getActivity(), R.layout.item_image_image, BR.item_image_image,images,listener){
 
@@ -73,7 +74,12 @@ public class ImageUIOpe extends BaseUIOpe<FragMainImageBinding> {
                             item.getRoot().setTag(com.android.lib.R.id.position, Integer.valueOf(position));
                             item.setVariable(this.vari, this.list.get(position));
                             item.executePendingBindings();
-                            GlideApp.with(context).asBitmap().apply(requestOptions).load(images.get(position).getUri()).into(item.ivVideo);
+                            File file = new File(images.get(position).getLocpath());
+                            if(file.exists()){
+                                GlideApp.with(context).asBitmap().apply(requestOptions).load(images.get(position).getUri()).into(item.ivVideo);
+                            }else{
+                                GlideApp.with(context).asBitmap().apply(requestOptions).load(UrlTool.getNetUrl(images.get(position).getNetpath())).into(item.ivVideo);
+                            }
                             item.getRoot().setOnClickListener(this);
                             item.getRoot().setClickable(true);
                             item.getRoot().setAlpha(1f);
