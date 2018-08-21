@@ -80,6 +80,9 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe,VideoValue> imp
             @Override
             public void onSuccess(Records o) {
                 super.onSuccess(o);
+                if(o==null){
+                    return;
+                }
                 getP().getD().setRecordsInfo(o);
                 getP().getV().setTitleStr(o.getDoneNum()+"/"+o.getAllNum()+getP().getV().getYear());
                 ( (MainAct)getBaseUIAct()).getP().getU().updateTitle(getP().getV().getTitleStr());
@@ -105,6 +108,9 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe,VideoValue> imp
                                             @Override
                                             public void onSuccess(ArrayList<Record> o) {
                                                 super.onSuccess(o);
+                                                if(o==null){
+                                                    return;
+                                                }
                                                 getP().getV().getRecords().addAll(getP().getD().dealRecord(o));
                                                 getP().getU().loadVideos(getP().getV().getRecords(),VideoFrag.this);
                                             }
@@ -136,6 +142,9 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe,VideoValue> imp
                     @Override
                     public void onSuccess(ArrayList<Record> o) {
                         super.onSuccess(o);
+                        if(o==null){
+                            return;
+                        }
                         getP().getV().getAllRecords().clear();
                         getP().getV().getAllRecords().addAll(getP().getD().dealRecord(o));
                         getP().getV().getRecords().addAll(getP().getV().getAllRecords());
@@ -157,7 +166,7 @@ public class VideoFrag extends BaseUIFrag<VideoUIOpe,RecordDAOpe,VideoValue> imp
                     @Override
                     public void onNetFinish(boolean haveData, String url, BaseResBean baseResBean) {
                         super.onNetFinish(haveData, url, baseResBean);
-                        getP().getV().setTitleStr(baseResBean.getOther().toString()+getP().getV().getYear());
+                        getP().getV().setTitleStr(baseResBean.getOther()+getP().getV().getYear());
                         ( (MainAct)getBaseUIAct()).getP().getU().updateTitle(getP().getV().getTitleStr());
                     }
                 });

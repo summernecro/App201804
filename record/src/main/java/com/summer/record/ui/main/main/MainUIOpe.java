@@ -48,7 +48,7 @@ public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
         bottomMenuBeans.add(new BottomMenuBean("视频", R.drawable.drawable_record_main_bottom_video,null,getBind().containVideo,getActivity().getResources().getColorStateList(R.color.color_white_black)));
         bottomMenuBeans.add(new BottomMenuBean("图片", R.drawable.drawable_record_main_bottom_image,null,getBind().containImage,getActivity().getResources().getColorStateList(R.color.color_white_black)));
         bottomMenuBeans.add(new BottomMenuBean("文字", R.drawable.drawable_record_main_bottom_text,null,getBind().containText,getActivity().getResources().getColorStateList(R.color.color_white_black)));
-        bottomMenuBeans.add(new BottomMenuBean("设置", R.drawable.drawable_record_main_bottom_setting,null,getBind().containSetting,getActivity().getResources().getColorStateList(R.color.color_white_black)));
+        //bottomMenuBeans.add(new BottomMenuBean("设置", R.drawable.drawable_record_main_bottom_setting,null,getBind().containSetting,getActivity().getResources().getColorStateList(R.color.color_white_black)));
         getBind().bottommenu.initItems(bottomMenuBeans);
         if(getActivity() instanceof OnAppItemSelectListener){
             getBind().bottommenu.setOnAppItemClickListener((OnAppItemSelectListener)getActivity());
@@ -126,6 +126,15 @@ public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
 
     public void updateTitle(Object o){
         getBind().recordtitle.tvLab.setText(StringUtil.getStr(o));
+    }
+
+    public void setTitleAndBottomVisible(boolean visible){
+        getBind().recordtitle.getRoot().setVisibility(visible?View.VISIBLE:View.GONE);
+        getBind().bottommenu.setVisibility(visible?View.VISIBLE:View.GONE);
+    }
+
+    public void swithTitleAndBottomVisible(){
+            setTitleAndBottomVisible(getBind().recordtitle.getRoot().getVisibility()==View.VISIBLE?false:true);
     }
 
 

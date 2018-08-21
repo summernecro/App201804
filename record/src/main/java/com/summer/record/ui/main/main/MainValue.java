@@ -54,7 +54,7 @@ public class MainValue extends BaseValue{
         fragments.add(new VideosFrag());
         fragments.add(new ImagesFrag());
         fragments.add(new TextFrag());
-        fragments.add(new SettFrag());
+        //fragments.add(new SettFrag());
     }
 
 

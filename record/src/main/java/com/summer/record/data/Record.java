@@ -160,4 +160,16 @@ public class Record extends BaseBean {
         }
         return uri;
     }
+
+    @Override
+    public String getUniqueID() {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("atype")
+                .append(getAtype())
+                .append("startTime")
+                .append(getStartTime())
+                .append("endTime")
+                .append(getEndTime());
+        return buffer.toString();
+    }
 }

@@ -25,6 +25,7 @@ import com.summer.record.data.NetDataWork;
 import com.summer.record.data.Record;
 import com.summer.record.data.Tiplab;
 import com.summer.record.ui.main.main.AddTipI;
+import com.summer.record.ui.main.main.MainAct;
 
 import java.util.ArrayList;
 
@@ -83,5 +84,11 @@ public class ImageDetailFrag extends BaseUIFrag<ImageDetailUIOpe,ImageDetailDAOp
         tiplabs.get(0).setContent(content);
         record.setTiplabs(tiplabs);
         NetDataWork.Tip.addRecordTipsInfo(getContext(),record,new NetAdapter<Record>(getContext()));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ((MainAct)getBaseAct()).getP().getU().setTitleAndBottomVisible(true);
     }
 }

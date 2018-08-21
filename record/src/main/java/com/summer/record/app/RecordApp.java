@@ -68,7 +68,7 @@ public class RecordApp extends LibAplication {
         });
 
 
-
+        NetAdapter.cache  = true;
     }
 
 

@@ -71,7 +71,9 @@ public class TextUIOpe extends BaseUIOpe<FragMainTextBinding> {
 
     public void updateTitle(Object o){
         TextView textView = getView().findViewById(R.id.tv_lab);
-        textView.setText(StringUtil.getStr(o));
+        if(textView!=null){
+            textView.setText(StringUtil.getStr(o));
+        }
     }
 
     public void addSearhView(){

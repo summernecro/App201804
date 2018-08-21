@@ -15,7 +15,7 @@ import com.android.lib.util.GsonUtil;
 import com.android.lib.util.LogUtil;
 import com.android.lib.util.NullUtil;
 import com.android.lib.util.fragment.two.FragManager2;
-import com.android.lib.view.bottommenu.MessageEvent;
+import com.android.lib.view.bottommenu.Msg;
 import com.raizlabs.android.dbflow.sql.language.Select;
 import com.summer.record.R;
 import com.summer.record.data.NetDataWork;
@@ -48,6 +48,9 @@ public class TextFrag extends BaseUIFrag<TextUIOpe,RecordDAOpe,TextValue> implem
             @Override
             public void onSuccess(ArrayList<Record> o) {
                 super.onSuccess(o);
+                if(o==null){
+                    return;
+                }
                 getP().getV().getRecords().clear();
                 getP().getV().getRecords().addAll(o);
                 getP().getV().getList().clear();
@@ -60,6 +63,9 @@ public class TextFrag extends BaseUIFrag<TextUIOpe,RecordDAOpe,TextValue> implem
             @Override
             public void onSuccess(Records o) {
                 super.onSuccess(o);
+                if(o==null){
+                    return;
+                }
                 getP().getD().setRecordsInfo(o);
                 getP().getU().updateTitle(o.getDoneNum()+"/"+o.getAllNum());
             }
@@ -73,7 +79,7 @@ public class TextFrag extends BaseUIFrag<TextUIOpe,RecordDAOpe,TextValue> implem
 
 
     @Override
-    public void dealMesage(MessageEvent event) {
+    public void dealMesage(Msg event) {
         LogUtil.E("TextDB");
         ArrayList<Record> list = (ArrayList<Record>) new Select().from(Record.class).queryList();
         getP().getU().initTexts(list,this);

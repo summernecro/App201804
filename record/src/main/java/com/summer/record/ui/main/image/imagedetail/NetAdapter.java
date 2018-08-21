@@ -17,7 +17,7 @@ import com.android.lib.util.NullUtil;
 import com.android.lib.util.SPUtil;
 import com.android.lib.util.StringUtil;
 import com.android.lib.util.ToastUtil;
-import com.android.lib.view.bottommenu.MessageEvent;
+import com.android.lib.view.bottommenu.Msg;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -153,7 +153,7 @@ public class NetAdapter<A> implements NetI<A> {
 
     public void onResult(boolean success, String msg, A o) {
         if(msg != null && msg.toLowerCase().contains("Unauthorized".toLowerCase())) {
-            MessageEvent messageEvent = new MessageEvent();
+            Msg messageEvent = new Msg();
             messageEvent.sender = "net";
             messageEvent.dealer = "main";
             EventBus.getDefault().post(messageEvent);

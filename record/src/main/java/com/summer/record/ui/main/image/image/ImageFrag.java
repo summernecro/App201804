@@ -81,6 +81,9 @@ public class ImageFrag  extends BaseUIFrag<ImageUIOpe,ImageDAOpe,ImageValue> imp
             @Override
             public void onSuccess(Records o) {
                 super.onSuccess(o);
+                if(o==null){
+                    return;
+                }
                 getP().getD().setRecordsInfo(o);
                 getP().getV().setTitleStr(o.getDoneNum()+"/"+o.getAllNum()+getP().getV().getYear());
                 ( (MainAct)getBaseUIAct()).getP().getU().updateTitle(getP().getV().getTitleStr());
@@ -140,6 +143,9 @@ public class ImageFrag  extends BaseUIFrag<ImageUIOpe,ImageDAOpe,ImageValue> imp
                     @Override
                     public void onSuccess(ArrayList<Record> o) {
                         super.onSuccess(o);
+                        if(o==null){
+                            return;
+                        }
                         getP().getV().getRecords().clear();
                         getP().getV().getRecords().addAll(getP().getD().dealRecord(o));
                         getP().getU().loadImages(getP().getV().getRecords(),ImageFrag.this);
@@ -160,7 +166,7 @@ public class ImageFrag  extends BaseUIFrag<ImageUIOpe,ImageDAOpe,ImageValue> imp
                     @Override
                     public void onNetFinish(boolean haveData, String url, BaseResBean baseResBean) {
                         super.onNetFinish(haveData, url, baseResBean);
-                        getP().getV().setTitleStr(baseResBean.getOther().toString()+getP().getV().getYear());
+                        getP().getV().setTitleStr(baseResBean.getOther()+getP().getV().getYear());
                         ( (MainAct)getBaseUIAct()).getP().getU().updateTitle(getP().getV().getTitleStr());
                     }
                 });

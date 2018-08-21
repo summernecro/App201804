@@ -11,7 +11,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import com.android.lib.util.LogUtil;
-import com.android.lib.view.bottommenu.MessageEvent;
+import com.android.lib.view.bottommenu.Msg;
 import com.summer.record.data.Record;
 import com.summer.record.ui.main.text.text.TextFrag;
 
@@ -41,7 +41,7 @@ public class ClipSevice extends Service {
                     record.content = item.getText().toString();
                     record.ctime = System.currentTimeMillis();
                     record.save();
-                    EventBus.getDefault().post(new MessageEvent(ClipSevice.class.getName(), TextFrag.class.getName(),record));
+                    EventBus.getDefault().post(new Msg(ClipSevice.class.getName(), TextFrag.class.getName(),record));
                 }
             }
         });
