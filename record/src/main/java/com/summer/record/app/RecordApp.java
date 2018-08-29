@@ -3,6 +3,7 @@ package com.summer.record.app;
 //by summer on 2018-03-28.
 
 import android.graphics.Color;
+import android.os.StrictMode;
 
 import com.android.lib.GlideApp;
 import com.android.lib.aplication.LibAplication;
@@ -69,6 +70,10 @@ public class RecordApp extends LibAplication {
 
 
         NetAdapter.cache  = true;
+
+//        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+//        StrictMode.setVmPolicy(builder.build());
+//        builder.detectFileUriExposure();
     }
 
 

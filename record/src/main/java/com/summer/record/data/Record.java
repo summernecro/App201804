@@ -1,6 +1,8 @@
 package com.summer.record.data;
 
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.android.lib.util.NullUtil;
 import com.android.lib.util.data.DateFormatUtil;
@@ -24,7 +26,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(database = RecordDataBase.class)
-public class Record extends BaseBean {
+public class Record extends BaseBean implements Parcelable{
 
     @PrimaryKey(autoincrement = true)
     public Integer id;
@@ -51,7 +53,7 @@ public class Record extends BaseBean {
     @Column
     public String content;
 
-    public Uri uri;
+    public  Uri uri;
 
     public String dateStr;
 
@@ -171,5 +173,16 @@ public class Record extends BaseBean {
                 .append("endTime")
                 .append(getEndTime());
         return buffer.toString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(locpath);
+        dest.writeValue(uri);
     }
 }

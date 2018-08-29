@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.lib.base.activity.BaseUIActivity;
@@ -21,11 +22,15 @@ import com.android.lib.util.ScreenUtil;
 import com.android.lib.util.StringUtil;
 import com.android.lib.util.fragment.two.FragManager2;
 import com.android.lib.view.bottommenu.BottomMenuBean;
+import com.github.florent37.viewanimator.AnimationListener;
+import com.github.florent37.viewanimator.ViewAnimator;
 import com.summer.record.BR;
 import com.summer.record.R;
 import com.summer.record.data.Tiplab;
 import com.summer.record.databinding.ActMainBinding;
 import com.summer.record.databinding.ItemRecordTitleSearchBinding;
+import com.transitionseverywhere.utils.AnimatorUtils;
+import com.transitionseverywhere.utils.ViewUtils;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -41,10 +46,6 @@ public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
     public void initUI() {
         super.initUI();
         addSearhView();
-        getBind().recordtitle.getRoot().setPadding(0, (int) ScreenUtil.getInstance().getStatusBarHeight(getActivity()),0,0);
-        ViewGroup.LayoutParams params = getBind().recordtitle.getRoot().getLayoutParams();
-        params.height = (int) (ScreenUtil.getInstance().getStatusBarHeight(getActivity())+ScreenUtil.最小DIMEN*38);
-        getBind().recordtitle.getRoot().setLayoutParams(params);
         bottomMenuBeans.add(new BottomMenuBean("视频", R.drawable.drawable_record_main_bottom_video,null,getBind().containVideo,getActivity().getResources().getColorStateList(R.color.color_white_black)));
         bottomMenuBeans.add(new BottomMenuBean("图片", R.drawable.drawable_record_main_bottom_image,null,getBind().containImage,getActivity().getResources().getColorStateList(R.color.color_white_black)));
         bottomMenuBeans.add(new BottomMenuBean("文字", R.drawable.drawable_record_main_bottom_text,null,getBind().containText,getActivity().getResources().getColorStateList(R.color.color_white_black)));
@@ -60,8 +61,15 @@ public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
        for(int i=0;i<bottomMenuBeans.size();i++){
            if(i==pos){
                bottomMenuBeans.get(i).getContainerView().setVisibility(View.VISIBLE);
+               ViewAnimator.animate(bottomMenuBeans.get(i).getContainerView()).duration(300).fadeIn().start();
            }else{
-               bottomMenuBeans.get(i).getContainerView().setVisibility(View.GONE);
+               final int finalI = i;
+               ViewAnimator.animate(bottomMenuBeans.get(i).getContainerView()).duration(300).fadeOut().start().onStop(new AnimationListener.Stop() {
+                   @Override
+                   public void onStop() {
+                       bottomMenuBeans.get(finalI).getContainerView().setVisibility(View.GONE);
+                   }
+               });
            }
        }
     }
@@ -125,17 +133,23 @@ public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
     }
 
     public void updateTitle(Object o){
-        getBind().recordtitle.tvLab.setText(StringUtil.getStr(o));
+        //getBind().recordtitle.tvLab.setText(StringUtil.getStr(o));
     }
 
     public void setTitleAndBottomVisible(boolean visible){
-        getBind().recordtitle.getRoot().setVisibility(visible?View.VISIBLE:View.GONE);
         getBind().bottommenu.setVisibility(visible?View.VISIBLE:View.GONE);
     }
 
     public void swithTitleAndBottomVisible(){
-            setTitleAndBottomVisible(getBind().recordtitle.getRoot().getVisibility()==View.VISIBLE?false:true);
+            setTitleAndBottomVisible(getBind().bottommenu.getVisibility()==View.VISIBLE?false:true);
     }
 
+    public void changeRightImage2(int res){
+       // getBind().recordtitle.tvRefresh.setBackgroundResource(res);
+    }
+
+    public void changeRightImage3(int res){
+       // getBind().recordtitle.tvDown.setBackgroundResource(res);
+    }
 
 }

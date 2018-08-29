@@ -186,7 +186,8 @@ public class ImageFrag  extends BaseUIFrag<ImageUIOpe,ImageDAOpe,ImageValue> imp
                 if(record.getLocpath()==null){
                     return;
                 }
-                FragManager2.getInstance().start(getBaseUIAct(), MainValue.图片,ImageDetailFrag.getInstance(getP().getD().getNoNullRecords(getP().getV().getRecords()),record.getPos() ));
+                getP().getV().setImageDetailFrag(ImageDetailFrag.getInstance(getP().getD().getNoNullRecords(getP().getV().getRecords()),record.getPos() ));
+                FragManager2.getInstance().setStartAnim(R.anim.fade_in,R.anim.fade_out).setFinishAnim(R.anim.fade_in,R.anim.fade_out).start(getBaseUIAct(), MainValue.图片,getP().getV().getImageDetailFrag());
                 break;
         }
     }

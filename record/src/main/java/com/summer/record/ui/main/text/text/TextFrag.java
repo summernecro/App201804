@@ -144,7 +144,7 @@ public class TextFrag extends BaseUIFrag<TextUIOpe,RecordDAOpe,TextValue> implem
     public void onInterupt(int i, View view) {
         switch (i){
             case ViewListener.TYPE_ONCLICK:
-                FragManager2.getInstance().start(getBaseUIAct(), MainValue.文字, TextDetailFrag.getInstance((Record) view.getTag(R.id.data)));
+                FragManager2.getInstance().setStartAnim(R.anim.fade_in,R.anim.fade_out).setFinishAnim(R.anim.fade_in,R.anim.fade_out).start(getBaseUIAct(), MainValue.文字, TextDetailFrag.getInstance((Record) view.getTag(R.id.data)));
                 break;
         }
     }

@@ -5,6 +5,7 @@ package com.summer.record.ui.main.image.image;
 import com.android.lib.base.ope.BaseValue;
 import com.android.lib.util.LoadUtil;
 import com.summer.record.data.Record;
+import com.summer.record.ui.main.image.imagedetail.ImageDetailFrag;
 import com.summer.record.ui.main.image.images.ImagesFrag;
 import com.summer.record.ui.view.UpdateIndicator;
 
@@ -34,6 +35,9 @@ public class ImageValue extends BaseValue {
 
     @Setter
     int year = 0;
+    @Setter
+    @Getter
+    ImageDetailFrag imageDetailFrag;
 
     public ImageValue(){
         UpdateIndicator updateIndicator = new UpdateIndicator();

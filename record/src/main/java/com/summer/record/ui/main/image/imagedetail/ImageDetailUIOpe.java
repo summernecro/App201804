@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.lib.base.adapter.AppsDataBindingAdapter;
@@ -25,6 +26,7 @@ import com.summer.record.data.Tiplab;
 import com.summer.record.databinding.FragMainImageImagedetailBinding;
 import com.summer.record.databinding.ItemRecordTitleSearchBinding;
 import com.summer.record.ui.main.image.imagedetail.imageshow.ImageShowFrag;
+import com.summer.record.ui.main.main.MainAct;
 
 import java.util.ArrayList;
 
@@ -35,13 +37,14 @@ public class ImageDetailUIOpe extends BaseUIOpe<FragMainImageImagedetailBinding>
     @Override
     public void initUI() {
         super.initUI();
+        changeRightImage2(R.drawable.icon_record_share);
     }
 
     public void initImages(FragmentManager fragmentManager, final ArrayList<Record> images, final int pos, final int[] currentpos, final OnFinishListener onFinishListener){
         getBind().viewpager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
             @Override
             public Fragment getItem(int position) {
-                return ImageShowFrag.getInstance(images.get(position));
+                return ImageShowFrag.getInstance(images.get(position),getFrag());
             }
 
             @Override
@@ -73,5 +76,15 @@ public class ImageDetailUIOpe extends BaseUIOpe<FragMainImageImagedetailBinding>
         getBind().tvTips.setText(tip);
     }
 
+    public void setTitleVisible(boolean visible){
+        getView().findViewById(R.id.recordtitle).setVisibility(visible?View.VISIBLE:View.GONE);
+    }
 
+    public void switchTitleVisible(){
+        setTitleVisible(getView().findViewById(R.id.recordtitle).getVisibility()==View.VISIBLE?false:true);
+    }
+
+    public void changeRightImage2(int res){
+        getView().findViewById(R.id.tv_refresh).setBackgroundResource(res);
+    }
 }

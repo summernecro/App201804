@@ -14,6 +14,7 @@ import com.android.lib.base.listener.ViewListener;
 import com.android.lib.constant.ValueConstant;
 import com.android.lib.network.news.NetAdapter;
 import com.android.lib.util.NullUtil;
+import com.android.lib.util.ShareUtil;
 import com.summer.record.R;
 import com.summer.record.data.NetDataWork;
 import com.summer.record.data.Record;
@@ -41,8 +42,21 @@ public class TextDetailFrag extends BaseUIFrag<TextDetailUIOpe,TextDetailDAOpe,T
         getP().getU().initText(getP().getV().getRecord());
     }
 
+    @Optional
+    @OnClick({ R.id.tv_refresh,R.id.tv_down,R.id.tv_search})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()){
+            case R.id.tv_refresh:
+                ShareUtil.shareText(this,getP().getV().getRecord().getContent());
+                break;
+        }
+    }
 
-
+    @Override
+    public int getBaseUILayout() {
+        return R.layout.frag_main_text_textdetail_baseui;
+    }
 
     @Override
     public void addTip(String content) {

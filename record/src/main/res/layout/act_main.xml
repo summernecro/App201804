@@ -23,20 +23,13 @@
     android:layout_height="48dp"/>
 
 
-        <include
-            android:id="@+id/recordtitle"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            layout="@layout/item_record_title"/>
-
-
 
         <RelativeLayout
             android:text="contain_video"
             android:id="@+id/contain_video"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recordtitle"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/bottommenu"
             android:layout_width="0dp"
             android:layout_height="0dp"/>
@@ -46,7 +39,7 @@
             android:id="@+id/contain_image"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recordtitle"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/bottommenu"
             android:layout_width="0dp"
             android:layout_height="0dp"/>
@@ -56,7 +49,7 @@
             android:id="@+id/contain_text"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recordtitle"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/bottommenu"
             android:layout_width="0dp"
             android:layout_height="0dp"/>
@@ -66,7 +59,7 @@
             android:id="@+id/contain_setting"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recordtitle"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/bottommenu"
             android:layout_width="0dp"
             android:layout_height="0dp"/>

@@ -61,6 +61,9 @@ public class MainAct extends BaseUIActivity<MainUIOpe,MainDAOpe,MainValue> imple
 
     @Override
     public void onAppItemSelect(ViewGroup viewGroup, View view, int i) {
+        if(getP().getV().getPos()==i){
+            return;
+        }
         getP().getU().showView(i);
         setMoudle(MainValue.模块[i]);
         getP().getV().setPos(i);
@@ -81,7 +84,8 @@ public class MainAct extends BaseUIActivity<MainUIOpe,MainDAOpe,MainValue> imple
                 getP().getU().showHideSearch();
                 break;
             default:
-               getP().getV().getFragments().get(getP().getV().getPos()).onClick(v);
+                (FragManager2.getInstance().getCurrentFrag(getMoudle())).onClick(v);
+               //getP().getV().getFragments().get(getP().getV().getPos()).onClick(v);
                 break;
         }
     }

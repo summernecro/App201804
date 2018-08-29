@@ -71,4 +71,7 @@ public class ImagesUIOpe extends BaseUIOpe<FragMainImagesBinding> {
         return (ImageFrag) imageFrags.get(getBind().viewpager.getCurrentItem());
     }
 
+    public void setTitleVisible(int visible){
+        getBind().recordtitle.getRoot().setVisibility(visible);
+    }
 }

@@ -6,8 +6,10 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
@@ -18,8 +20,10 @@ import com.android.lib.constant.ValueConstant;
 import com.android.lib.network.news.NetAdapter;
 import com.android.lib.util.LogUtil;
 import com.android.lib.util.NullUtil;
+import com.android.lib.util.ShareUtil;
 import com.android.lib.util.StringUtil;
 import com.android.lib.util.system.HandleUtil;
+import com.github.florent37.viewanimator.ViewAnimator;
 import com.summer.record.R;
 import com.summer.record.data.NetDataWork;
 import com.summer.record.data.Record;
@@ -29,6 +33,7 @@ import com.summer.record.ui.main.main.MainAct;
 
 import java.util.ArrayList;
 
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Optional;
 
@@ -68,13 +73,26 @@ public class ImageDetailFrag extends BaseUIFrag<ImageDetailUIOpe,ImageDetailDAOp
         });
     }
 
+    @Override
+    public int getBaseUILayout() {
+        return R.layout.frag_main_image_imagedetail_baseui;
+    }
 
     @Override
     protected int delayTime() {
-        return 210;
+        return 0;
     }
 
-
+    @Optional
+    @OnClick({ R.id.tv_refresh,R.id.tv_down,R.id.tv_search})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()){
+            case R.id.tv_refresh:
+                ShareUtil.shareImage(getBaseUIAct(),getP().getV().getImages().get(getP().getV().getCurrentPos()[0]).getLocpath());
+                break;
+        }
+    }
 
     @Override
     public void addTip(String content){
@@ -90,5 +108,6 @@ public class ImageDetailFrag extends BaseUIFrag<ImageDetailUIOpe,ImageDetailDAOp
     public void onDestroy() {
         super.onDestroy();
         ((MainAct)getBaseAct()).getP().getU().setTitleAndBottomVisible(true);
+        ((MainAct)getBaseAct()).getP().getU().changeRightImage2(R.drawable.drawable_record_upload);
     }
 }
