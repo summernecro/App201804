@@ -11,7 +11,6 @@ import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.ope.BaseDAOpe;
 import com.android.lib.util.fragment.two.FragManager2;
 import com.android.lib.util.system.PermissionUtil;
-import com.summer.record.ui.main.video.videos.VideosFrag;
 
 import java.util.ArrayList;
 

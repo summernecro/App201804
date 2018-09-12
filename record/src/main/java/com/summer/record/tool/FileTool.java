@@ -5,6 +5,7 @@ package com.summer.record.tool;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.MediaStore;
 
 import com.android.lib.base.interf.OnFinishListener;
@@ -46,6 +47,17 @@ public class FileTool {
         return  videos;
     }
 
+    public static ArrayList<Record> getRecords(Context context,String type,String[] timeduraion, OnFinishListener onFinishListener){
+        switch (type){
+            case Record.ATYPE_IMAGE:
+                return getImages(context,timeduraion,onFinishListener);
+            case Record.ATYPE_VIDEO:
+                return getVideos(context,timeduraion,onFinishListener);
+                default:
+                    return null;
+        }
+    }
+
     public static ArrayList<Record> getImages(Context context,String[] timeduraion, OnFinishListener onFinishListener){
         ContentResolver contentResolver = context.getContentResolver();
         ArrayList<Record> images = new ArrayList<>();
@@ -71,14 +83,21 @@ public class FileTool {
         return  images;
     }
 
-    public static int[] getTime(Context context){
+    public static ArrayList<Record> getImages(Context context,String startTime, OnFinishListener onFinishListener){
+        return getImages(context,new String[]{startTime,(System.currentTimeMillis()/1000)+""},onFinishListener);
+    }
+
+    public static int[] getTime(Context context,String type){
         Long max = 0l,min=0l;
         ContentResolver contentResolver = context.getContentResolver();
-        Cursor cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,new String[]{"max("+MediaStore.Images.Media.DATE_ADDED+")"},null,null,MediaStore.Images.Media.DATE_MODIFIED+" desc");
+        Uri uri = type.equals(Record.ATYPE_IMAGE)?MediaStore.Images.Media.EXTERNAL_CONTENT_URI:MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+        String add = type.equals(Record.ATYPE_IMAGE)?MediaStore.Images.Media.DATE_ADDED:MediaStore.Video.Media.DATE_ADDED;
+        String modified = type.equals(Record.ATYPE_IMAGE)?MediaStore.Images.Media.DATE_MODIFIED:MediaStore.Video.Media.DATE_MODIFIED;
+        Cursor cursor = contentResolver.query(uri,new String[]{"max("+add+")"},null,null,modified+" desc");
         while (cursor.moveToNext()){
             max = cursor.getLong(0);
         }
-        Cursor cursor2 = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,new String[]{"min("+MediaStore.Images.Media.DATE_ADDED+")"},null,null,MediaStore.Images.Media.DATE_MODIFIED+" desc");
+        Cursor cursor2 = contentResolver.query(uri,new String[]{"min("+add+")"},null,null,modified+" desc");
         while (cursor2.moveToNext()){
             min = cursor2.getLong(0);
         }
@@ -90,6 +109,7 @@ public class FileTool {
         mi = calendar.get(Calendar.YEAR);
         return new int[]{mi,ma};
     }
+
 
     public static void changeFileCreateDate(Record record){
         File file = new File(record.getLocpath());

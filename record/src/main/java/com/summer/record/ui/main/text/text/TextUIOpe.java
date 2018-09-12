@@ -32,6 +32,7 @@ import com.summer.record.data.Tiplab;
 import com.summer.record.data.text.Text;
 import com.summer.record.databinding.FragMainTextBinding;
 import com.summer.record.databinding.ItemRecordTitleSearchBinding;
+import com.summer.record.tool.TitleUtil;
 
 import java.util.ArrayList;
 
@@ -47,6 +48,7 @@ public class TextUIOpe extends BaseUIOpe<FragMainTextBinding> {
 //                .load("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1530074750645&di=7207ffa5d0f3e91b572405a981ef3825&imgtype=0&src=http%3A%2F%2Fimg4.duitang.com%2Fuploads%2Fitem%2F201512%2F15%2F20151215200047_tkjR4.thumb.700_0.jpeg")
 //                .into(getBind().ivBg);
         getBind().ivBg.setBackgroundColor(getActivity().getResources().getColor(R.color.color_grey_200));
+        TitleUtil.initTitle(getActivity(),getBind().recordtitle.getRoot());
     }
 
     public void initTexts(ArrayList<Record> texts, ViewListener listener){

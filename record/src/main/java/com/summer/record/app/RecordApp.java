@@ -2,19 +2,13 @@ package com.summer.record.app;
 
 //by summer on 2018-03-28.
 
-import android.graphics.Color;
-import android.os.StrictMode;
-
-import com.android.lib.GlideApp;
 import com.android.lib.aplication.LibAplication;
 import com.android.lib.base.interf.OnFinishListener;
 import com.android.lib.exception.exception.CrashHander;
 import com.android.lib.network.bean.res.BaseResBean;
 import com.android.lib.network.news.NetAdapter;
 import com.android.lib.network.news.NetGet;
-import com.android.lib.util.fragment.two.FragManager2;
-import com.bumptech.glide.GlideBuilder;
-import com.bumptech.glide.request.RequestOptions;
+import com.android.lib.util.LogUtil;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.summer.record.data.Crash;
 import com.summer.record.data.NetDataWork;
@@ -64,13 +58,13 @@ public class RecordApp extends LibAplication {
                 crash.setError(o.toString());
                 crash.setPlatform(1);
                 crash.setUser("tangjie");
-                NetDataWork.Crash.insert(RecordApp.this,crash,new com.summer.record.ui.main.image.imagedetail.NetAdapter<Boolean>(RecordApp.this));
+                NetDataWork.Crash.insert(RecordApp.this,crash,new com.summer.record.ui.main.record.image.NetAdapter<Boolean>(RecordApp.this));
             }
         });
 
 
         NetAdapter.cache  = true;
-
+        LogUtil.CAN_LOGIN = false;
 //        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
 //        StrictMode.setVmPolicy(builder.build());
 //        builder.detectFileUriExposure();
