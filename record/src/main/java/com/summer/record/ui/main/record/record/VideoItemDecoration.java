@@ -23,11 +23,13 @@ public class VideoItemDecoration extends RecyclerView.ItemDecoration {
     final Paint paint = new Paint();
 
     int linecolor  = R.color.white;
+    int num = 3;
     
-    public VideoItemDecoration(Context context,ArrayList<Record> records){
+    public VideoItemDecoration(Context context,ArrayList<Record> records,int num){
         this.records = records;
+        this.num = num;
         paint.setColor(Color.DKGRAY);
-        paint.setTextSize(ScreenUtil.字宽度*16);
+        paint.setTextSize(ScreenUtil.字宽度*14);
         paint.setAntiAlias(true);
         linecolor= context.getResources().getColor(R.color.color_blue_300);
     }
@@ -40,7 +42,7 @@ public class VideoItemDecoration extends RecyclerView.ItemDecoration {
             if(pos>=records.size()){
                 return;
             }
-            if(records.get(pos).isFrist()&&pos%4==0){
+            if(records.get(pos).isFrist()&&pos%num==0){
 //                paint.setColor(linecolor);
 //                c.drawRect(ScreenUtil.最小DIMEN*2,parent.getChildAt(i).getTop()-ScreenUtil.最小DIMEN*25,parent.getChildAt(i).getWidth(),parent.getChildAt(i).getTop(),paint);
                 //paint.setColor(Color.GRAY);
@@ -58,7 +60,6 @@ public class VideoItemDecoration extends RecyclerView.ItemDecoration {
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
         int pos = parent.getChildAdapterPosition(view);
-
         outRect.left = (int) (ScreenUtil.最小DIMEN*2);
         outRect.right = (int) (ScreenUtil.最小DIMEN*2);
         outRect.top = (int) (ScreenUtil.最小DIMEN*2);

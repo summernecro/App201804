@@ -20,6 +20,7 @@ import com.summer.record.tool.TitleUtil;
 import com.summer.record.ui.main.record.record.RecordDAOpe;
 import com.summer.record.ui.main.record.record.RecordFrag;
 import com.summer.record.ui.main.main.RefreshI;
+import com.summer.record.ui.main.record.record.RecordValue;
 
 import java.util.ArrayList;
 
@@ -119,7 +120,7 @@ public class RecordsFrag extends BaseUIFrag<RecordsUIOpe,RecordsDAOpe,RecordsVal
         if(records.size()==0){
             return;
         }
-        recordFrag.getPV().reAddUsedRecord(recordFrag.getPD().dealRecord(records));
+        recordFrag.getPV().reAddUsedRecord(recordFrag.getPD().dealRecord(records, RecordValue.num));
         recordFrag.getPD().initRecords(recordFrag.getPV().getUsedRecords());
         recordFrag.getPU().loadImages(o, recordFrag);
     }

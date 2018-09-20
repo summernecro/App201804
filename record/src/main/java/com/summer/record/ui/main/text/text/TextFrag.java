@@ -19,6 +19,7 @@ import com.summer.record.R;
 import com.summer.record.data.NetDataWork;
 import com.summer.record.data.Record;
 import com.summer.record.data.Records;
+import com.summer.record.tool.TitleUtil;
 import com.summer.record.ui.main.record.record.RecordDAOpe;
 import com.summer.record.ui.main.main.MainValue;
 import com.summer.record.ui.main.main.RefreshI;
@@ -124,13 +125,13 @@ public class TextFrag extends BaseUIFrag<TextUIOpe,RecordDAOpe,TextValue> implem
 
                 break;
             case R.id.iv_search_back:
-                getPU().showHideSearch();
+                TitleUtil.showHideSearch(this);
                 getPV().getList().clear();
                 getPV().getList().addAll(getPV().getRecords());
                 getPU().initTexts(getPV().getList(),this);
                 break;
             case R.id.tv_search:
-                getPU().showHideSearch();
+                TitleUtil.showHideSearch(this);
                 break;
         }
     }
@@ -156,7 +157,7 @@ public class TextFrag extends BaseUIFrag<TextUIOpe,RecordDAOpe,TextValue> implem
         if(records.size()==0){
             return;
         }
-        getPU().showHideSearch();
+        TitleUtil.showHideSearch(this);
         getPV().getList().clear();
         getPV().getList().addAll(records);
         getPU().initTexts(getPV().getList(),TextFrag.this);

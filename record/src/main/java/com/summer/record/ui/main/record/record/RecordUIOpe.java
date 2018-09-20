@@ -21,49 +21,47 @@ import com.summer.record.R;
 import com.summer.record.data.Record;
 import com.summer.record.databinding.FragMainImageBinding;
 import com.summer.record.databinding.ItemImageImageBinding;
+import com.summer.record.ui.main.record.records.RecordsFrag;
 
 import java.io.File;
 import java.util.ArrayList;
 
 public class RecordUIOpe extends BaseUIOpe<FragMainImageBinding> {
 
-    public void loadImages(final ArrayList<Record> images, ViewListener listener){
+    public void loadImages(final ArrayList<Record> images, ViewListener listener) {
 
-        if(getBind().recycle.getAdapter()==null){
+        if (getBind().recycle.getAdapter() == null) {
             final RequestOptions requestOptions = new RequestOptions();
-            requestOptions.encodeQuality(10).centerCrop().placeholder(R.color.color_TRANSPARENT).skipMemoryCache(false).override(100,100);
-            getBind().recycle.setLayoutManager(new GridLayoutManager(getActivity(),4));
-            getBind().recycle.setAdapter(new AppsDataBindingAdapter(getActivity(), R.layout.item_image_image, BR.item_image_image,images,listener){
+            requestOptions.encodeQuality(10).centerCrop().placeholder(R.color.color_TRANSPARENT).skipMemoryCache(false).override(100, 100);
+            getBind().recycle.setLayoutManager(new GridLayoutManager(getActivity(), RecordValue.num));
+            getBind().recycle.setAdapter(new AppsDataBindingAdapter(getActivity(), R.layout.item_image_image, BR.item_image_image, images, listener) {
 
                 @Override
                 public int getItemViewType(int position) {
-                    return images.get(position).isNull()?0:1;
+                    return images.get(position).isNull() ? 0 : 1;
                 }
 
                 @Override
                 public AppViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                    switch (viewType){
+                    switch (viewType) {
                         case 1:
                             return new AppViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_image_image, parent, false));
                     }
-                    return new AppViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.item_null, parent, false));
+                    return new AppViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_null, parent, false));
                 }
 
                 @Override
                 public void onBindViewHolder(AppViewHolder holder, int position) {
-                    switch (getItemViewType(position)){
+                    switch (getItemViewType(position)) {
                         case 1:
                             ItemImageImageBinding item = (ItemImageImageBinding) holder.viewDataBinding;
                             item.getRoot().setTag(com.android.lib.R.id.data, this.list.get(position));
                             item.getRoot().setTag(com.android.lib.R.id.position, Integer.valueOf(position));
-                            item.setVariable(this.vari, this.list.get(position));
-                            item.executePendingBindings();
-                            File file = new File(images.get(position).getLocpath());
-                            GlideApp.with(context).asBitmap().apply(requestOptions).load(images.get(position).getUri()).into(item.ivVideo);
+                            GlideApp.with(context).asBitmap().centerCrop().load(images.get(position).getUri()).into(item.ivVideo);
                             item.getRoot().setOnClickListener(this);
                             item.getRoot().setClickable(true);
                             item.getRoot().setAlpha(1f);
-                            switch (images.get(position).getStatus()){
+                            switch (images.get(position).getStatus()) {
                                 case Record.本地无服务器有:
                                     item.getRoot().setAlpha(0.3f);
                                     break;
@@ -82,35 +80,44 @@ public class RecordUIOpe extends BaseUIOpe<FragMainImageBinding> {
                     }
                 }
             });
-            getBind().recycle.addItemDecoration(new VideoItemDecoration(getActivity(),images));
+            final RecordFrag recordFrag = (RecordFrag) getFrag();
+            getBind().recycle.addItemDecoration(new VideoItemDecoration(getActivity(), images, RecordValue.num));
             getBind().recycle.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
+                    int i= getBind().recycle.getChildAdapterPosition(recyclerView.getChildAt(0));
+                    if(i>=0){
+                        recordFrag.getPV().getRecordsFrag().getPU().updateTitle(images.get(i).getDateStr());
+                    }
                 }
             });
-        }else{
+        } else {
             getBind().recycle.getAdapter().notifyDataSetChanged();
         }
     }
 
 
-    public void scrollToPos(ArrayList<Record> records,Record record){
+    public void scrollToPos(ArrayList<Record> records, Record record) {
         LogUtil.E(record.getId());
         GridLayoutManager gridLayoutManager = (GridLayoutManager) getBind().recycle.getLayoutManager();
-        gridLayoutManager.scrollToPositionWithOffset(record.getId(),0);
-        for(int i=0;i<records.size();i++){
+        gridLayoutManager.scrollToPositionWithOffset(record.getId(), 0);
+        for (int i = 0; i < records.size(); i++) {
             record.setIsDoing(0);
         }
         records.get(record.getId()).setIsDoing(1);
-        getBind().recycle.getAdapter().notifyItemChanged(record.getId(),record);
+        getBind().recycle.getAdapter().notifyItemChanged(record.getId(), record);
     }
 
 
-    public void scrollToPos(Record record){
+    public void scrollToPos(Record record) {
         LogUtil.E(record.getId());
         GridLayoutManager gridLayoutManager = (GridLayoutManager) getBind().recycle.getLayoutManager();
-        gridLayoutManager.scrollToPositionWithOffset(record.getId(),0);
-        getBind().recycle.getAdapter().notifyItemChanged(record.getId(),record);
+        gridLayoutManager.scrollToPositionWithOffset(record.getId(), 0);
+        getBind().recycle.getAdapter().notifyItemChanged(record.getId(), record);
+    }
+
+    public void setTitle(){
+
     }
 }

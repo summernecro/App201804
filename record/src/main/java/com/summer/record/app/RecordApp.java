@@ -65,6 +65,7 @@ public class RecordApp extends LibAplication {
 
         NetAdapter.cache  = true;
         LogUtil.CAN_LOGIN = false;
+        NetGet.test = true;
 //        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
 //        StrictMode.setVmPolicy(builder.build());
 //        builder.detectFileUriExposure();

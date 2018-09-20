@@ -53,6 +53,11 @@ public class TextDetailFrag extends BaseUIFrag<TextDetailUIOpe,TextDetailDAOpe,T
     }
 
     @Override
+    protected int delayTime() {
+        return 0;
+    }
+
+    @Override
     public void addTip(String content) {
         ArrayList<Tiplab> tiplabs = new ArrayList<>();
         tiplabs.add(new Tiplab());

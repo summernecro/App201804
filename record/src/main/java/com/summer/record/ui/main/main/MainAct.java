@@ -40,10 +40,7 @@ public class MainAct extends BaseUIActivity<MainUIOpe,MainDAOpe,MainValue> imple
 
     @Override
     public void onAppItemSelect(ViewGroup viewGroup, View view, int i) {
-        if(getPV().getPos()==i){
-            return;
-        }
-        getPU().showView(i);
+        getPU().showView(i,getPV().getPos());
         setMoudle(MainValue.模块[i]);
         getPV().setPos(i);
     }

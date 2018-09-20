@@ -23,6 +23,7 @@ import com.summer.record.data.Tiplab;
 import com.summer.record.databinding.FragTextTextdetailBinding;
 import com.summer.record.databinding.FragTextWebBinding;
 import com.summer.record.databinding.ItemRecordTitleSearchBinding;
+import com.summer.record.tool.TitleUtil;
 
 import java.util.ArrayList;
 
@@ -35,6 +36,7 @@ public class TextDetailUIOpe extends BaseUIOpe<FragTextTextdetailBinding>{
     @Override
     public void initUI() {
         super.initUI();
+        TitleUtil.initTitle(getActivity(),getView().findViewById(R.id.recordtitle));
     }
 
     public void initText(Record record){

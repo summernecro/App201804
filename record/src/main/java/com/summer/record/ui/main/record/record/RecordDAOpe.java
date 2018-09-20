@@ -25,7 +25,9 @@ import com.summer.record.data.NetDataWork;
 import com.summer.record.data.Record;
 import com.summer.record.data.Records;
 import com.summer.record.tool.DBTool;
+import com.summer.record.tool.FileTool;
 import com.summer.record.tool.UrlTool;
+import com.summer.record.ui.main.record.records.RecordsFrag;
 
 import org.xutils.common.util.KeyValue;
 
@@ -56,22 +58,27 @@ public class RecordDAOpe extends BaseDAOpe {
 
 
 
-
-
-
-    public void getImages(final Context context, final String type, final String[] time, final OnLoadingInterf i){
+    public void getImages(final Context context, final int num, final String type, final String[] time, final OnLoadingInterf i){
         i.onStarLoading(context);
         new AsyncTask<String, String, ArrayList<Record>>() {
             @Override
             protected ArrayList<Record> doInBackground(String... strings) {
-                ArrayList<Record> records = DBTool.getAllRecord(type,new long[]{Long.parseLong(time[0]),Long.parseLong(time[1])});
+                ArrayList<Record> all = FileTool.getRecords(context, type,new String[]{DBTool.getLastReCordCTime(type)+"",""+(System.currentTimeMillis()/1000)}, new OnFinishListener() {
+                    @Override
+                    public void onFinish(Object o) {
+
+                    }
+                });
+                ArrayList<Record> records = new ArrayList<>();
+                records.addAll(all);
+                records.addAll(DBTool.getAllRecord(type,new long[]{Long.parseLong(time[0]),Long.parseLong(time[1])}));
 //                ArrayList<Record> videos =  FileTool.getImages(context, time,new OnFinishListener() {
 //                    @Override
 //                    public void onFinish(Object o) {
 //                        publishProgress(o.toString());
 //                    }
 //                });
-                return dealRecord(records);
+                return dealRecord(records,num);
             }
 
             @Override
@@ -90,7 +97,7 @@ public class RecordDAOpe extends BaseDAOpe {
 
 
 
-    public  ArrayList<Record> dealRecord(ArrayList<Record> videos){
+    public  ArrayList<Record> dealRecord(ArrayList<Record> videos,int num){
         HashMap<String,ArrayList<Record>> map = new HashMap<>();
         for(int i=0;i<videos.size();i++){
             videos.get(i).init();
@@ -104,9 +111,9 @@ public class RecordDAOpe extends BaseDAOpe {
         strs = map.keySet().toArray(strs);
         for(int i=0;i<strs.length;i++){
             ArrayList<Record> videos1 = map.get(strs[i]);
-            if(videos1.size()%4!=0){
-                int left = videos1.size()%4;
-                for(int j=0;j<4-left;j++){
+            if(videos1.size()%num!=0){
+                int left = videos1.size()%num;
+                for(int j=0;j<num-left;j++){
                     map.get(strs[i]).add(new Record("",-1,null,0l,0l,map.get(strs[i]).get(0).getUtime(),null));
                 }
             }
@@ -141,7 +148,7 @@ public class RecordDAOpe extends BaseDAOpe {
         }
 
         for(int i=0;i<ss.size();i++){
-            for(int j=0;j<4;j++){
+            for(int j=0;j<num;j++){
                 map.get(ss.get(i)).get(j).setFrist(1);
             }
             v.addAll(map.get(ss.get(i)));

@@ -10,6 +10,8 @@ import android.view.View;
 import com.android.lib.base.interf.OnFinishListener;
 import com.android.lib.base.listener.BaseOnPagerChangeListener;
 import com.android.lib.base.ope.BaseUIOpe;
+import com.android.lib.bean.databean.XYBean;
+import com.github.florent37.viewanimator.ViewAnimator;
 import com.summer.record.R;
 import com.summer.record.data.Record;
 import com.summer.record.data.Tiplab;
@@ -21,13 +23,10 @@ import java.util.ArrayList;
 
 public class ImageDetailUIOpe extends BaseUIOpe<FragMainImageImagedetailBinding> {
 
-    @Override
-    public void initUI() {
-        super.initUI();
-        changeRightImage2(R.drawable.icon_record_share);
-        TitleUtil.initTitle(getActivity(),getView().findViewById(R.id.recordtitle));
+    public void init(){
         TitleUtil.addSearhView(getFrag());
     }
+
 
     public void initImages(FragmentManager fragmentManager, final ArrayList<Record> images, final int pos, final int[] currentpos, final OnFinishListener onFinishListener){
         getBind().viewpager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
@@ -63,6 +62,10 @@ public class ImageDetailUIOpe extends BaseUIOpe<FragMainImageImagedetailBinding>
             tip = tip.substring(0,tip.length()-1);
         }
         getBind().tvTips.setText(tip);
+    }
+
+    public void anim(XYBean xyBean){
+        ViewAnimator.animate(getBind().viewpager).scaleX(0.1f,1f).scaleY(0.1f,1f).pivotX(0).pivotY(0).translationX((float) xyBean.x,0f).translationY((float) xyBean.y,0f).duration(150).start();
     }
 
     public void setTitleVisible(boolean visible){

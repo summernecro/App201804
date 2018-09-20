@@ -13,4 +13,5 @@ public class ImageShowValue extends BaseValue {
     @Getter
     @Setter
     BaseUIFrag baseUIFrag;
+
 }

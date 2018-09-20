@@ -4,12 +4,15 @@ package com.summer.record.ui.main.record.image;
 
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.interf.OnFinishListener;
+import com.android.lib.bean.databean.XYBean;
 import com.android.lib.constant.ValueConstant;
 import com.android.lib.network.news.NetAdapter;
 import com.android.lib.util.ShareUtil;
@@ -30,13 +33,23 @@ import butterknife.Optional;
 public class ImageDetailFrag extends BaseUIFrag<ImageDetailUIOpe,ImageDetailDAOpe,ImageDetailValue> implements AddTipI,TextView.OnEditorActionListener {
 
 
-    public static ImageDetailFrag getInstance(ArrayList<Record> images, int pos){
+    public static ImageDetailFrag getInstance(ArrayList<Record> images, int pos,XYBean xyBean){
         ImageDetailFrag imageDetailFrag = new ImageDetailFrag();
         imageDetailFrag.setArguments(new Bundle());
         imageDetailFrag.getPV().setImages(images);
         imageDetailFrag.getArguments().putInt(ValueConstant.DATA_INDEX,pos);
+        imageDetailFrag.getPV().setLocal(xyBean);
         return imageDetailFrag;
 
+    }
+
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View group = inflater.inflate(this.getBaseUILayout(), container, false);
+        baseUIRoot = (ViewGroup)group.findViewById(com.android.lib.R.id.container);
+        group.findViewById(R.id.tv_upload).setBackgroundResource(R.drawable.icon_record_share);
+        TitleUtil.initTitle(getActivity(),group.findViewById(R.id.recordtitle));
+        return group;
     }
 
     @Override
@@ -61,11 +74,17 @@ public class ImageDetailFrag extends BaseUIFrag<ImageDetailUIOpe,ImageDetailDAOp
                 }, 200);
             }
         });
+        getPU().anim(getPV().getLocal());
     }
 
     @Override
     protected int delayTime() {
         return 0;
+    }
+
+    @Override
+    public int getBaseUILayout() {
+        return R.layout.frag_main_image_imagedetail_baseui;
     }
 
     @Optional

@@ -43,6 +43,8 @@ public class RecordValue extends BaseValue {
     @Getter
     String type;
 
+    public static int num = 6;
+
     public RecordValue(){
         UpdateIndicator updateIndicator = new UpdateIndicator();
         loadUtil.setIndicator(updateIndicator);

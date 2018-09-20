@@ -8,6 +8,7 @@ import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.interf.OnFinishListener;
 import com.android.lib.base.interf.OnLoadingAdapter;
 import com.android.lib.base.listener.ViewListener;
+import com.android.lib.bean.databean.XYBean;
 import com.android.lib.network.bean.res.BaseResBean;
 import com.android.lib.network.news.UINetAdapter;
 import com.android.lib.util.ToastUtil;
@@ -45,7 +46,7 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordDAOpe,RecordValue> 
     @Override
     public void initNow() {
         super.initNow();
-        getPD().getImages(getBaseAct(),getPV().getType(),getPV().getTimedu(), new OnLoadingAdapter() {
+        getPD().getImages(getBaseAct(),RecordValue.num,getPV().getType(),getPV().getTimedu(), new OnLoadingAdapter() {
             @Override
             public void onStarLoading(Object o) {
                 ((UpdateIndicator)getPV().getLoadUtil().getIndicator()).setContext(getContext());
@@ -135,7 +136,7 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordDAOpe,RecordValue> 
                         if(o==null){
                             return;
                         }
-                        getPV().reAddUsedRecord(getPD().dealRecord(o));
+                        getPV().reAddUsedRecord(getPD().dealRecord(o,RecordValue.num));
                         getPU().loadImages(getPV().getUsedRecords(),RecordFrag.this);
                         getPD().downLoadRecords(0,getBaseUIFrag(),getPD().getUnDownloadRecords(getPD().getNoNullRecords(getPV().getUsedRecords())), new OnFinishListener<Object>() {
                             @Override
@@ -173,11 +174,16 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordDAOpe,RecordValue> 
                 if(record.getLocpath()==null){
                     return;
                 }
-                FragManager2.getInstance().setStartAnim(R.anim.fade_in,R.anim.fade_out).setFinishAnim(R.anim.fade_in,R.anim.fade_out).start(getBaseUIAct(),
-                        getPV().getType().equals("image")?MainValue.图片: MainValue.视频,
-                getPV().getType().equals("image")?
-                        ImageDetailFrag.getInstance(getPD().getNoNullRecords(getPV().getUsedRecords()),record.getPos())
-                        :VideoPlayFrag.getInstance((Record) view.getTag(R.id.data)));
+                if(getPV().getType().equals("image")){
+                    XYBean xyBean = new XYBean((view.getLeft()+view.getRight())/2,(view.getTop()+view.getBottom())/2);
+                    FragManager2.getInstance().setAnim(false).start(getBaseUIAct(),
+                            MainValue.图片,
+                            ImageDetailFrag.getInstance(getPD().getNoNullRecords(getPV().getUsedRecords()),record.getPos(),xyBean));
+                }else{
+                    FragManager2.getInstance().setStartAnim(R.anim.fade_in,R.anim.fade_out).setFinishAnim(R.anim.fade_in,R.anim.fade_out).start(getBaseUIAct(),
+                            MainValue.视频,
+                            VideoPlayFrag.getInstance((Record) view.getTag(R.id.data)));
+                }
 
                 break;
         }

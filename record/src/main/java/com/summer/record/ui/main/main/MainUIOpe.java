@@ -56,19 +56,17 @@ public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
         }
     }
 
-    public void showView(int pos){
+    public void showView(int pos,int beforepos){
+        if(beforepos==pos){
+            return;
+        }
        for(int i=0;i<bottomMenuBeans.size();i++){
            if(i==pos){
                bottomMenuBeans.get(i).getContainerView().setVisibility(View.VISIBLE);
-               ViewAnimator.animate(bottomMenuBeans.get(i).getContainerView()).duration(300).fadeIn().start();
+               ViewAnimator.animate(bottomMenuBeans.get(i).getContainerView().findViewById(R.id.main)).duration(300).fadeIn().start();
            }else{
                final int finalI = i;
-               ViewAnimator.animate(bottomMenuBeans.get(i).getContainerView()).duration(300).fadeOut().start().onStop(new AnimationListener.Stop() {
-                   @Override
-                   public void onStop() {
-                       bottomMenuBeans.get(finalI).getContainerView().setVisibility(View.GONE);
-                   }
-               });
+               bottomMenuBeans.get(finalI).getContainerView().setVisibility(View.GONE);
            }
        }
     }
@@ -80,7 +78,7 @@ public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
         for(int i=0;i<fragments.size();i++){
             FragManager2.getInstance().setAnim(false).start(activity,模块[i],模块ID[i],fragments.get(i));
         }
-        showView(0);
+        showView(0,-1);
     }
 
 

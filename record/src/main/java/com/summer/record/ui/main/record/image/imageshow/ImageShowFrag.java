@@ -9,6 +9,7 @@ import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.constant.ValueConstant;
 import com.summer.record.R;
 import com.summer.record.data.Record;
+import com.summer.record.tool.ViewTool;
 import com.summer.record.ui.main.record.image.ImageDetailFrag;
 import com.summer.record.ui.main.main.MainAct;
 
@@ -29,6 +30,10 @@ public class ImageShowFrag extends BaseUIFrag<ImageShowUIOpe,ImageShowDAOpe,Imag
     public void initNow() {
         super.initNow();
         getPU().showImage((Record) getArguments().getSerializable(ValueConstant.DATA_DATA));
+        if(getPV().getBaseUIFrag() instanceof ImageDetailFrag){
+            ImageDetailFrag imageDetailFrag = (ImageDetailFrag) getPV().getBaseUIFrag();
+            ViewTool.setVisible(getPU().getBind().tvDes,imageDetailFrag.getPV().isShow());
+        }
     }
 
     @Override
@@ -45,9 +50,11 @@ public class ImageShowFrag extends BaseUIFrag<ImageShowUIOpe,ImageShowDAOpe,Imag
         switch (v.getId()){
             case R.id.iv_image:
                 ((MainAct)getBaseAct()).getPU().swithTitleAndBottomVisible();
+                ViewTool.switchView(getPU().getBind().tvDes);
                 if(getPV().getBaseUIFrag() instanceof ImageDetailFrag){
                     ImageDetailFrag imageDetailFrag = (ImageDetailFrag) getPV().getBaseUIFrag();
                     imageDetailFrag.getPU().switchTitleVisible();
+                    imageDetailFrag.getPV().setShow(getPU().getBind().tvDes);
 
                 }
                 break;

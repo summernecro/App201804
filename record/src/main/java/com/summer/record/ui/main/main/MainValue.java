@@ -4,6 +4,7 @@ package com.summer.record.ui.main.main;
 
 import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.ope.BaseValue;
+import com.android.lib.view.bottommenu.BottomMenuBean;
 import com.summer.record.R;
 import com.summer.record.data.Record;
 import com.summer.record.data.Tiplab;
@@ -45,6 +46,8 @@ public class MainValue extends BaseValue{
     private int pos = 0;
 
     private ArrayList<Tiplab> tiplabs = new ArrayList<>();
+
+    ArrayList<BottomMenuBean> bottomMenuBeans = new ArrayList<>();
 
     public MainValue(){
         fragments.add(RecordsFrag.getInstance(Record.ATYPE_VIDEO));

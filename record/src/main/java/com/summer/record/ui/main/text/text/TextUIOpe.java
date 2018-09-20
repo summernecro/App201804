@@ -43,12 +43,12 @@ public class TextUIOpe extends BaseUIOpe<FragMainTextBinding> {
     @Override
     public void initUI() {
         super.initUI();
-        addSearhView();
 //        GlideApp.with(getActivity()).asBitmap()
 //                .load("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1530074750645&di=7207ffa5d0f3e91b572405a981ef3825&imgtype=0&src=http%3A%2F%2Fimg4.duitang.com%2Fuploads%2Fitem%2F201512%2F15%2F20151215200047_tkjR4.thumb.700_0.jpeg")
 //                .into(getBind().ivBg);
         getBind().ivBg.setBackgroundColor(getActivity().getResources().getColor(R.color.color_grey_200));
         TitleUtil.initTitle(getActivity(),getBind().recordtitle.getRoot());
+        TitleUtil.addSearhView(getFrag());
     }
 
     public void initTexts(ArrayList<Record> texts, ViewListener listener){
@@ -76,39 +76,6 @@ public class TextUIOpe extends BaseUIOpe<FragMainTextBinding> {
         if(textView!=null){
             textView.setText(StringUtil.getStr(o));
         }
-    }
-
-    public void addSearhView(){
-        ViewGroup viewGroup = (ViewGroup) getView();
-        ItemRecordTitleSearchBinding itemRecordTitleSearchBinding = ItemRecordTitleSearchBinding.inflate(LayoutInflater.from(getActivity()));
-        itemRecordTitleSearchBinding.getRoot().setVisibility(View.GONE);
-        viewGroup.addView(itemRecordTitleSearchBinding.getRoot());
-        ButterKnife.bind(getFrag(),getView());
-        itemRecordTitleSearchBinding.recycleTips.setLayoutManager(new LinearLayoutManager(getActivity()));
-        if(getFrag() instanceof TextView.OnEditorActionListener){
-            itemRecordTitleSearchBinding.edtSearch.setOnEditorActionListener((TextView.OnEditorActionListener) getFrag());
-        }
-
-        if(getFrag() instanceof OnFinishListener){
-            final OnFinishListener listener = (OnFinishListener) getFrag();
-            itemRecordTitleSearchBinding.edtSearch.addTextChangedListener(new BaseTextWather(){
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    super.onTextChanged(s, start, before, count);
-                    listener.onFinish(s.toString());
-                }
-            });
-        }
-    }
-
-    public int showHideSearch(){
-        ItemRecordTitleSearchBinding itemRecordTitleSearchBinding = DataBindingUtil.bind(((ViewGroup)getView()).getChildAt( ((ViewGroup) getView()).getChildCount()-1));
-        if(itemRecordTitleSearchBinding.getRoot().getVisibility()==View.GONE){
-            itemRecordTitleSearchBinding.getRoot().setVisibility(View.VISIBLE);
-        }else{
-            itemRecordTitleSearchBinding.getRoot().setVisibility(View.GONE);
-        }
-        return itemRecordTitleSearchBinding.getRoot().getVisibility();
     }
 
     public void refreshList(ArrayList<Tiplab> tiplabs, ViewListener listener){
