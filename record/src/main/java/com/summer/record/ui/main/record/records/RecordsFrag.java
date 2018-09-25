@@ -9,7 +9,9 @@ import com.android.lib.base.interf.OnFinishListener;
 import com.android.lib.base.listener.ViewListener;
 import com.android.lib.network.news.NetAdapter;
 import com.android.lib.network.news.UINetAdapter;
+import com.android.lib.util.LoadUtil;
 import com.android.lib.util.NullUtil;
+import com.android.lib.util.fragment.two.FragManager2;
 import com.summer.record.R;
 import com.summer.record.data.NetDataWork;
 import com.summer.record.data.Record;
@@ -17,6 +19,9 @@ import com.summer.record.data.Tiplab;
 import com.summer.record.tool.DBTool;
 import com.summer.record.tool.FileTool;
 import com.summer.record.tool.TitleUtil;
+import com.summer.record.ui.main.main.MainAct;
+import com.summer.record.ui.main.main.MainValue;
+import com.summer.record.ui.main.record.folder.FolderFrag;
 import com.summer.record.ui.main.record.record.RecordDAOpe;
 import com.summer.record.ui.main.record.record.RecordFrag;
 import com.summer.record.ui.main.main.RefreshI;
@@ -49,7 +54,10 @@ public class RecordsFrag extends BaseUIFrag<RecordsUIOpe,RecordsDAOpe,RecordsVal
     }
 
     @Optional
-    @OnClick({ R.id.tv_upload,R.id.tv_down,R.id.tv_refresh,R.id.tv_search,R.id.iv_search_back,R.id.tv_sort})
+    @OnClick({R.id.video_refresh,R.id.video_upload,R.id.video_down,R.id.video_search,R.id.video_sort,
+            R.id.image_refresh,R.id.image_upload,R.id.image_down,R.id.image_search,R.id.image_sort,
+            R.id.text_refresh,R.id.text_upload,R.id.text_down,R.id.text_search,R.id.text_sort,
+            R.id.iv_search_back})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()){
@@ -60,14 +68,11 @@ public class RecordsFrag extends BaseUIFrag<RecordsUIOpe,RecordsDAOpe,RecordsVal
             case R.id.tv_search:
                 TitleUtil.showHideSearch(this);
                 break;
-            case R.id.tv_sort:
-                getPU().switchSort(getPV().getSorts());
-                break;
-            case R.id.tv_refresh:
+            case R.id.video_refresh:
+            case R.id.image_refresh:
                 ArrayList<Record> all = FileTool.getRecords(getBaseAct(), getPV().getType(),new String[]{DBTool.getLastReCordCTime(getPV().getType())+"",""+(System.currentTimeMillis()/1000)}, new OnFinishListener() {
                     @Override
                     public void onFinish(Object o) {
-
                     }
                 });
                 final ArrayList<Record> records = new ArrayList<>();
@@ -106,7 +111,7 @@ public class RecordsFrag extends BaseUIFrag<RecordsUIOpe,RecordsDAOpe,RecordsVal
     public void refresh(ArrayList<Record> o){
         RecordFrag recordFrag = (RecordFrag) getPV().getImageFrags().get(0);
         if(o==null){
-            recordFrag.getPV().reAddUsedRecord(recordFrag.getPV().getOriRecords());
+            recordFrag.getPV().reAddDateUsedRecord(recordFrag.getPV().getDateOriRecords());
             recordFrag.getPD().initRecords(recordFrag.getPV().getUsedRecords());
             recordFrag.getPU().loadImages(o, recordFrag);
             return;
@@ -120,7 +125,7 @@ public class RecordsFrag extends BaseUIFrag<RecordsUIOpe,RecordsDAOpe,RecordsVal
         if(records.size()==0){
             return;
         }
-        recordFrag.getPV().reAddUsedRecord(recordFrag.getPD().dealRecord(records, RecordValue.num));
+        recordFrag.getPV().reAddDateUsedRecord(recordFrag.getPD().dealRecord(records, RecordValue.num));
         recordFrag.getPD().initRecords(recordFrag.getPV().getUsedRecords());
         recordFrag.getPU().loadImages(o, recordFrag);
     }

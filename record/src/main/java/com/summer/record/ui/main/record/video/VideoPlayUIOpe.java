@@ -19,11 +19,6 @@ import java.io.File;
 
 public class VideoPlayUIOpe extends BaseUIOpe<FragMainVideoVideoplayBinding> {
 
-    @Override
-    public void initUI() {
-        super.initUI();
-        TitleUtil.initTitle(getActivity(),getView().findViewById(R.id.recordtitle));
-    }
 
     public void play(Record video) {
         getBind().tvDes.setText(video.getLocpath());

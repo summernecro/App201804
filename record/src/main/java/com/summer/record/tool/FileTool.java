@@ -10,6 +10,8 @@ import android.provider.MediaStore;
 
 import com.android.lib.base.interf.OnFinishListener;
 import com.android.lib.util.LogUtil;
+import com.android.lib.util.NullUtil;
+import com.android.lib.util.StringUtil;
 import com.summer.record.data.Record;
 
 import java.io.File;
@@ -117,5 +119,18 @@ public class FileTool {
             return;
         }
         file.setLastModified(record.getUtime());
+    }
+
+    /**
+     * 从路径中获取所在文件夹名字
+     * @param path
+     * @return
+     */
+    public static String getFolderName(String path){
+        if(NullUtil.isStrEmpty(path)){
+            return null;
+        }
+        File file = new File(path);
+        return file.getParentFile().getName();
     }
 }

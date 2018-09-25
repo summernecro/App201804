@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 
 import com.android.lib.base.ope.BaseValue;
 import com.summer.record.data.Tiplab;
+import com.summer.record.ui.main.record.folder.FolderFrag;
 
 import java.util.ArrayList;
 
@@ -26,10 +27,18 @@ public class RecordsValue extends BaseValue {
 
     private ArrayList<String> sorts = new ArrayList<>();
 
+    FolderFrag folderFrag;
+
     public RecordsValue() {
         sorts.add("按日期排序");
         sorts.add("按标签排序");
         sorts.add("按文件夹排序");
     }
 
+    public FolderFrag getFolderFrag() {
+        if(folderFrag==null){
+            folderFrag = new FolderFrag();
+        }
+        return folderFrag;
+    }
 }

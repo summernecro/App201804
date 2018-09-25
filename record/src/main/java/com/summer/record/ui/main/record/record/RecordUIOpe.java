@@ -18,9 +18,11 @@ import com.android.lib.util.LogUtil;
 import com.bumptech.glide.request.RequestOptions;
 import com.summer.record.BR;
 import com.summer.record.R;
+import com.summer.record.data.Folder;
 import com.summer.record.data.Record;
 import com.summer.record.databinding.FragMainImageBinding;
 import com.summer.record.databinding.ItemImageImageBinding;
+import com.summer.record.databinding.ItemRecordFolderBinding;
 import com.summer.record.ui.main.record.records.RecordsFrag;
 
 import java.io.File;
@@ -88,7 +90,7 @@ public class RecordUIOpe extends BaseUIOpe<FragMainImageBinding> {
                     super.onScrolled(recyclerView, dx, dy);
                     int i= getBind().recycle.getChildAdapterPosition(recyclerView.getChildAt(0));
                     if(i>=0){
-                        recordFrag.getPV().getRecordsFrag().getPU().updateTitle(images.get(i).getDateStr());
+                        //recordFrag.getPV().getRecordsFrag().getPU().updateTitle(images.get(i).getDateStr());
                     }
                 }
             });

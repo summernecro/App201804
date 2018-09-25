@@ -40,10 +40,6 @@ public class VideoPlayFrag extends BaseUIFrag<VideoPlayUIOpe,VideoPlayDAOpe,Vide
         GSYVideoManager.onPause();
     }
 
-    @Override
-    public int getBaseUILayout() {
-        return R.layout.frag_main_video_videoplay_baseui;
-    }
 
     @Override
     public void onResume() {

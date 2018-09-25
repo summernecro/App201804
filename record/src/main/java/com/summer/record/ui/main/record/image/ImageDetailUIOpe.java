@@ -17,6 +17,7 @@ import com.summer.record.data.Record;
 import com.summer.record.data.Tiplab;
 import com.summer.record.databinding.FragMainImageImagedetailBinding;
 import com.summer.record.tool.TitleUtil;
+import com.summer.record.ui.main.main.MainAct;
 import com.summer.record.ui.main.record.image.imageshow.ImageShowFrag;
 
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ import java.util.ArrayList;
 public class ImageDetailUIOpe extends BaseUIOpe<FragMainImageImagedetailBinding> {
 
     public void init(){
+        MainAct mainAct  = (MainAct) getActivity();
+        //mainAct.getPU().getBind().imagetitle.tvUpload.setBackgroundResource(R.drawable.icon_record_share);
         TitleUtil.addSearhView(getFrag());
     }
 

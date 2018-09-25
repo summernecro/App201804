@@ -43,15 +43,6 @@ public class ImageDetailFrag extends BaseUIFrag<ImageDetailUIOpe,ImageDetailDAOp
 
     }
 
-
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View group = inflater.inflate(this.getBaseUILayout(), container, false);
-        baseUIRoot = (ViewGroup)group.findViewById(com.android.lib.R.id.container);
-        group.findViewById(R.id.tv_upload).setBackgroundResource(R.drawable.icon_record_share);
-        TitleUtil.initTitle(getActivity(),group.findViewById(R.id.recordtitle));
-        return group;
-    }
-
     @Override
     public void initNow() {
         super.initNow();
@@ -80,11 +71,6 @@ public class ImageDetailFrag extends BaseUIFrag<ImageDetailUIOpe,ImageDetailDAOp
     @Override
     protected int delayTime() {
         return 0;
-    }
-
-    @Override
-    public int getBaseUILayout() {
-        return R.layout.frag_main_image_imagedetail_baseui;
     }
 
     @Optional

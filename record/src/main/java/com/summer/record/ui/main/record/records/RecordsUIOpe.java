@@ -11,6 +11,7 @@ import android.view.View;
 import com.android.lib.base.adapter.AppBasePagerAdapter;
 import com.android.lib.base.adapter.AppsDataBindingAdapter;
 import com.android.lib.base.listener.BaseOnPagerChangeListener;
+import com.android.lib.base.listener.ViewListener;
 import com.android.lib.base.ope.BaseUIOpe;
 import com.github.florent37.viewanimator.AnimationListener;
 import com.github.florent37.viewanimator.ViewAnimator;
@@ -33,7 +34,7 @@ public class RecordsUIOpe extends BaseUIOpe<FragMainImagesBinding> {
 //                .load("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1530075649656&di=dd57d7701506ea32e336a6c2424c26eb&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fmobile%2Fd%2F53917b6fcaa98_200_300.jpg")
 //                .into(getBind().ivBg);
         getBind().ivBg.setBackgroundColor(getActivity().getResources().getColor(R.color.color_grey_200));
-        TitleUtil.initTitle(getActivity(),getBind().recordtitle.getRoot());
+       // TitleUtil.initTitle(getActivity(),getBind().recordtitle.getRoot());
         TitleUtil.addSearhView(getFrag());
     }
 
@@ -53,7 +54,7 @@ public class RecordsUIOpe extends BaseUIOpe<FragMainImagesBinding> {
     public void initFrag(RecordsFrag recordsFrag, String type, ArrayList<String[]> strs, ArrayList<Fragment> imageFrags ){
         imageFrags.clear();
         for(int i=0;i<strs.size();i++){
-            RecordFrag recordFrag = RecordFrag.getInstance(strs.get(i),type, recordsFrag);
+            RecordFrag recordFrag = RecordFrag.getInstance(strs.get(i),type, recordsFrag,null);
             imageFrags.add(recordFrag);
         }
     }
@@ -63,18 +64,18 @@ public class RecordsUIOpe extends BaseUIOpe<FragMainImagesBinding> {
     }
 
     public void setTitleVisible(int visible){
-        getBind().recordtitle.getRoot().setVisibility(visible);
+        //getBind().recordtitle.getRoot().setVisibility(visible);
     }
 
     public void updateTitle(String title){
-        getBind().recordtitle.tvLab.setText(title);
+        //getBind().recordtitle.tvLab.setText(title);
     }
 
-    public void showHideSort(boolean show,ArrayList<String> sorts){
+    public void showHideSort(boolean show, ArrayList<String> sorts, ViewListener listener){
         if(show){
             if(getBind().sortlist.getAdapter()==null){
                 getBind().sortlist.setLayoutManager(new LinearLayoutManager(getActivity()));
-                getBind().sortlist.setAdapter(new AppsDataBindingAdapter(getActivity(),R.layout.item_sort_text,BR.item_sort_text,sorts));
+                getBind().sortlist.setAdapter(new AppsDataBindingAdapter(getActivity(),R.layout.item_sort_text,BR.item_sort_text,sorts,listener));
             }
             ViewAnimator.animate( getBind().sortlist).translationY(-getBind().sortlist.getHeight(),0).duration(500).onStart(new AnimationListener.Start() {
                 @Override
@@ -92,7 +93,7 @@ public class RecordsUIOpe extends BaseUIOpe<FragMainImagesBinding> {
         }
     }
 
-    public void switchSort(ArrayList<String> sorts){
-        showHideSort(getBind().sortlist.getVisibility()!=View.VISIBLE,sorts);
+    public void switchSort(ArrayList<String> sorts,ViewListener listener){
+        showHideSort(getBind().sortlist.getVisibility()!=View.VISIBLE,sorts,listener);
     }
 }

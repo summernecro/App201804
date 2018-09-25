@@ -31,7 +31,12 @@ public class RecordValue extends BaseValue {
     ArrayList<Record> usedRecords = new ArrayList<>();
 
     @Getter
-    ArrayList<Record> oriRecords = new ArrayList<>();
+    ArrayList<Record> dateOriRecords = new ArrayList<>();
+
+    //未加工的数据
+    @Getter
+    @Setter
+    ArrayList<Record> OriRecords = new ArrayList<>();
 
     @Setter
     int year = 0;
@@ -50,24 +55,24 @@ public class RecordValue extends BaseValue {
         loadUtil.setIndicator(updateIndicator);
     }
 
-    public void reAddAllRecord(ArrayList<Record> records){
-        reAddUsedRecord(records);
-        reAddOriRecord(records);
+    public void reAddAllDateRecord(ArrayList<Record> records){
+        reAddDateUsedRecord(records);
+        reAddDateOriRecord(records);
     }
 
-    public void clearAllRecord(){
+    public void clearAllDateRecord(){
         usedRecords.clear();
-        oriRecords.clear();
+        dateOriRecords.clear();
     }
 
-    public void reAddUsedRecord(ArrayList<Record> records){
+    public void reAddDateUsedRecord(ArrayList<Record> records){
         usedRecords.clear();
         usedRecords.addAll(records);
     }
 
-    public void reAddOriRecord(ArrayList<Record> records){
-        oriRecords.clear();
-        oriRecords.addAll(records);
+    public void reAddDateOriRecord(ArrayList<Record> records){
+        dateOriRecords.clear();
+        dateOriRecords.addAll(records);
     }
 
     public String getYear(){

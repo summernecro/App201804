@@ -10,10 +10,15 @@ import android.view.ViewGroup;
 import com.android.lib.base.activity.BaseUIActivity;
 import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.interf.view.OnAppItemSelectListener;
+import com.android.lib.base.listener.ViewListener;
 import com.android.lib.util.fragment.two.FragManager2;
 import com.android.lib.util.system.PermissionUtil;
 import com.summer.record.R;
+import com.summer.record.data.Record;
 import com.summer.record.service.ClipSevice;
+import com.summer.record.ui.main.record.folder.FolderFrag;
+import com.summer.record.ui.main.record.record.RecordFrag;
+import com.summer.record.ui.main.record.records.RecordsFrag;
 
 import butterknife.OnClick;
 import butterknife.Optional;
@@ -47,12 +52,38 @@ public class MainAct extends BaseUIActivity<MainUIOpe,MainDAOpe,MainValue> imple
 
 
     @Optional
-    @OnClick({ R.id.tv_upload,R.id.tv_down,R.id.tv_search,R.id.iv_search_back})
-    public void onClick(View v) {
+    @OnClick({ R.id.video_refresh,R.id.video_upload,R.id.video_down,R.id.video_search,R.id.video_sort,
+            R.id.image_refresh,R.id.image_upload,R.id.image_down,R.id.image_search,R.id.image_sort,
+            R.id.text_refresh,R.id.text_upload,R.id.text_down,R.id.text_search,
+            R.id.iv_search_back})
+    public void onClick(final View v) {
         switch (v.getId()){
+            case R.id.video_sort:
+            case R.id.image_sort:
+                getPU().switchSort(v.getId(),getPV().getSorts(), new ViewListener() {
+                    @Override
+                    public void onInterupt(int i, View view) {
+                        getPU().switchSort(v.getId(),getPV().getSorts(), null) ;
+                        switch (i){
+                            case ViewListener.TYPE_ONCLICK:
+                                FragManager2.getInstance().clear(getActivity(),getMoudle());
+                                switch ((int)view.getTag(R.id.position)){
+                                    //按日期排序
+                                    case 0:
+                                        FragManager2.getInstance().setAnim(false).start(getActivity(),getMoudle() ,MainValue.模块ID[getPV().getPos()],RecordsFrag.getInstance(getMoudle()));
+                                        break;
+                                    //按文件夹排序
+                                    case 2:
+                                        FragManager2.getInstance().setAnim(false).start(getActivity(),getMoudle(),MainValue.模块ID[getPV().getPos()], FolderFrag.getInstance(getMoudle()));
+                                        break;
+                                }
+                                break;
+                        }
+                    }
+                });
+                break;
             default:
                 (FragManager2.getInstance().getCurrentFrag(getMoudle())).onClick(v);
-               //getPV().getFragments().get(getPV().getPos()).onClick(v);
                 break;
         }
     }
@@ -82,5 +113,4 @@ public class MainAct extends BaseUIActivity<MainUIOpe,MainDAOpe,MainValue> imple
         super.onDestroy();
         FragManager2.getInstance().clear();
     }
-
 }

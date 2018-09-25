@@ -21,6 +21,7 @@ import com.android.lib.util.LogUtil;
 import com.android.lib.util.NullUtil;
 import com.android.lib.util.data.DateFormatUtil;
 import com.google.gson.reflect.TypeToken;
+import com.summer.record.data.Folder;
 import com.summer.record.data.NetDataWork;
 import com.summer.record.data.Record;
 import com.summer.record.data.Records;
@@ -63,7 +64,7 @@ public class RecordDAOpe extends BaseDAOpe {
         new AsyncTask<String, String, ArrayList<Record>>() {
             @Override
             protected ArrayList<Record> doInBackground(String... strings) {
-                ArrayList<Record> all = FileTool.getRecords(context, type,new String[]{DBTool.getLastReCordCTime(type)+"",""+(System.currentTimeMillis()/1000)}, new OnFinishListener() {
+                ArrayList<Record> all = FileTool.getRecords(context, type,new String[]{DBTool.getLastReCordCTime(type)+"",""+Long.parseLong(time[1])}, new OnFinishListener() {
                     @Override
                     public void onFinish(Object o) {
 
@@ -78,7 +79,7 @@ public class RecordDAOpe extends BaseDAOpe {
 //                        publishProgress(o.toString());
 //                    }
 //                });
-                return dealRecord(records,num);
+                return records;
             }
 
             @Override
@@ -96,7 +97,12 @@ public class RecordDAOpe extends BaseDAOpe {
     }
 
 
-
+    /**
+     * 按照日期排序
+     * @param videos
+     * @param num 每行的数量
+     * @return
+     */
     public  ArrayList<Record> dealRecord(ArrayList<Record> videos,int num){
         HashMap<String,ArrayList<Record>> map = new HashMap<>();
         for(int i=0;i<videos.size();i++){
@@ -164,6 +170,28 @@ public class RecordDAOpe extends BaseDAOpe {
         map=null;
         return v;
     }
+
+    /**
+     * 异步按照日期排序
+     * @param videos
+     * @param num
+     * @param listener
+     */
+    public  void dealRecord(final ArrayList<Record> videos, final int num, final OnFinishListener listener){
+        new AsyncTask<String, String, ArrayList<Record>>() {
+            @Override
+            protected ArrayList<Record> doInBackground(String... strings) {
+                return dealRecord(videos,num);
+            }
+
+            @Override
+            protected void onPostExecute(ArrayList<Record> records) {
+                super.onPostExecute(records);
+                listener.onFinish(records);
+            }
+        }.execute();
+    }
+
 
     public void downLoadRecords(final int index, final BaseUIFrag frag, final ArrayList<Record> records, final OnFinishListener onFinishListener){
         downLoadRecord(records.get(index),new NetAdapter(frag.getBaseUIAct()){

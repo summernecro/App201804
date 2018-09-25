@@ -4,6 +4,7 @@ package com.summer.record.ui.main.main;
 
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import com.summer.record.R;
 import com.summer.record.data.Tiplab;
 import com.summer.record.databinding.ActMainBinding;
 import com.summer.record.databinding.ItemRecordTitleSearchBinding;
+import com.summer.record.tool.TitleUtil;
 import com.transitionseverywhere.utils.AnimatorUtils;
 import com.transitionseverywhere.utils.ViewUtils;
 
@@ -45,6 +47,10 @@ public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
     @Override
     public void initUI() {
         super.initUI();
+        TitleUtil.initTitle(getActivity(),getBind().videotitle.getRoot());
+        TitleUtil.initTitle(getActivity(),getBind().imagetitle.getRoot());
+        TitleUtil.initTitle(getActivity(),getBind().texttitle.getRoot());
+
         bottomMenuBeans.add(new BottomMenuBean("视频", R.drawable.drawable_record_main_bottom_video,null,getBind().containVideo,getActivity().getResources().getColorStateList(R.color.color_white_black)));
         bottomMenuBeans.add(new BottomMenuBean("图片", R.drawable.drawable_record_main_bottom_image,null,getBind().containImage,getActivity().getResources().getColorStateList(R.color.color_white_black)));
         bottomMenuBeans.add(new BottomMenuBean("文字", R.drawable.drawable_record_main_bottom_text,null,getBind().containText,getActivity().getResources().getColorStateList(R.color.color_white_black)));
@@ -63,7 +69,7 @@ public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
        for(int i=0;i<bottomMenuBeans.size();i++){
            if(i==pos){
                bottomMenuBeans.get(i).getContainerView().setVisibility(View.VISIBLE);
-               ViewAnimator.animate(bottomMenuBeans.get(i).getContainerView().findViewById(R.id.main)).duration(300).fadeIn().start();
+               ViewAnimator.animate(((ViewGroup)bottomMenuBeans.get(i).getContainerView()).getChildAt(1)).duration(300).fadeIn().start();
            }else{
                final int finalI = i;
                bottomMenuBeans.get(finalI).getContainerView().setVisibility(View.GONE);
@@ -100,6 +106,40 @@ public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
 
     public void changeRightImage3(int res){
        // getBind().recordtitle.tvDown.setBackgroundResource(res);
+    }
+
+
+    public void showHideSort(final RecyclerView recyclerView, boolean show, ArrayList<String> sorts, ViewListener listener){
+        if(show){
+            if(recyclerView.getAdapter()==null){
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                recyclerView.setAdapter(new AppsDataBindingAdapter(getActivity(),R.layout.item_sort_text,BR.item_sort_text,sorts,listener));
+            }
+            ViewAnimator.animate( recyclerView).translationY(-recyclerView.getHeight(),0).duration(500).onStart(new AnimationListener.Start() {
+                @Override
+                public void onStart() {
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
+            }).start();
+        }else{
+            ViewAnimator.animate(recyclerView).translationY(0,-recyclerView.getHeight()).duration(500).onStop(new AnimationListener.Stop() {
+                @Override
+                public void onStop() {
+                    recyclerView.setVisibility(View.GONE);
+                }
+            }).start();
+        }
+    }
+
+    public void switchSort(int id,ArrayList<String> sorts, ViewListener listener){
+        switch (id){
+            case R.id.video_sort:
+                showHideSort(getBind().videosortlist,getBind().videosortlist.getVisibility()!=View.VISIBLE,sorts,listener);
+                break;
+            case R.id.image_sort:
+                showHideSort(getBind().imagesortlist,getBind().imagesortlist.getVisibility()!=View.VISIBLE,sorts,listener);
+                break;
+        }
     }
 
 }
