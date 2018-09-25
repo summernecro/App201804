@@ -35,6 +35,7 @@ public class FolderUIOpe extends BaseUIOpe<FragRecordFolderBinding> {
                 super.onBindViewHolder(holder, position);
                 ItemRecordFolderBinding binding = (ItemRecordFolderBinding) holder.viewDataBinding;
                 binding.tvName.setText(folders.get(position).getName());
+                binding.count.setText(folders.get(position).getRecords().size()+"");
             }
         });
     }
