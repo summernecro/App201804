@@ -53,7 +53,6 @@ public class ImageShowFrag extends BaseUIFrag<ImageShowUIOpe,ImageShowDAOpe,Imag
                 ViewTool.switchView(getPU().getBind().tvDes);
                 if(getPV().getBaseUIFrag() instanceof ImageDetailFrag){
                     ImageDetailFrag imageDetailFrag = (ImageDetailFrag) getPV().getBaseUIFrag();
-                    imageDetailFrag.getPU().switchTitleVisible();
                     imageDetailFrag.getPV().setShow(getPU().getBind().tvDes);
 
                 }

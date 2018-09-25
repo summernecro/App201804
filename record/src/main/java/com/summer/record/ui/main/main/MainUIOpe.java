@@ -94,6 +94,7 @@ public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
 
     public void setTitleAndBottomVisible(boolean visible){
         getBind().bottommenu.setVisibility(visible?View.VISIBLE:View.GONE);
+        getBind().imagetitle.getRoot().setVisibility(visible?View.VISIBLE:View.GONE);
     }
 
     public void swithTitleAndBottomVisible(){

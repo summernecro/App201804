@@ -71,13 +71,7 @@ public class ImageDetailUIOpe extends BaseUIOpe<FragMainImageImagedetailBinding>
         ViewAnimator.animate(getBind().viewpager).scaleX(0.1f,1f).scaleY(0.1f,1f).pivotX(0).pivotY(0).translationX((float) xyBean.x,0f).translationY((float) xyBean.y,0f).duration(150).start();
     }
 
-    public void setTitleVisible(boolean visible){
-        getView().findViewById(R.id.recordtitle).setVisibility(visible?View.VISIBLE:View.GONE);
-    }
 
-    public void switchTitleVisible(){
-        setTitleVisible(getView().findViewById(R.id.recordtitle).getVisibility()==View.VISIBLE?false:true);
-    }
 
     public void changeRightImage2(int res){
         getView().findViewById(R.id.tv_upload).setBackgroundResource(res);
