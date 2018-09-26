@@ -53,7 +53,7 @@ public class TextUIOpe extends BaseUIOpe<FragMainTextBinding> {
 
     public void initTexts(ArrayList<Record> texts, ViewListener listener){
         if(getBind().recycle.getAdapter()==null){
-            getBind().recycle.setLayoutManager(new LinearLayoutManager(getActivity()));
+            getBind().recycle.setLayoutManager(new GridLayoutManager(getActivity(),3));
             getBind().recycle.setAdapter(new AppsDataBindingAdapter(getActivity(), R.layout.item_text_text, BR.item_text_text,texts,listener){
                 public void onBindViewHolder(AppViewHolder holder, int position) {
                     ViewDataBinding viewDataBinding = holder.viewDataBinding;

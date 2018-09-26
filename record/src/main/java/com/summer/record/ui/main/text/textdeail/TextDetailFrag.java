@@ -48,16 +48,6 @@ public class TextDetailFrag extends BaseUIFrag<TextDetailUIOpe,TextDetailDAOpe,T
     }
 
     @Override
-    public int getBaseUILayout() {
-        return R.layout.frag_main_text_textdetail_baseui;
-    }
-
-    @Override
-    protected int delayTime() {
-        return 0;
-    }
-
-    @Override
     public void addTip(String content) {
         ArrayList<Tiplab> tiplabs = new ArrayList<>();
         tiplabs.add(new Tiplab());

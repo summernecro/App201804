@@ -49,6 +49,31 @@ public class RecordApp extends LibAplication {
             }
         });
 
+        com.summer.record.tool.NetGet.setDeal(new com.summer.record.tool.NetGet.Deal() {
+            @Override
+            public void onSuccess(BaseResBean baseResBean) {
+                if(baseResBean!=null){
+                    baseResBean.setCode("200");
+                }
+                baseResBean.setResult(baseResBean.getData());
+            }
+
+            @Override
+            public void onError(Throwable throwable, boolean b) {
+
+            }
+
+            @Override
+            public void onCancelled(Callback.CancelledException e) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+
         CrashHander.getInstance().init(this, new OnFinishListener() {
             @Override
             public void onFinish(Object o) {
@@ -64,8 +89,8 @@ public class RecordApp extends LibAplication {
 
 
         NetAdapter.cache  = true;
-        LogUtil.CAN_LOGIN = false;
-        NetGet.test = true;
+        LogUtil.CAN_LOGIN = true;
+        NetGet.test = false;
 //        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
 //        StrictMode.setVmPolicy(builder.build());
 //        builder.detectFileUriExposure();

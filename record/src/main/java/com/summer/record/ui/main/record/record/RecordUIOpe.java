@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.lib.GlideApp;
@@ -15,7 +16,10 @@ import com.android.lib.base.listener.ViewListener;
 import com.android.lib.base.ope.BaseUIOpe;
 import com.android.lib.bean.AppViewHolder;
 import com.android.lib.util.LogUtil;
+import com.android.lib.util.system.HandleUtil;
 import com.bumptech.glide.request.RequestOptions;
+import com.github.florent37.viewanimator.AnimationListener;
+import com.github.florent37.viewanimator.ViewAnimator;
 import com.summer.record.BR;
 import com.summer.record.R;
 import com.summer.record.data.Folder;
@@ -112,11 +116,29 @@ public class RecordUIOpe extends BaseUIOpe<FragMainImageBinding> {
     }
 
 
-    public void scrollToPos(Record record) {
+    public void scrollToPos(final Record record) {
         LogUtil.E(record.getId());
-        GridLayoutManager gridLayoutManager = (GridLayoutManager) getBind().recycle.getLayoutManager();
+        final GridLayoutManager gridLayoutManager = (GridLayoutManager) getBind().recycle.getLayoutManager();
         gridLayoutManager.scrollToPositionWithOffset(record.getId(), 0);
-        getBind().recycle.getAdapter().notifyItemChanged(record.getId(), record);
+        View view = gridLayoutManager.findViewByPosition(record.getId());
+        if(view!=null){
+            ViewAnimator.animate(view).scale(0.3f,1f).duration(1000).start().onStop(new AnimationListener.Stop() {
+                @Override
+                public void onStop() {
+                    getBind().recycle.getAdapter().notifyItemChanged(record.getId(), record);
+                }
+            });
+        }
+    }
+
+    public void scrollToPosBefore(final Record record) {
+        final GridLayoutManager gridLayoutManager = (GridLayoutManager) getBind().recycle.getLayoutManager();
+        gridLayoutManager.scrollToPositionWithOffset(record.getId(), 0);
+        View view = gridLayoutManager.findViewByPosition(record.getId());
+        if(view!=null){
+            ViewAnimator.animate(view).alpha(0,1,0,1).duration(1000).start();
+        }
+
     }
 
     public void setTitle(){

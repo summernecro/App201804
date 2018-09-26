@@ -28,11 +28,11 @@ public class MainValue extends BaseValue{
 
     public static final String 文字 = Record.ATYPE_TEXT;
 
-    public static final int 视频ID  = R.id.video;
+    public static final int 视频ID  = R.integer.id_video;
 
-    public static final int 图片ID = R.id.image;
+    public static final int 图片ID = R.integer.id_image;
 
-    public static final int 文字ID = R.id.text;
+    public static final int 文字ID = R.integer.id_text;
 
     public static final String[] 模块 = new String[]{视频,图片,文字};
 
@@ -46,13 +46,14 @@ public class MainValue extends BaseValue{
 
     ArrayList<BottomMenuBean> bottomMenuBeans = new ArrayList<>();
 
-    private ArrayList<String> sorts = new ArrayList<>();
+    public static ArrayList<String> sorts = new ArrayList<>();
 
 
     public MainValue(){
         fragments.add(RecordsFrag.getInstance(Record.ATYPE_VIDEO));
         fragments.add(RecordsFrag.getInstance(Record.ATYPE_IMAGE));
         fragments.add(new TextFrag());
+        sorts.clear();
         sorts.add("按日期排序");
         sorts.add("按标签排序");
         sorts.add("按文件夹排序");

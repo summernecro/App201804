@@ -51,44 +51,6 @@ public class MainAct extends BaseUIActivity<MainUIOpe,MainDAOpe,MainValue> imple
     }
 
 
-    @Optional
-    @OnClick({ R.id.video_refresh,R.id.video_upload,R.id.video_down,R.id.video_search,R.id.video_sort,
-            R.id.image_refresh,R.id.image_upload,R.id.image_down,R.id.image_search,R.id.image_sort,
-            R.id.text_refresh,R.id.text_upload,R.id.text_down,R.id.text_search,
-            R.id.iv_search_back})
-    public void onClick(final View v) {
-        switch (v.getId()){
-            case R.id.video_sort:
-            case R.id.image_sort:
-                getPU().switchSort(v.getId(),getPV().getSorts(), new ViewListener() {
-                    @Override
-                    public void onInterupt(int i, View view) {
-                        getPU().switchSort(v.getId(),getPV().getSorts(), null) ;
-                        switch (i){
-                            case ViewListener.TYPE_ONCLICK:
-                                FragManager2.getInstance().clear(getActivity(),getMoudle());
-                                switch ((int)view.getTag(R.id.position)){
-                                    //按日期排序
-                                    case 0:
-                                        FragManager2.getInstance().setAnim(false).start(getActivity(),getMoudle() ,MainValue.模块ID[getPV().getPos()],RecordsFrag.getInstance(getMoudle()));
-                                        break;
-                                    //按文件夹排序
-                                    case 2:
-                                        FragManager2.getInstance().setAnim(false).start(getActivity(),getMoudle(),MainValue.模块ID[getPV().getPos()], FolderFrag.getInstance(getMoudle()));
-                                        break;
-                                }
-                                break;
-                        }
-                    }
-                });
-                break;
-            default:
-                (FragManager2.getInstance().getCurrentFrag(getMoudle())).onClick(v);
-                break;
-        }
-    }
-
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

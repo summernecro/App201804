@@ -35,7 +35,7 @@ public class RecordsUIOpe extends BaseUIOpe<FragMainImagesBinding> {
 //                .into(getBind().ivBg);
         getBind().ivBg.setBackgroundColor(getActivity().getResources().getColor(R.color.color_grey_200));
        // TitleUtil.initTitle(getActivity(),getBind().recordtitle.getRoot());
-        TitleUtil.addSearhView(getFrag());
+
     }
 
     public void initViewPager(FragmentManager fm, Context context, final List<Fragment> fragments, final int[] pos){

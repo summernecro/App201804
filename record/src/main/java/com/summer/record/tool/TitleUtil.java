@@ -2,6 +2,7 @@ package com.summer.record.tool;
 
 //by summer on 2018-08-29.
 
+import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.LinearLayoutManager;
@@ -65,9 +66,30 @@ public class TitleUtil {
         }
     }
 
-    public static int showHideSearch(BaseUIFrag baseUIFrag){
-        ViewGroup viewGroup =baseUIFrag.getBaseUIRoot();
-        ItemRecordTitleSearchBinding itemRecordTitleSearchBinding = DataBindingUtil.bind((viewGroup).getChildAt( (viewGroup).getChildCount()-1));
+    public static void initSearhView(Activity activity,ItemRecordTitleSearchBinding itemRecordTitleSearchBinding){
+        ViewGroup.LayoutParams params = itemRecordTitleSearchBinding.searchtitle.getLayoutParams();
+        itemRecordTitleSearchBinding.searchtitle.setPadding(0, (int) ScreenUtil.getInstance().getStatusBarHeight(activity),0,0);
+        params.height = (int) (ScreenUtil.getInstance().getStatusBarHeight(activity)+ScreenUtil.最小DIMEN*38);
+        itemRecordTitleSearchBinding.searchtitle.setLayoutParams(params);
+        //itemRecordTitleSearchBinding.getRoot().setVisibility(View.GONE);
+        itemRecordTitleSearchBinding.recycleTips.setLayoutManager(new LinearLayoutManager(activity));
+        if(activity instanceof TextView.OnEditorActionListener){
+            itemRecordTitleSearchBinding.edtSearch.setOnEditorActionListener((TextView.OnEditorActionListener) activity);
+        }
+
+        if(activity instanceof OnFinishListener){
+            final OnFinishListener listener = (OnFinishListener) activity;
+            itemRecordTitleSearchBinding.edtSearch.addTextChangedListener(new BaseTextWather(){
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    super.onTextChanged(s, start, before, count);
+                    listener.onFinish(s.toString());
+                }
+            });
+        }
+    }
+
+    public static int showHideSearch(ItemRecordTitleSearchBinding itemRecordTitleSearchBinding){
         if(itemRecordTitleSearchBinding.getRoot().getVisibility()==View.GONE){
             itemRecordTitleSearchBinding.getRoot().setVisibility(View.VISIBLE);
         }else{
@@ -76,11 +98,9 @@ public class TitleUtil {
         return itemRecordTitleSearchBinding.getRoot().getVisibility();
     }
 
-    public static void refreshList(BaseUIFrag baseUIFrag,ArrayList<Tiplab> tiplabs, ViewListener listener){
-        ViewGroup viewGroup =baseUIFrag.getBaseUIRoot();
-        ItemRecordTitleSearchBinding itemRecordTitleSearchBinding = DataBindingUtil.bind((viewGroup).getChildAt( (viewGroup).getChildCount()-1));
+    public static void refreshList(ItemRecordTitleSearchBinding itemRecordTitleSearchBinding,Activity activity,ArrayList<Tiplab> tiplabs, ViewListener listener){
         if(itemRecordTitleSearchBinding.recycleTips.getAdapter()==null){
-            itemRecordTitleSearchBinding.recycleTips.setAdapter(new AppsDataBindingAdapter(baseUIFrag.getBaseUIAct(), R.layout.item_tiplab_text, BR.item_tiplab_text,tiplabs,listener));
+            itemRecordTitleSearchBinding.recycleTips.setAdapter(new AppsDataBindingAdapter(activity, R.layout.item_tiplab_text, BR.item_tiplab_text,tiplabs,listener));
         }else{
             itemRecordTitleSearchBinding.recycleTips.getAdapter().notifyDataSetChanged();
         }

@@ -82,10 +82,8 @@ public class ImageDetailFrag extends BaseUIFrag<ImageDetailUIOpe,ImageDetailDAOp
                 ShareUtil.shareImage(getBaseUIAct(),getPV().getImages().get(getPV().getCurrentPos()[0]).getLocpath());
                 break;
             case R.id.iv_search_back:
-                TitleUtil.showHideSearch(this);
                 break;
             case R.id.tv_search:
-                TitleUtil.showHideSearch(this);
                 break;
         }
     }
@@ -103,7 +101,7 @@ public class ImageDetailFrag extends BaseUIFrag<ImageDetailUIOpe,ImageDetailDAOp
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if(actionId== EditorInfo.IME_ACTION_GO){
-            TitleUtil.showHideSearch(this);
+            //TitleUtil.showHideSearch(((MainAct)getActivity()).getPU().getItemRecordTitleSearchBinding());
             addTip(v.getText().toString());
             return true;
         }

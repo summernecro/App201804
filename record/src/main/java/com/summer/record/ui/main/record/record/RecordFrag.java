@@ -103,15 +103,11 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordDAOpe,RecordValue> 
 
     }
     @Optional
-    @OnClick({R.id.video_refresh,R.id.video_upload,R.id.video_down,R.id.video_search,R.id.video_sort,
-            R.id.image_refresh,R.id.image_upload,R.id.image_down,R.id.image_search,R.id.image_sort,
-            R.id.text_refresh,R.id.text_upload,R.id.text_down,R.id.text_search,R.id.text_sort,
-            R.id.iv_search_back})
+    @OnClick({ R.id.tv_refresh,R.id.tv_upload,R.id.tv_down,R.id.tv_search,R.id.tv_sort,R.id.iv_search_back})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()){
-            case R.id.image_upload:
-            case R.id.video_upload:
+            case R.id.tv_upload:
                 ArrayList<Record>  list = getPD().getNoNullRecords(getPV().getUsedRecords());
                 final ArrayList<Record> records = new ArrayList<>();
                 getPD().updateRecordsStep(0,records,getBaseUIFrag(), list, new OnFinishListener() {
@@ -151,8 +147,7 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordDAOpe,RecordValue> 
                     }
                 });
                 break;
-            case R.id.video_down:
-            case R.id.image_down:
+            case R.id.tv_down:
                 v.setSelected(!v.isSelected());
                 NetDataWork.Data.getAllRecords(getBaseAct(), getPV().getType(),getPV().getTimedu(),new UINetAdapter<ArrayList<Record>>(getBaseUIFrag(),UINetAdapter.Loading) {
                     @Override
@@ -163,13 +158,21 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordDAOpe,RecordValue> 
                         }
                         getPV().reAddDateUsedRecord(getPD().dealRecord(o,RecordValue.num));
                         getPU().loadImages(getPV().getUsedRecords(),RecordFrag.this);
-                        getPD().downLoadRecords(0,getBaseUIFrag(),getPD().getUnDownloadRecords(getPD().getNoNullRecords(getPV().getUsedRecords())), new OnFinishListener<Object>() {
+                        getPD().downLoadRecords(0, getBaseUIFrag(), getPD().getUnDownloadRecords(getPD().getNoNullRecords(getPV().getUsedRecords())), new OnFinishListener() {
+                            @Override
+                            public void onFinish(Object o) {
+                                if(o!=null){
+                                    Record record = (Record) o;
+                                   // getPU().scrollToPosBefore(record);
+                                }
+                            }
+                        },new OnFinishListener<Object>() {
                             @Override
                             public void onFinish(Object o) {
                                 if(o!=null){
                                     Record record = (Record) o;
                                     ToastUtil.getInstance().showShort(getBaseAct(),record.getLocpath());
-                                    //getPU().scrollToPos(record);
+                                    getPU().scrollToPos(record);
                                 }
                             }
                         });

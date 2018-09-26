@@ -54,22 +54,18 @@ public class RecordsFrag extends BaseUIFrag<RecordsUIOpe,RecordsDAOpe,RecordsVal
     }
 
     @Optional
-    @OnClick({R.id.video_refresh,R.id.video_upload,R.id.video_down,R.id.video_search,R.id.video_sort,
-            R.id.image_refresh,R.id.image_upload,R.id.image_down,R.id.image_search,R.id.image_sort,
-            R.id.text_refresh,R.id.text_upload,R.id.text_down,R.id.text_search,R.id.text_sort,
-            R.id.iv_search_back})
+    @OnClick({ R.id.tv_refresh,R.id.tv_upload,R.id.tv_down,R.id.tv_search,R.id.tv_sort,R.id.iv_search_back})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()){
             case R.id.iv_search_back:
-                TitleUtil.showHideSearch(this);
+                //TitleUtil.showHideSearch(((MainAct)getActivity()).getPU().getItemRecordTitleSearchBinding());
                 refresh(null);
                 break;
             case R.id.tv_search:
-                TitleUtil.showHideSearch(this);
+                //TitleUtil.showHideSearch(((MainAct)getActivity()).getPU().getItemRecordTitleSearchBinding());
                 break;
-            case R.id.video_refresh:
-            case R.id.image_refresh:
+            case R.id.tv_refresh:
                 ArrayList<Record> all = FileTool.getRecords(getBaseAct(), getPV().getType(),new String[]{DBTool.getLastReCordCTime(getPV().getType())+"",""+(System.currentTimeMillis()/1000)}, new OnFinishListener() {
                     @Override
                     public void onFinish(Object o) {
@@ -145,20 +141,20 @@ public class RecordsFrag extends BaseUIFrag<RecordsUIOpe,RecordsDAOpe,RecordsVal
                 if(o!=null&&o.size()>0){
                     getPV().getTiplabs().addAll(o);
                 }
-                TitleUtil.refreshList(RecordsFrag.this,getPV().getTiplabs(), new ViewListener() {
-                    @Override
-                    public void onInterupt(final int i, final View view) {
-                        int pos = (int) view.getTag(R.id.position);
-                        NetDataWork.Tip.getRecordsFromTip(getBaseUIAct(), getPV().getTiplabs().get(pos), new UINetAdapter<ArrayList<Record>>(getBaseUIAct()) {
-                            @Override
-                            public void onSuccess(ArrayList<Record> o) {
-                                super.onSuccess(o);
-                                TitleUtil.showHideSearch(RecordsFrag.this);
-                                refresh(o);
-                            }
-                        });
-                    }
-                });
+//                TitleUtil.refreshList(((MainAct)getActivity()).getPU().getItemRecordTitleSearchBinding(),getActivity(),getPV().getTiplabs(), new ViewListener() {
+//                    @Override
+//                    public void onInterupt(final int i, final View view) {
+//                        int pos = (int) view.getTag(R.id.position);
+//                        NetDataWork.Tip.getRecordsFromTip(getBaseUIAct(), getPV().getTiplabs().get(pos), new UINetAdapter<ArrayList<Record>>(getBaseUIAct()) {
+//                            @Override
+//                            public void onSuccess(ArrayList<Record> o) {
+//                                super.onSuccess(o);
+//                                TitleUtil.showHideSearch(((MainAct)getActivity()).getPU().getItemRecordTitleSearchBinding());
+//                                refresh(o);
+//                            }
+//                        });
+//                    }
+//                });
             }
         });
     }

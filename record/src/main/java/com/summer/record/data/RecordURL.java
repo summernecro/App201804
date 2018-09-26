@@ -4,7 +4,7 @@ public class RecordURL {
     protected static final String 奔溃日志 = "http://www.summernecro.com:8079/server/crash/sendCrash";
     protected static final String HTTP前缀 = "http://";
     protected static String 项目名 = "/record";
-    protected static String 正式域名 = "www.summernecro.com";
+    protected static String 正式域名 = "www.summernecro.com:8888";
     protected static String 测试域名 = "192.168.20.150:8079";
     protected static String 域名 = 正式域名;
     protected static String 正式文件路径;
@@ -35,6 +35,22 @@ public class RecordURL {
 
     public static void set域名(String 域名) {
         域名 = 域名;
+    }
+
+    public static String STARTSTR = "record\\";
+
+    public static String NEWSTATSTR = "http://"+正式域名+"/";
+
+    public static String getNetUrl(String neturl){
+
+        if(neturl==null){
+            return neturl;
+        }
+        int a = neturl.indexOf(STARTSTR);
+        neturl = neturl.substring(a+STARTSTR.length(),neturl.length());
+        neturl = neturl.replace("\\","/");
+        neturl = NEWSTATSTR+neturl;
+        return neturl;
     }
 
     static {

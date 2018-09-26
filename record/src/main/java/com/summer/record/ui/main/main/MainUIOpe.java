@@ -43,23 +43,27 @@ public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
 
     ArrayList<BottomMenuBean> bottomMenuBeans = new ArrayList<>();
 
-
     @Override
     public void initUI() {
         super.initUI();
-        TitleUtil.initTitle(getActivity(),getBind().videotitle.getRoot());
-        TitleUtil.initTitle(getActivity(),getBind().imagetitle.getRoot());
-        TitleUtil.initTitle(getActivity(),getBind().texttitle.getRoot());
-
         bottomMenuBeans.add(new BottomMenuBean("视频", R.drawable.drawable_record_main_bottom_video,null,getBind().containVideo,getActivity().getResources().getColorStateList(R.color.color_white_black)));
         bottomMenuBeans.add(new BottomMenuBean("图片", R.drawable.drawable_record_main_bottom_image,null,getBind().containImage,getActivity().getResources().getColorStateList(R.color.color_white_black)));
         bottomMenuBeans.add(new BottomMenuBean("文字", R.drawable.drawable_record_main_bottom_text,null,getBind().containText,getActivity().getResources().getColorStateList(R.color.color_white_black)));
-        //bottomMenuBeans.add(new BottomMenuBean("设置", R.drawable.drawable_record_main_bottom_setting,null,getBind().containSetting,getActivity().getResources().getColorStateList(R.color.color_white_black)));
         getBind().bottommenu.initItems(bottomMenuBeans);
         if(getActivity() instanceof OnAppItemSelectListener){
             getBind().bottommenu.setOnAppItemClickListener((OnAppItemSelectListener)getActivity());
             getBind().bottommenu.setIndex(0);
         }
+
+        getBind().containVideo.setMoudleid(MainValue.视频ID);
+        getBind().containVideo.setMoudle(MainValue.视频);
+        getBind().containVideo.getActMainABinding().amain.setId(MainValue.视频ID);
+        getBind().containImage.setMoudleid(MainValue.图片ID);
+        getBind().containImage.setMoudle(MainValue.图片);
+        getBind().containImage.getActMainABinding().amain.setId(MainValue.图片ID);
+        getBind().containText.setMoudleid(MainValue.文字ID);
+        getBind().containText.setMoudle(MainValue.文字);
+        getBind().containText.getActMainABinding().amain.setId(MainValue.文字ID);
     }
 
     public void showView(int pos,int beforepos){
@@ -94,7 +98,7 @@ public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
 
     public void setTitleAndBottomVisible(boolean visible){
         getBind().bottommenu.setVisibility(visible?View.VISIBLE:View.GONE);
-        getBind().imagetitle.getRoot().setVisibility(visible?View.VISIBLE:View.GONE);
+        getBind().containImage.getActMainABinding().title.getRoot().setVisibility(visible?View.VISIBLE:View.GONE);
     }
 
     public void swithTitleAndBottomVisible(){
@@ -107,40 +111,6 @@ public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
 
     public void changeRightImage3(int res){
        // getBind().recordtitle.tvDown.setBackgroundResource(res);
-    }
-
-
-    public void showHideSort(final RecyclerView recyclerView, boolean show, ArrayList<String> sorts, ViewListener listener){
-        if(show){
-            if(recyclerView.getAdapter()==null){
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                recyclerView.setAdapter(new AppsDataBindingAdapter(getActivity(),R.layout.item_sort_text,BR.item_sort_text,sorts,listener));
-            }
-            ViewAnimator.animate( recyclerView).translationY(-recyclerView.getHeight(),0).duration(500).onStart(new AnimationListener.Start() {
-                @Override
-                public void onStart() {
-                    recyclerView.setVisibility(View.VISIBLE);
-                }
-            }).start();
-        }else{
-            ViewAnimator.animate(recyclerView).translationY(0,-recyclerView.getHeight()).duration(500).onStop(new AnimationListener.Stop() {
-                @Override
-                public void onStop() {
-                    recyclerView.setVisibility(View.GONE);
-                }
-            }).start();
-        }
-    }
-
-    public void switchSort(int id,ArrayList<String> sorts, ViewListener listener){
-        switch (id){
-            case R.id.video_sort:
-                showHideSort(getBind().videosortlist,getBind().videosortlist.getVisibility()!=View.VISIBLE,sorts,listener);
-                break;
-            case R.id.image_sort:
-                showHideSort(getBind().imagesortlist,getBind().imagesortlist.getVisibility()!=View.VISIBLE,sorts,listener);
-                break;
-        }
     }
 
 }

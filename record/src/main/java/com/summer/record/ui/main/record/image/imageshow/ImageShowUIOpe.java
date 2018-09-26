@@ -5,6 +5,7 @@ package com.summer.record.ui.main.record.image.imageshow;
 import com.android.lib.GlideApp;
 import com.android.lib.base.ope.BaseUIOpe;
 import com.summer.record.data.Record;
+import com.summer.record.data.RecordURL;
 import com.summer.record.databinding.FragMainImageImagedetailImageBinding;
 import com.summer.record.tool.UrlTool;
 import com.summer.record.ui.main.record.record.RecordDAOpe;
@@ -25,9 +26,9 @@ public class ImageShowUIOpe extends BaseUIOpe<FragMainImageImagedetailImageBindi
             }
         }else{
             if(image.getLocpath().toLowerCase().endsWith("gif")){
-                GlideApp.with(getActivity()).asGif().centerInside().load(UrlTool.getNetUrl(image.getNetpath())).into(getBind().ivImage);
+                GlideApp.with(getActivity()).asGif().centerInside().load(RecordURL.getNetUrl(image.getNetpath())).into(getBind().ivImage);
             }else{
-                GlideApp.with(getActivity()).asBitmap().centerInside().load(UrlTool.getNetUrl(image.getNetpath())).into(getBind().ivImage);
+                GlideApp.with(getActivity()).asBitmap().centerInside().load(RecordURL.getNetUrl(image.getNetpath())).into(getBind().ivImage);
             }
             new RecordDAOpe().downLoadRecord(image,new NetAdapter(getFrag()){
                 @Override

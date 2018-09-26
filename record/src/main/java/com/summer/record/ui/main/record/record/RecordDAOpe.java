@@ -24,6 +24,7 @@ import com.google.gson.reflect.TypeToken;
 import com.summer.record.data.Folder;
 import com.summer.record.data.NetDataWork;
 import com.summer.record.data.Record;
+import com.summer.record.data.RecordURL;
 import com.summer.record.data.Records;
 import com.summer.record.tool.DBTool;
 import com.summer.record.tool.FileTool;
@@ -193,7 +194,8 @@ public class RecordDAOpe extends BaseDAOpe {
     }
 
 
-    public void downLoadRecords(final int index, final BaseUIFrag frag, final ArrayList<Record> records, final OnFinishListener onFinishListener){
+    public void downLoadRecords(final int index, final BaseUIFrag frag, final ArrayList<Record> records, final OnFinishListener listener, final OnFinishListener onFinishListener){
+        listener.onFinish(records.get(index));
         downLoadRecord(records.get(index),new NetAdapter(frag.getBaseUIAct()){
             @Override
             public void onNetFinish(boolean haveData, String url, BaseResBean baseResBean) {
@@ -205,7 +207,7 @@ public class RecordDAOpe extends BaseDAOpe {
                 }else{
                     onFinishListener.onFinish(records.get(index));
                 }
-                downLoadRecords(i,frag,records,onFinishListener);
+                downLoadRecords(i,frag,records,listener,onFinishListener);
             }
         });
     }
@@ -213,7 +215,7 @@ public class RecordDAOpe extends BaseDAOpe {
 
     public void downLoadRecord(Record record,NetI adapter){
 
-        NetGet.downLoadFile(UrlTool.getNetUrl(record.getNetpath()),record.locpath,adapter);
+        NetGet.downLoadFile(RecordURL.getNetUrl(record.getNetpath()),record.locpath,adapter);
     }
 
 
