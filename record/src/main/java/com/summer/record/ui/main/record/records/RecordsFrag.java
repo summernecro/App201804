@@ -19,6 +19,7 @@ import com.summer.record.data.Tiplab;
 import com.summer.record.tool.DBTool;
 import com.summer.record.tool.FileTool;
 import com.summer.record.tool.TitleUtil;
+import com.summer.record.ui.main.main.AView;
 import com.summer.record.ui.main.main.MainAct;
 import com.summer.record.ui.main.main.MainValue;
 import com.summer.record.ui.main.record.folder.FolderFrag;
@@ -59,11 +60,13 @@ public class RecordsFrag extends BaseUIFrag<RecordsUIOpe,RecordsDAOpe,RecordsVal
         super.onClick(v);
         switch (v.getId()){
             case R.id.iv_search_back:
-                //TitleUtil.showHideSearch(((MainAct)getActivity()).getPU().getItemRecordTitleSearchBinding());
+                AView aView = (AView) v.getTag();
+                TitleUtil.showHideSearch(aView.getActMainABinding().search);
                 refresh(null);
                 break;
             case R.id.tv_search:
-                //TitleUtil.showHideSearch(((MainAct)getActivity()).getPU().getItemRecordTitleSearchBinding());
+                AView aView1 = (AView) v.getTag();
+                TitleUtil.showHideSearch(aView1.getActMainABinding().search);
                 break;
             case R.id.tv_refresh:
                 ArrayList<Record> all = FileTool.getRecords(getBaseAct(), getPV().getType(),new String[]{DBTool.getLastReCordCTime(getPV().getType())+"",""+(System.currentTimeMillis()/1000)}, new OnFinishListener() {

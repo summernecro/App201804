@@ -18,6 +18,8 @@ import com.summer.record.data.NetDataWork;
 import com.summer.record.data.Record;
 import com.summer.record.data.Records;
 import com.summer.record.tool.DateUtil;
+import com.summer.record.tool.TitleUtil;
+import com.summer.record.ui.main.main.AView;
 import com.summer.record.ui.main.record.image.ImageDetailFrag;
 import com.summer.record.ui.main.record.records.RecordsFrag;
 import com.summer.record.ui.main.main.MainAct;
@@ -187,8 +189,9 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordDAOpe,RecordValue> 
                     }
                 });
                 break;
+            case R.id.iv_search_back:
+                break;
             case R.id.tv_search:
-
                 break;
         }
     }

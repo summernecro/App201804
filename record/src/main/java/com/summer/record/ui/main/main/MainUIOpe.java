@@ -113,4 +113,6 @@ public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
        // getBind().recordtitle.tvDown.setBackgroundResource(res);
     }
 
+
+
 }
