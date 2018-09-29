@@ -1,10 +1,9 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-kapt'
+//apply plugin: 'kotlin-kapt'
 def dbflow_version = "4.2.4"
 android {
     compileSdkVersion 27
     useLibrary 'org.apache.http.legacy'
-    buildToolsVersion '27.0.2'
     defaultConfig {
         applicationId "com.summer.record"
         minSdkVersion 19
@@ -30,6 +29,7 @@ android {
         enabled = true
     }
 
+    buildToolsVersion '27.0.3'
 }
 
 dependencies {

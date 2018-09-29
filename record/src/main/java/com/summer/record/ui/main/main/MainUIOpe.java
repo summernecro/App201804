@@ -73,7 +73,7 @@ public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
        for(int i=0;i<bottomMenuBeans.size();i++){
            if(i==pos){
                bottomMenuBeans.get(i).getContainerView().setVisibility(View.VISIBLE);
-               ViewAnimator.animate(((ViewGroup)bottomMenuBeans.get(i).getContainerView()).getChildAt(1)).duration(300).fadeIn().start();
+               ViewAnimator.animate(((AView)bottomMenuBeans.get(i).getContainerView()).getActMainABinding().amain).duration(300).fadeIn().start();
            }else{
                final int finalI = i;
                bottomMenuBeans.get(finalI).getContainerView().setVisibility(View.GONE);
