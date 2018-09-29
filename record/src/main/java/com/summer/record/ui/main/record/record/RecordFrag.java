@@ -11,6 +11,7 @@ import com.android.lib.base.listener.ViewListener;
 import com.android.lib.bean.databean.XYBean;
 import com.android.lib.network.bean.res.BaseResBean;
 import com.android.lib.network.news.UINetAdapter;
+import com.android.lib.util.LogUtil;
 import com.android.lib.util.ToastUtil;
 import com.android.lib.util.fragment.two.FragManager2;
 import com.summer.record.R;
@@ -46,6 +47,31 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordDAOpe,RecordValue> 
         recordFrag.getPV().setType(type);
         recordFrag.getPV().setOriRecords(records);
         return recordFrag;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        LogUtil.E("222222+onStop");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        LogUtil.E("222222+onStart");
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LogUtil.E("222222+onResume");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LogUtil.E("222222+onPause");
     }
 
     @Override
@@ -88,7 +114,6 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordDAOpe,RecordValue> 
                 }
             });
 
-
             NetDataWork.Data.getRecordInfo(getBaseUIAct(),getPV().getType(),getPV().getTimedu(), new UINetAdapter<Records>(getBaseUIFrag()) {
                 @Override
                 public void onSuccess(Records o) {
@@ -98,7 +123,6 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordDAOpe,RecordValue> 
                     }
                     getPD().setRecordsInfo(o);
                     getPV().setTitleStr(o.getDoneNum()+"/"+o.getAllNum()+getPV().getYear());
-                    getPV().getRecordsFrag().getPU().updateTitle(getPV().getTitleStr());
                 }
             });
         }

@@ -23,8 +23,11 @@ public class RecordApp extends LibAplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        LogUtil.E("eeee1"+System.currentTimeMillis());
         FlowManager.init(this);
         NetGet.setDeal(new NetGet.Deal() {
+
+
             @Override
             public void onSuccess(BaseResBean baseResBean) {
                 if(baseResBean!=null){
@@ -47,32 +50,9 @@ public class RecordApp extends LibAplication {
             public void onFinished() {
 
             }
+
         });
 
-        com.summer.record.tool.NetGet.setDeal(new com.summer.record.tool.NetGet.Deal() {
-            @Override
-            public void onSuccess(BaseResBean baseResBean) {
-                if(baseResBean!=null){
-                    baseResBean.setCode("200");
-                }
-                baseResBean.setResult(baseResBean.getData());
-            }
-
-            @Override
-            public void onError(Throwable throwable, boolean b) {
-
-            }
-
-            @Override
-            public void onCancelled(Callback.CancelledException e) {
-
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-        });
 
         CrashHander.getInstance().init(this, new OnFinishListener() {
             @Override
@@ -94,6 +74,7 @@ public class RecordApp extends LibAplication {
 //        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
 //        StrictMode.setVmPolicy(builder.build());
 //        builder.detectFileUriExposure();
+        LogUtil.E(System.currentTimeMillis());
     }
 
 

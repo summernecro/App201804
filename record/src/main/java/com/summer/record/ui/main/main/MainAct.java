@@ -11,6 +11,7 @@ import com.android.lib.base.activity.BaseUIActivity;
 import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.interf.view.OnAppItemSelectListener;
 import com.android.lib.base.listener.ViewListener;
+import com.android.lib.util.LogUtil;
 import com.android.lib.util.fragment.two.FragManager2;
 import com.android.lib.util.system.PermissionUtil;
 import com.summer.record.R;
@@ -30,6 +31,7 @@ public class MainAct extends BaseUIActivity<MainUIOpe,MainDAOpe,MainValue> imple
     @Override
     protected void initNow() {
         super.initNow();
+        LogUtil.E("eeee2"+System.currentTimeMillis());
         if(!new PermissionUtil().go检查权限(this,getPD().getPermissions())){
             return;
         }

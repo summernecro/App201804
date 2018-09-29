@@ -65,14 +65,14 @@ public class RecordDAOpe extends BaseDAOpe {
         new AsyncTask<String, String, ArrayList<Record>>() {
             @Override
             protected ArrayList<Record> doInBackground(String... strings) {
-                ArrayList<Record> all = FileTool.getRecords(context, type,new String[]{DBTool.getLastReCordCTime(type)+"",""+Long.parseLong(time[1])}, new OnFinishListener() {
-                    @Override
-                    public void onFinish(Object o) {
-
-                    }
-                });
+//                ArrayList<Record> all = FileTool.getRecords(context, type,new String[]{DBTool.getLastReCordCTime(type)+"",""+Long.parseLong(time[1])}, new OnFinishListener() {
+//                    @Override
+//                    public void onFinish(Object o) {
+//
+//                    }
+//                });
                 ArrayList<Record> records = new ArrayList<>();
-                records.addAll(all);
+                //records.addAll(all);
                 records.addAll(DBTool.getAllRecord(type,new long[]{Long.parseLong(time[0]),Long.parseLong(time[1])}));
 //                ArrayList<Record> videos =  FileTool.getImages(context, time,new OnFinishListener() {
 //                    @Override

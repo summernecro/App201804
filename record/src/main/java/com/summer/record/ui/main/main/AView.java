@@ -7,12 +7,16 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.lib.base.adapter.AppsDataBindingAdapter;
+import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.interf.OnFinishListener;
 import com.android.lib.base.listener.ViewListener;
 import com.android.lib.network.news.NetAdapter;
@@ -39,7 +43,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Optional;
 
-public class AView extends RelativeLayout implements RefreshI,View.OnClickListener,OnFinishListener {
+public class AView extends RelativeLayout implements RefreshI,View.OnClickListener,OnFinishListener,TextView.OnEditorActionListener {
 
     ActMainABinding actMainABinding;
 
@@ -97,7 +101,7 @@ public class AView extends RelativeLayout implements RefreshI,View.OnClickListen
         switch (v.getId()){
             case R.id.iv_search_back:
                 TitleUtil.showHideSearch(getActMainABinding().search);
-                FragManager2.getInstance().setAnim(false).start(getAct(),getMoudle(),getMoudleid(), RecordsFrag.getInstance(getAct().getMoudle()));
+                //FragManager2.getInstance().setAnim(false).start(getAct(),getMoudle(),getMoudleid(), RecordsFrag.getInstance(getAct().getMoudle()));
                 break;
             case R.id.tv_search:
                 TitleUtil.showHideSearch(getActMainABinding().search);
@@ -188,4 +192,17 @@ public class AView extends RelativeLayout implements RefreshI,View.OnClickListen
     }
 
 
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if(actionId== EditorInfo.IME_ACTION_GO){
+            //TitleUtil.showHideSearch(getActMainABinding().search);
+            BaseUIFrag frag = FragManager2.getInstance().getCurrentFrag(getMoudle());
+            if(frag instanceof AddTipI){
+                AddTipI addTipI = (AddTipI) frag;
+                addTipI.addTip(v.getText().toString());
+            }
+            return true;
+        }
+        return false;
+    }
 }
