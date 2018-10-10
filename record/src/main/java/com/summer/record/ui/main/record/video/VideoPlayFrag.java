@@ -16,7 +16,7 @@ import com.summer.record.ui.main.main.AddTipI;
 
 import java.util.ArrayList;
 
-public class VideoPlayFrag extends BaseUIFrag<VideoPlayUIOpe,VideoPlayDAOpe,VideoPlayValue> implements AddTipI{
+public class VideoPlayFrag extends BaseUIFrag<VideoPlayUIOpe,VideoPlayValue> implements AddTipI{
 
 
     public static VideoPlayFrag getInstance(Record video){

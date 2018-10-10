@@ -16,7 +16,7 @@ import com.summer.record.ui.main.main.MainAct;
 import butterknife.OnClick;
 import butterknife.Optional;
 
-public class ImageShowFrag extends BaseUIFrag<ImageShowUIOpe,ImageShowDAOpe,ImageShowValue> {
+public class ImageShowFrag extends BaseUIFrag<ImageShowUIOpe,ImageShowValue> {
 
     public static ImageShowFrag getInstance(Record image,BaseUIFrag baseUIFrag){
         ImageShowFrag imageShowFrag = new ImageShowFrag();
@@ -32,7 +32,7 @@ public class ImageShowFrag extends BaseUIFrag<ImageShowUIOpe,ImageShowDAOpe,Imag
         getPU().showImage((Record) getArguments().getSerializable(ValueConstant.DATA_DATA));
         if(getPV().getBaseUIFrag() instanceof ImageDetailFrag){
             ImageDetailFrag imageDetailFrag = (ImageDetailFrag) getPV().getBaseUIFrag();
-            ViewTool.setVisible(getPU().getBind().tvDes,imageDetailFrag.getPV().isShow());
+            getPU().setVis(imageDetailFrag.getPV().isShow());
         }
     }
 
@@ -49,12 +49,11 @@ public class ImageShowFrag extends BaseUIFrag<ImageShowUIOpe,ImageShowDAOpe,Imag
         super.onClick(v);
         switch (v.getId()){
             case R.id.iv_image:
-                ((MainAct)getBaseAct()).getPU().swithTitleAndBottomVisible();
-                ViewTool.switchView(getPU().getBind().tvDes);
+                ((MainAct)getBaseUIAct()).getPU().swithTitleAndBottomVisible();
+                getPU().switcht();
                 if(getPV().getBaseUIFrag() instanceof ImageDetailFrag){
                     ImageDetailFrag imageDetailFrag = (ImageDetailFrag) getPV().getBaseUIFrag();
-                    imageDetailFrag.getPV().setShow(getPU().getBind().tvDes);
-
+                    getPU().setshow(imageDetailFrag);
                 }
                 break;
         }

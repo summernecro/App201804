@@ -48,6 +48,8 @@ public class MainValue extends BaseValue{
 
     public static ArrayList<String> sorts = new ArrayList<>();
 
+    private MainDAOpe mainDAOpe = new MainDAOpe();
+
 
     public MainValue(){
         fragments.add(RecordsFrag.getInstance(Record.ATYPE_VIDEO));

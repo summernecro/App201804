@@ -9,7 +9,7 @@ import com.summer.record.ui.main.main.RefreshI;
 
 import java.util.ArrayList;
 
-public class SettFrag extends BaseUIFrag<SettUIOpe,SettDAOpe,SettValue> implements RefreshI {
+public class SettFrag extends BaseUIFrag<SettUIOpe,SettValue> implements RefreshI {
 
     @Override
     public void refresh(ArrayList<Record> o) {

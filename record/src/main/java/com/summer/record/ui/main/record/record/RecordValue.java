@@ -49,6 +49,9 @@ public class RecordValue extends BaseValue {
     String type;
 
     public static int num = 6;
+    @Setter
+    @Getter
+    RecordDAOpe recordDAOpe = new RecordDAOpe();
 
     public RecordValue(){
         UpdateIndicator updateIndicator = new UpdateIndicator();

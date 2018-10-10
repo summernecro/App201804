@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import butterknife.OnClick;
 import butterknife.Optional;
 
-public class TextDetailFrag extends BaseUIFrag<TextDetailUIOpe,TextDetailDAOpe,TextDetailValue> implements AddTipI {
+public class TextDetailFrag extends BaseUIFrag<TextDetailUIOpe,TextDetailValue> implements AddTipI {
 
     public static TextDetailFrag getInstance(Record record){
         TextDetailFrag textDetailFrag = new TextDetailFrag();

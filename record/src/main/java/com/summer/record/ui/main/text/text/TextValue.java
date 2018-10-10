@@ -5,6 +5,7 @@ package com.summer.record.ui.main.text.text;
 import com.android.lib.base.ope.BaseValue;
 import com.summer.record.data.Record;
 import com.summer.record.data.Tiplab;
+import com.summer.record.ui.main.record.record.RecordDAOpe;
 
 import java.util.ArrayList;
 
@@ -23,4 +24,6 @@ public class TextValue extends BaseValue{
     private ArrayList<Tiplab> tiplabs = new ArrayList<>();
 
     private String temStr = "";
+
+    RecordDAOpe recordDAOpe = new RecordDAOpe();
 }

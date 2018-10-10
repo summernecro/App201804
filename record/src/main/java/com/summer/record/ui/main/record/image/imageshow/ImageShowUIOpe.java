@@ -8,6 +8,8 @@ import com.summer.record.data.Record;
 import com.summer.record.data.RecordURL;
 import com.summer.record.databinding.FragMainImageImagedetailImageBinding;
 import com.summer.record.tool.UrlTool;
+import com.summer.record.tool.ViewTool;
+import com.summer.record.ui.main.record.image.ImageDetailFrag;
 import com.summer.record.ui.main.record.record.RecordDAOpe;
 import com.summer.record.ui.main.record.image.NetAdapter;
 
@@ -40,6 +42,17 @@ public class ImageShowUIOpe extends BaseUIOpe<FragMainImageImagedetailImageBindi
 
         }
 
+    }
 
+    public void setVis(boolean is){
+        ViewTool.setVisible(getBind().tvDes,is);
+    }
+
+    public void switcht(){
+        ViewTool.switchView(getBind().tvDes);
+    }
+
+    public void setshow(ImageDetailFrag imageDetailFrag){
+        imageDetailFrag.getPV().setShow(getBind().tvDes);
     }
 }

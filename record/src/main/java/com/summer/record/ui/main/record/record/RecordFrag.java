@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import butterknife.OnClick;
 import butterknife.Optional;
 
-public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordDAOpe,RecordValue> implements ViewListener{
+public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordValue> implements ViewListener{
 
 
     public static RecordFrag getInstance(String[] time, String type, RecordsFrag recordsFrag,ArrayList<Record> records){
@@ -50,35 +50,10 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordDAOpe,RecordValue> 
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        LogUtil.E("222222+onStop");
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        LogUtil.E("222222+onStart");
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        LogUtil.E("222222+onResume");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        LogUtil.E("222222+onPause");
-    }
-
-    @Override
     public void initNow() {
         super.initNow();
         if(getPV().getOriRecords()!=null&&getPV().getOriRecords().size()>0){
-            getP().getD().dealRecord(getPV().getOriRecords(), RecordValue.num, new OnFinishListener() {
+            getPV().getRecordDAOpe().dealRecord(getPV().getOriRecords(), RecordValue.num, new OnFinishListener() {
                 @Override
                 public void onFinish(Object o) {
                     getPV().reAddAllDateRecord((ArrayList<Record>) o);
@@ -87,7 +62,7 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordDAOpe,RecordValue> 
                 }
             });
         }else{
-            getPD().getImages(getBaseAct(),RecordValue.num,getPV().getType(),getPV().getTimedu(), new OnLoadingAdapter() {
+            getPV().getRecordDAOpe().getImages(getBaseUIAct(),RecordValue.num,getPV().getType(),getPV().getTimedu(), new OnLoadingAdapter() {
                 @Override
                 public void onStarLoading(Object o) {
                     ((UpdateIndicator)getPV().getLoadUtil().getIndicator()).setContext(getContext());
@@ -97,7 +72,7 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordDAOpe,RecordValue> 
                 @Override
                 public void onStopLoading(Object o) {
                     getPV().setOriRecords((ArrayList<Record>) o);
-                    getP().getD().dealRecord(getPV().getOriRecords(), RecordValue.num, new OnFinishListener() {
+                    getPV().getRecordDAOpe().dealRecord(getPV().getOriRecords(), RecordValue.num, new OnFinishListener() {
                         @Override
                         public void onFinish(Object o) {
                             getPV().reAddAllDateRecord((ArrayList<Record>) o);
@@ -121,7 +96,7 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordDAOpe,RecordValue> 
                     if(o==null){
                         return;
                     }
-                    getPD().setRecordsInfo(o);
+                    getPV().getRecordDAOpe().setRecordsInfo(o);
                     getPV().setTitleStr(o.getDoneNum()+"/"+o.getAllNum()+getPV().getYear());
                 }
             });
@@ -134,13 +109,13 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordDAOpe,RecordValue> 
         super.onClick(v);
         switch (v.getId()){
             case R.id.tv_upload:
-                ArrayList<Record>  list = getPD().getNoNullRecords(getPV().getUsedRecords());
+                ArrayList<Record>  list = getPV().getRecordDAOpe().getNoNullRecords(getPV().getUsedRecords());
                 final ArrayList<Record> records = new ArrayList<>();
-                getPD().updateRecordsStep(0,records,getBaseUIFrag(), list, new OnFinishListener() {
+                getPV().getRecordDAOpe().updateRecordsStep(0,records,getBaseUIFrag(), list, new OnFinishListener() {
                     @Override
                     public void onFinish(Object o) {
                         if(!(o instanceof String)){
-                            getPD().uploadRecords(0,getBaseUIAct(),records , new OnFinishListener() {
+                            getPV().getRecordDAOpe().uploadRecords(0,getBaseUIAct(),records , new OnFinishListener() {
                                 @Override
                                 public void onFinish(Object o) {
                                     if(o==null){
@@ -162,8 +137,8 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordDAOpe,RecordValue> 
                                     }else{
                                         Record record = (Record) o;
 //                                    getPU().scrollToPos(getPD().getRecords(), record);
-                                        if(getPD().getRecordsInfo()!=null){
-                                            getPV().setTitleStr(record.getPos()+"/"+getPD().getRecordsInfo().getAllNum()+getPV().getYear());
+                                        if(getPV().getRecordDAOpe().getRecordsInfo()!=null){
+                                            getPV().setTitleStr(record.getPos()+"/"+getPV().getRecordDAOpe().getRecordsInfo().getAllNum()+getPV().getYear());
                                             ( (MainAct)getBaseUIAct()).getPU().updateTitle(getPV().getTitleStr());
                                         }
                                     }
@@ -175,16 +150,16 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordDAOpe,RecordValue> 
                 break;
             case R.id.tv_down:
                 v.setSelected(!v.isSelected());
-                NetDataWork.Data.getAllRecords(getBaseAct(), getPV().getType(),getPV().getTimedu(),new UINetAdapter<ArrayList<Record>>(getBaseUIFrag(),UINetAdapter.Loading) {
+                NetDataWork.Data.getAllRecords(getBaseUIAct(), getPV().getType(),getPV().getTimedu(),new UINetAdapter<ArrayList<Record>>(getBaseUIFrag(),UINetAdapter.Loading) {
                     @Override
                     public void onSuccess(ArrayList<Record> o) {
                         super.onSuccess(o);
                         if(o==null){
                             return;
                         }
-                        getPV().reAddDateUsedRecord(getPD().dealRecord(o,RecordValue.num));
+                        getPV().reAddDateUsedRecord(getPV().getRecordDAOpe().dealRecord(o,RecordValue.num));
                         getPU().loadImages(getPV().getUsedRecords(),RecordFrag.this);
-                        getPD().downLoadRecords(0, getBaseUIFrag(), getPD().getUnDownloadRecords(getPD().getNoNullRecords(getPV().getUsedRecords())), new OnFinishListener() {
+                        getPV().getRecordDAOpe().downLoadRecords(0, getBaseUIFrag(), getPV().getRecordDAOpe().getUnDownloadRecords(getPV().getRecordDAOpe().getNoNullRecords(getPV().getUsedRecords())), new OnFinishListener() {
                             @Override
                             public void onFinish(Object o) {
                                 if(o!=null){
@@ -197,7 +172,7 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordDAOpe,RecordValue> 
                             public void onFinish(Object o) {
                                 if(o!=null){
                                     Record record = (Record) o;
-                                    ToastUtil.getInstance().showShort(getBaseAct(),record.getLocpath());
+                                    ToastUtil.getInstance().showShort(getBaseUIAct(),record.getLocpath());
                                     getPU().scrollToPos(record);
                                 }
                             }
@@ -233,7 +208,7 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordDAOpe,RecordValue> 
                     XYBean xyBean = new XYBean((view.getLeft()+view.getRight())/2,(view.getTop()+view.getBottom())/2);
                     FragManager2.getInstance().setAnim(false).start(getBaseUIAct(),
                             MainValue.图片,
-                            ImageDetailFrag.getInstance(getPD().getNoNullRecords(getPV().getUsedRecords()),record.getPos(),xyBean));
+                            ImageDetailFrag.getInstance(getPV().getRecordDAOpe().getNoNullRecords(getPV().getUsedRecords()),record.getPos(),xyBean));
                 }else{
                     FragManager2.getInstance().setStartAnim(R.anim.fade_in,R.anim.fade_out).setFinishAnim(R.anim.fade_in,R.anim.fade_out).start(getBaseUIAct(),
                             MainValue.视频,
