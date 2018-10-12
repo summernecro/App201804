@@ -16,6 +16,7 @@ import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.interf.OnFinishListener;
 import com.android.lib.base.listener.BaseTextWather;
 import com.android.lib.base.listener.ViewListener;
+import com.android.lib.bean.AppViewHolder;
 import com.android.lib.util.ScreenUtil;
 import com.summer.record.BR;
 import com.summer.record.R;
@@ -99,7 +100,14 @@ public class TitleUtil {
     }
 
     public static void refreshList(ItemRecordTitleSearchBinding itemRecordTitleSearchBinding,Activity activity,ArrayList<Tiplab> tiplabs, ViewListener listener){
-        itemRecordTitleSearchBinding.recycleTips.setAdapter(new AppsDataBindingAdapter(activity, R.layout.item_tiplab_text, BR.item_tiplab_text,tiplabs,listener));
+        itemRecordTitleSearchBinding.recycleTips.setAdapter(new AppsDataBindingAdapter(activity, R.layout.item_tiplab_text, BR.item_tiplab_text,tiplabs,listener){
+            @Override
+            public void onBindViewHolder(AppViewHolder holder, int position) {
+                super.onBindViewHolder(holder, position);
+                holder.viewDataBinding.setVariable(vari, list.get(position));
+                holder.viewDataBinding.executePendingBindings();//加一行，问题解决
+            }
+        });
     }
 
 }
