@@ -4,6 +4,7 @@ package com.summer.record.ui.main.record.image.imageshow;
 
 import com.android.lib.GlideApp;
 import com.android.lib.base.ope.BaseUIOpe;
+import com.android.lib.util.ToastUtil;
 import com.summer.record.data.Record;
 import com.summer.record.data.RecordURL;
 import com.summer.record.databinding.FragMainImageImagedetailImageBinding;
@@ -17,7 +18,7 @@ import java.io.File;
 
 public class ImageShowUIOpe extends BaseUIOpe<FragMainImageImagedetailImageBinding> {
 
-    public void showImage(Record image){
+    public void showImage(final Record image){
         getBind().tvDes.setText(image.getLocpath());
         File file = new File(image.getLocpath());
         if(file.exists()){
@@ -36,7 +37,7 @@ public class ImageShowUIOpe extends BaseUIOpe<FragMainImageImagedetailImageBindi
                 @Override
                 public void onSuccess(Object o) {
                     super.onSuccess(o);
-                    //ToastUtil.getInstance().showShort(getActivity(), StringUtil.);
+                    ToastUtil.getInstance().showShort(getActivity(), image.getLocpath());
                 }
             });
 

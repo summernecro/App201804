@@ -9,7 +9,7 @@ public class RecordURL {
     protected static String 域名 = 正式域名;
     protected static String 正式文件路径;
     protected static String 测试文件路径;
-    protected static String 文件路径="";
+    protected static String 文件路径="records";
     protected static boolean isOffice;
 
     public RecordURL() {
@@ -49,7 +49,7 @@ public class RecordURL {
         int a = neturl.indexOf(STARTSTR);
         neturl = neturl.substring(a+STARTSTR.length(),neturl.length());
         neturl = neturl.replace("\\","/");
-        neturl = NEWSTATSTR+neturl;
+        neturl = NEWSTATSTR+文件路径+"/"+neturl;
         return neturl;
     }
 
@@ -57,7 +57,7 @@ public class RecordURL {
         域名 = 正式域名;
         正式文件路径 = "";
         测试文件路径 = "";
-        文件路径 = "";
+        文件路径 = "records";
         isOffice = false;
     }
 }
