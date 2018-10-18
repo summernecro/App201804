@@ -21,6 +21,7 @@ public class FolderValue extends BaseValue {
     ArrayList<Record> OriRecords = new ArrayList<>();
     ArrayList<Folder> folders = new ArrayList<>();
     String atype ;
+    FolderDAOpe folderDAOpe = new FolderDAOpe();
 
     private ArrayList<String> sorts = new ArrayList<>();
 

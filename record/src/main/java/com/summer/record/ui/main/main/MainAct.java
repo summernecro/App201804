@@ -24,7 +24,7 @@ import com.summer.record.ui.main.record.records.RecordsFrag;
 import butterknife.OnClick;
 import butterknife.Optional;
 
-public class MainAct extends BaseUIActivity<MainUIOpe,MainDAOpe,MainValue> implements OnAppItemSelectListener,View.OnClickListener {
+public class MainAct extends BaseUIActivity<MainUIOpe,MainValue> implements OnAppItemSelectListener,View.OnClickListener {
 
 
 
@@ -32,7 +32,7 @@ public class MainAct extends BaseUIActivity<MainUIOpe,MainDAOpe,MainValue> imple
     protected void initNow() {
         super.initNow();
         LogUtil.E("eeee2"+System.currentTimeMillis());
-        if(!new PermissionUtil().go检查权限(this,getPD().getPermissions())){
+        if(!new PermissionUtil().go检查权限(this,getPV().getMainDAOpe().getPermissions())){
             return;
         }
         doThing();

@@ -19,6 +19,7 @@ import com.android.lib.base.adapter.AppsDataBindingAdapter;
 import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.interf.OnFinishListener;
 import com.android.lib.base.listener.ViewListener;
+import com.android.lib.bean.AppViewHolder;
 import com.android.lib.network.news.NetAdapter;
 import com.android.lib.network.news.UINetAdapter;
 import com.android.lib.util.NullUtil;
@@ -73,7 +74,14 @@ public class AView extends RelativeLayout implements RefreshI,View.OnClickListen
         if(show){
             if(getActMainABinding().sortlist.getAdapter()==null){
                 getActMainABinding().sortlist.setLayoutManager(new LinearLayoutManager(getContext()));
-                getActMainABinding().sortlist.setAdapter(new AppsDataBindingAdapter(getContext(),R.layout.item_sort_text, BR.item_sort_text,sorts,listener));
+                getActMainABinding().sortlist.setAdapter(new AppsDataBindingAdapter(getContext(),R.layout.item_sort_text, BR.item_sort_text,sorts,listener){
+                    @Override
+                    public void onBindViewHolder(AppViewHolder holder, int position) {
+                        super.onBindViewHolder(holder, position);
+                        holder.viewDataBinding.setVariable(vari, list.get(position));
+                        holder.viewDataBinding.executePendingBindings();//加一行，问题解决
+                    }
+                });
             }
             ViewAnimator.animate( getActMainABinding().sortlist).translationY(-getActMainABinding().sortlist.getHeight(),0).duration(500).onStart(new AnimationListener.Start() {
                 @Override

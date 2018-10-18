@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import butterknife.OnClick;
 import butterknife.Optional;
 
-public class RecordsFrag extends BaseUIFrag<RecordsUIOpe,RecordsDAOpe,RecordsValue> implements RefreshI,View.OnClickListener,OnFinishListener {
+public class RecordsFrag extends BaseUIFrag<RecordsUIOpe,RecordsValue> implements RefreshI,View.OnClickListener,OnFinishListener {
 
 
     public static BaseUIFrag getInstance(String type){
@@ -45,7 +45,7 @@ public class RecordsFrag extends BaseUIFrag<RecordsUIOpe,RecordsDAOpe,RecordsVal
     @Override
     public void initNow() {
         super.initNow();
-        getPD().getMaxMinYear(getContext(),getPV().getType(), new OnFinishListener() {
+        getPV().getRecordsDAOpe().getMaxMinYear(getContext(),getPV().getType(), new OnFinishListener() {
             @Override
             public void onFinish(Object o) {
                 getPU().initFrag(RecordsFrag.this,getPV().getType(), (ArrayList<String[]>) o,getPV().getImageFrags());
@@ -69,7 +69,7 @@ public class RecordsFrag extends BaseUIFrag<RecordsUIOpe,RecordsDAOpe,RecordsVal
                 TitleUtil.showHideSearch(aView1.getActMainABinding().search);
                 break;
             case R.id.tv_refresh:
-                ArrayList<Record> all = FileTool.getRecords(getBaseAct(), getPV().getType(),new String[]{DBTool.getLastReCordCTime(getPV().getType())+"",""+(System.currentTimeMillis()/1000)}, new OnFinishListener() {
+                ArrayList<Record> all = FileTool.getRecords(getBaseUIAct(), getPV().getType(),new String[]{DBTool.getLastReCordCTime(getPV().getType())+"",""+(System.currentTimeMillis()/1000)}, new OnFinishListener() {
                     @Override
                     public void onFinish(Object o) {
                     }
@@ -79,14 +79,14 @@ public class RecordsFrag extends BaseUIFrag<RecordsUIOpe,RecordsDAOpe,RecordsVal
                     @Override
                     public void onFinish(Object o) {
                         if(!(o instanceof String)){
-                            NetDataWork.Data.getAllRecords(getBaseAct(), getPV().getType(),new String[]{DBTool.getLastReCordCTime(getPV().getType())+"",""+(System.currentTimeMillis()/1000)},new UINetAdapter<ArrayList<Record>>(getBaseUIFrag(),UINetAdapter.Loading) {
+                            NetDataWork.Data.getAllRecords(getBaseUIAct(), getPV().getType(),new String[]{DBTool.getLastReCordCTime(getPV().getType())+"",""+(System.currentTimeMillis()/1000)},new UINetAdapter<ArrayList<Record>>(getBaseUIFrag(),UINetAdapter.Loading) {
                                 @Override
                                 public void onSuccess(ArrayList<Record> o) {
                                     super.onSuccess(o);
                                     DBTool.saveRecords(o, new OnFinishListener() {
                                         @Override
                                         public void onFinish(Object o) {
-                                            getPU().initFrag(RecordsFrag.this,getPV().getType(),getPD().getYears(getBaseUIAct(),getPV().getType(),DBTool.getMaxMinYear(getPV().getType())),getPV().getImageFrags());
+                                            getPU().initFrag(RecordsFrag.this,getPV().getType(),getPV().getRecordsDAOpe().getYears(getBaseUIAct(),getPV().getType(),DBTool.getMaxMinYear(getPV().getType())),getPV().getImageFrags());
                                             getPU().initViewPager(getChildFragmentManager(),getContext(),getPV().getImageFrags(),getPV().getPos());
                                         }
                                     });
@@ -111,7 +111,7 @@ public class RecordsFrag extends BaseUIFrag<RecordsUIOpe,RecordsDAOpe,RecordsVal
         RecordFrag recordFrag = (RecordFrag) getPV().getImageFrags().get(0);
         if(o==null){
             recordFrag.getPV().reAddDateUsedRecord(recordFrag.getPV().getDateOriRecords());
-            recordFrag.getPD().initRecords(recordFrag.getPV().getUsedRecords());
+            recordFrag.getPV().getRecordDAOpe().initRecords(recordFrag.getPV().getUsedRecords());
             recordFrag.getPU().loadImages(o, recordFrag);
             return;
         }
@@ -124,8 +124,8 @@ public class RecordsFrag extends BaseUIFrag<RecordsUIOpe,RecordsDAOpe,RecordsVal
         if(records.size()==0){
             return;
         }
-        recordFrag.getPV().reAddDateUsedRecord(recordFrag.getPD().dealRecord(records, RecordValue.num));
-        recordFrag.getPD().initRecords(recordFrag.getPV().getUsedRecords());
+        recordFrag.getPV().reAddDateUsedRecord(recordFrag.getPV().getRecordDAOpe().dealRecord(records, RecordValue.num));
+        recordFrag.getPV().getRecordDAOpe().initRecords(recordFrag.getPV().getUsedRecords());
         recordFrag.getPU().loadImages(o, recordFrag);
     }
 
@@ -135,7 +135,7 @@ public class RecordsFrag extends BaseUIFrag<RecordsUIOpe,RecordsDAOpe,RecordsVal
         if(NullUtil.isStrEmpty(o.toString())){
             return;
         }
-        NetDataWork.Tip.getLikeTiplab(getBaseAct(),o.toString(),new NetAdapter<ArrayList<Tiplab>>(getBaseAct()){
+        NetDataWork.Tip.getLikeTiplab(getBaseUIAct(),o.toString(),new NetAdapter<ArrayList<Tiplab>>(getBaseUIAct()){
 
             @Override
             public void onSuccess(ArrayList<Tiplab> o) {

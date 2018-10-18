@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import butterknife.OnClick;
 import butterknife.Optional;
 
-public class TextFrag extends BaseUIFrag<TextUIOpe,RecordDAOpe,TextValue> implements ViewListener,RefreshI {
+public class TextFrag extends BaseUIFrag<TextUIOpe,TextValue> implements ViewListener,RefreshI {
 
     @Override
     public void initNow() {
@@ -64,7 +64,7 @@ public class TextFrag extends BaseUIFrag<TextUIOpe,RecordDAOpe,TextValue> implem
                 if(o==null){
                     return;
                 }
-                getPD().setRecordsInfo(o);
+                getPV().getRecordDAOpe().setRecordsInfo(o);
                 getPU().updateTitle(o.getDoneNum()+"/"+o.getAllNum());
             }
         });
@@ -87,7 +87,7 @@ public class TextFrag extends BaseUIFrag<TextUIOpe,RecordDAOpe,TextValue> implem
             return;
         }
         getPV().setTemStr(GsonUtil.getInstance().toJson(records.get(0)));
-        getPD().updateRecords(getBaseUIFrag(),records,new NetAdapter<ArrayList<Record>>(getBaseUIAct()));
+        getPV().getRecordDAOpe().updateRecords(getBaseUIFrag(),records,new NetAdapter<ArrayList<Record>>(getBaseUIAct()));
 
     }
 
@@ -98,14 +98,14 @@ public class TextFrag extends BaseUIFrag<TextUIOpe,RecordDAOpe,TextValue> implem
         super.onClick(v);
         switch (v.getId()){
             case R.id.tv_upload:
-                getPD().setPagesize(10);
+                getPV().getRecordDAOpe().setPagesize(10);
                 ArrayList<Record> list = (ArrayList<Record>) new Select().from(Record.class).queryList();
                 final ArrayList<Record> records = new ArrayList<>();
-                getPD().updateRecordsStep(0,records,getBaseUIFrag(), list, new OnFinishListener() {
+                getPV().getRecordDAOpe().updateRecordsStep(0,records,getBaseUIFrag(), list, new OnFinishListener() {
                     @Override
                     public void onFinish(Object o) {
                         if(!(o instanceof String)){
-                            NetDataWork.Data.getAllRecords(getBaseAct(), Record.ATYPE_TEXT,new UINetAdapter<ArrayList<Record>>(getBaseUIFrag(),UINetAdapter.Loading) {
+                            NetDataWork.Data.getAllRecords(getBaseUIAct(), Record.ATYPE_TEXT,new UINetAdapter<ArrayList<Record>>(getBaseUIFrag(),UINetAdapter.Loading) {
                                 @Override
                                 public void onSuccess(ArrayList<Record> o) {
                                     super.onSuccess(o);

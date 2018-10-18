@@ -4,10 +4,13 @@ package com.summer.record.ui.main.record.image.imageshow;
 
 import com.android.lib.GlideApp;
 import com.android.lib.base.ope.BaseUIOpe;
+import com.android.lib.util.ToastUtil;
 import com.summer.record.data.Record;
 import com.summer.record.data.RecordURL;
 import com.summer.record.databinding.FragMainImageImagedetailImageBinding;
 import com.summer.record.tool.UrlTool;
+import com.summer.record.tool.ViewTool;
+import com.summer.record.ui.main.record.image.ImageDetailFrag;
 import com.summer.record.ui.main.record.record.RecordDAOpe;
 import com.summer.record.ui.main.record.image.NetAdapter;
 
@@ -15,7 +18,7 @@ import java.io.File;
 
 public class ImageShowUIOpe extends BaseUIOpe<FragMainImageImagedetailImageBinding> {
 
-    public void showImage(Record image){
+    public void showImage(final Record image){
         getBind().tvDes.setText(image.getLocpath());
         File file = new File(image.getLocpath());
         if(file.exists()){
@@ -34,12 +37,23 @@ public class ImageShowUIOpe extends BaseUIOpe<FragMainImageImagedetailImageBindi
                 @Override
                 public void onSuccess(Object o) {
                     super.onSuccess(o);
-                    //ToastUtil.getInstance().showShort(getActivity(), StringUtil.);
+                    ToastUtil.getInstance().showShort(getActivity(), image.getLocpath());
                 }
             });
 
         }
 
+    }
 
+    public void setVis(boolean is){
+        ViewTool.setVisible(getBind().tvDes,is);
+    }
+
+    public void switcht(){
+        ViewTool.switchView(getBind().tvDes);
+    }
+
+    public void setshow(ImageDetailFrag imageDetailFrag){
+        imageDetailFrag.getPV().setShow(getBind().tvDes);
     }
 }

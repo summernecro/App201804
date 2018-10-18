@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import butterknife.OnClick;
 import butterknife.Optional;
 
-public class FolderFrag extends BaseUIFrag<FolderUIOpe,FolderDAOpe,FolderValue> implements ViewListener{
+public class FolderFrag extends BaseUIFrag<FolderUIOpe,FolderValue> implements ViewListener{
 
 
     public static FolderFrag getInstance(String atype){
@@ -42,7 +42,7 @@ public class FolderFrag extends BaseUIFrag<FolderUIOpe,FolderDAOpe,FolderValue> 
     public void initNow() {
         super.initNow();
         getPV().setAtype(getArguments().getString("atype"));
-        getPD().getImages(getBaseAct(),getPV().getAtype(), new OnLoadingAdapter() {
+        getPV().getFolderDAOpe().getImages(getBaseUIAct(),getPV().getAtype(), new OnLoadingAdapter() {
             @Override
             public void onStarLoading(Object o) {
                 ((UpdateIndicator)getPV().getLoadUtil().getIndicator()).setContext(getContext());
@@ -52,7 +52,7 @@ public class FolderFrag extends BaseUIFrag<FolderUIOpe,FolderDAOpe,FolderValue> 
             @Override
             public void onStopLoading(Object o) {
                 getPV().setOriRecords((ArrayList<Record>) o);
-                getP().getD().sortRecordByFolder(getPV().getOriRecords(), new OnFinishListener() {
+                getPV().getFolderDAOpe().sortRecordByFolder(getPV().getOriRecords(), new OnFinishListener() {
                     @Override
                     public void onFinish(Object o) {
                         getPV().setFolders((ArrayList<Folder>) o);

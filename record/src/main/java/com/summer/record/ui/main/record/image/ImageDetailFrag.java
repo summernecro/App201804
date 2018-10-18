@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import butterknife.OnClick;
 import butterknife.Optional;
 
-public class ImageDetailFrag extends BaseUIFrag<ImageDetailUIOpe,ImageDetailDAOpe,ImageDetailValue> implements AddTipI,TextView.OnEditorActionListener {
+public class ImageDetailFrag extends BaseUIFrag<ImageDetailUIOpe,ImageDetailValue> implements AddTipI,TextView.OnEditorActionListener {
 
 
     public static ImageDetailFrag getInstance(ArrayList<Record> images, int pos,XYBean xyBean){
@@ -112,7 +112,7 @@ public class ImageDetailFrag extends BaseUIFrag<ImageDetailUIOpe,ImageDetailDAOp
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ((MainAct)getBaseAct()).getPU().setTitleAndBottomVisible(true);
-        ((MainAct)getBaseAct()).getPU().changeRightImage2(R.drawable.drawable_record_upload);
+        ((MainAct)getBaseUIAct()).getPU().setTitleAndBottomVisible(true);
+        ((MainAct)getBaseUIAct()).getPU().changeRightImage2(R.drawable.drawable_record_upload);
     }
 }

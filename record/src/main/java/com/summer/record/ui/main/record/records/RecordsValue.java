@@ -29,6 +29,8 @@ public class RecordsValue extends BaseValue {
 
     FolderFrag folderFrag;
 
+    RecordsDAOpe recordsDAOpe = new RecordsDAOpe();
+
     public RecordsValue() {
         sorts.add("按日期排序");
         sorts.add("按标签排序");

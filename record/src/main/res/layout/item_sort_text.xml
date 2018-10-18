@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp">
 <TextView
+    android:textColor="@color/black"
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     tools:text="123"
