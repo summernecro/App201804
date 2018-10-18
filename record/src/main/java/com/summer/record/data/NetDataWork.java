@@ -107,6 +107,18 @@ public class NetDataWork {
             NetGet.postData(context,RecordURL.获取地址("/tip/getRecordsFromTip"),baseReqBean,adapter);
         }
 
+
+        public static void getImageRecordsFromTip(Context context, Tiplab tiplab, NetI<ArrayList<Record>> adapter){
+            BaseReqBean baseReqBean = new BaseReqBean();
+            baseReqBean.setData(GsonUtil.getInstance().toJson(tiplab));
+            NetGet.postData(context,RecordURL.获取地址("/tip/getImageRecordsFromTip"),baseReqBean,adapter);
+        }
+
+        public static void getAllTipLabs(Context context, NetI<ArrayList<Tiplab>> adapter){
+            BaseReqBean baseReqBean = new BaseReqBean();
+            NetGet.getData(context,RecordURL.获取地址("/tip/getAllTipLabs"),baseReqBean,adapter);
+        }
+
     }
 
     public static class Crash{
