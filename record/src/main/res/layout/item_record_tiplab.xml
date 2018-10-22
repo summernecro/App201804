@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="item_record_folder"
-            type="com.summer.record.data.Folder" />
+            name="item_record_tiplab"
+            type="com.summer.record.data.Tiplab" />
     </data>
 
     <LinearLayout

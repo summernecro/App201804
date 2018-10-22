@@ -37,6 +37,7 @@ import com.summer.record.ui.main.record.folder.FolderFrag;
 import com.summer.record.ui.main.record.record.RecordFrag;
 import com.summer.record.ui.main.record.record.RecordValue;
 import com.summer.record.ui.main.record.records.RecordsFrag;
+import com.summer.record.ui.main.record.tip.TipFrag;
 
 import java.util.ArrayList;
 
@@ -126,6 +127,10 @@ public class AView extends RelativeLayout implements RefreshI,View.OnClickListen
                                     //按日期排序
                                     case 0:
                                         FragManager2.getInstance().setAnim(false).start(getAct(),getMoudle(),getMoudleid(), RecordsFrag.getInstance(getAct().getMoudle()));
+                                        break;
+                                        //按标签排序
+                                    case 1:
+                                        FragManager2.getInstance().setAnim(false).start(getAct(),getMoudle(),getMoudleid(), TipFrag.getInstance(getAct().getMoudle()));
                                         break;
                                     //按文件夹排序
                                     case 2:
