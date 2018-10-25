@@ -13,6 +13,7 @@ import com.android.lib.base.adapter.AppsDataBindingAdapter;
 import com.android.lib.base.listener.BaseOnPagerChangeListener;
 import com.android.lib.base.listener.ViewListener;
 import com.android.lib.base.ope.BaseUIOpe;
+import com.android.lib.util.LogUtil;
 import com.github.florent37.viewanimator.AnimationListener;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.summer.record.BR;
@@ -21,6 +22,7 @@ import com.summer.record.databinding.FragMainImagesBinding;
 import com.summer.record.tool.TitleUtil;
 import com.summer.record.ui.main.record.record.RecordFrag;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,14 +40,14 @@ public class RecordsUIOpe extends BaseUIOpe<FragMainImagesBinding> {
 
     }
 
-    public void initViewPager(FragmentManager fm, Context context, final List<Fragment> fragments, final int[] pos){
+    public void initViewPager(FragmentManager fm, Context context, final List<Fragment> fragments, final ArrayList<Integer> pos){
         getBind().viewpager.setAdapter(new AppBasePagerAdapter(fm, context, fragments));
         getBind().viewpager.setOffscreenPageLimit(fragments.size());
         getBind().viewpager.addOnPageChangeListener(new BaseOnPagerChangeListener(){
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                pos[0]= position;
+                pos.set(0,position);
                 updateTitle(((RecordFrag)fragments.get(position)).getPV().getTitleStr());
             }
         });
@@ -57,6 +59,7 @@ public class RecordsUIOpe extends BaseUIOpe<FragMainImagesBinding> {
             RecordFrag recordFrag = RecordFrag.getInstance(strs.get(i),type, recordsFrag,null);
             imageFrags.add(recordFrag);
         }
+
     }
 
     public RecordFrag getCurrentFrag(ArrayList<Fragment> imageFrags){
@@ -71,7 +74,7 @@ public class RecordsUIOpe extends BaseUIOpe<FragMainImagesBinding> {
         //getBind().recordtitle.tvLab.setText(title);
     }
 
-    public void showHideSort(boolean show, ArrayList<String> sorts, ViewListener listener){
+    public void showHideSort(boolean show, ArrayList<String> sorts, View.OnClickListener listener){
         if(show){
             if(getBind().sortlist.getAdapter()==null){
                 getBind().sortlist.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -93,7 +96,21 @@ public class RecordsUIOpe extends BaseUIOpe<FragMainImagesBinding> {
         }
     }
 
-    public void switchSort(ArrayList<String> sorts,ViewListener listener){
+    public void switchSort(ArrayList<String> sorts,View.OnClickListener listener){
         showHideSort(getBind().sortlist.getVisibility()!=View.VISIBLE,sorts,listener);
     }
+
+//
+//    public void onStart() {
+//    }
+//
+//    public void onBackOut() {
+//    }
+//
+//    public void onRemove(AnimationListener.Stop stopListener) {
+//        stopListener.onStop();
+//    }
+//
+//    public void onBackIn() {
+//    }
 }

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.android.lib.base.activity.BaseUIActivity;
 import com.android.lib.base.adapter.AppsDataBindingAdapter;
 import com.android.lib.base.fragment.BaseUIFrag;
+import com.android.lib.base.fragment.FragUtil;
 import com.android.lib.base.interf.OnFinishListener;
 import com.android.lib.base.interf.view.OnAppItemSelectListener;
 import com.android.lib.base.listener.BaseTextWather;
@@ -21,7 +22,6 @@ import com.android.lib.base.listener.ViewListener;
 import com.android.lib.base.ope.BaseUIOpe;
 import com.android.lib.util.ScreenUtil;
 import com.android.lib.util.StringUtil;
-import com.android.lib.util.fragment.two.FragManager2;
 import com.android.lib.view.bottommenu.BottomMenuBean;
 import com.github.florent37.viewanimator.AnimationListener;
 import com.github.florent37.viewanimator.ViewAnimator;
@@ -86,7 +86,7 @@ public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
             return;
         }
         for(int i=0;i<fragments.size();i++){
-            FragManager2.getInstance().setAnim(false).start(activity,模块[i],模块ID[i],fragments.get(i));
+            FragUtil.getInstance().start(activity,null,模块[i],模块ID[i],fragments.get(i));
         }
         showView(0,-1);
     }

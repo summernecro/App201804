@@ -22,7 +22,7 @@ public class ImageShowFrag extends BaseUIFrag<ImageShowUIOpe,ImageShowValue> {
         ImageShowFrag imageShowFrag = new ImageShowFrag();
         imageShowFrag.setArguments(new Bundle());
         imageShowFrag.getArguments().putSerializable(ValueConstant.DATA_DATA,image);
-        imageShowFrag.getPV().setBaseUIFrag(baseUIFrag);
+        imageShowFrag.getPV().initFrag(baseUIFrag);
         return imageShowFrag;
     }
 

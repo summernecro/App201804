@@ -27,7 +27,7 @@ public class FolderUIOpe extends BaseUIOpe<FragRecordFolderBinding> {
      * 按文件夹排序
      * @param folders
      */
-    public void loadRecordByFolder(final ArrayList<Folder> folders,ViewListener listener){
+    public void loadRecordByFolder(final ArrayList<Folder> folders,View.OnClickListener listener){
         getBind().recycle.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         getBind().recycle.setAdapter(new AppsDataBindingAdapter(getActivity(), R.layout.item_record_folder, BR.item_record_folder,folders,listener){
             @Override

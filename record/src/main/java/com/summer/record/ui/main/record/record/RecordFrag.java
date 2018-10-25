@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.android.lib.base.fragment.BaseUIFrag;
+import com.android.lib.base.fragment.FragUtil;
 import com.android.lib.base.interf.OnFinishListener;
 import com.android.lib.base.interf.OnLoadingAdapter;
 import com.android.lib.base.listener.ViewListener;
@@ -15,7 +16,6 @@ import com.android.lib.network.bean.res.BaseResBean;
 import com.android.lib.network.news.UINetAdapter;
 import com.android.lib.util.LogUtil;
 import com.android.lib.util.ToastUtil;
-import com.android.lib.util.fragment.two.FragManager2;
 import com.summer.record.R;
 import com.summer.record.data.NetDataWork;
 import com.summer.record.data.Record;
@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import butterknife.OnClick;
 import butterknife.Optional;
 
-public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordValue> implements ViewListener{
+public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordValue>{
 
 
     public static RecordFrag getInstance(String[] time, String type, RecordsFrag recordsFrag,ArrayList<Record> records){
@@ -111,6 +111,24 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordValue> implements V
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()){
+            case R.id.bg:
+            Record record = (Record) v.getTag(R.id.data);
+            if(record.getLocpath()==null){
+                return;
+            }
+            if(getPV().getType().equals("image")){
+                XYBean xyBean = new XYBean((v.getLeft()+v.getRight())/2,(v.getTop()+v.getBottom())/2);
+                FragUtil.getInstance().start(getBaseUIAct(),
+                        getPV().getRecordsFrag(),
+                        MainValue.图片,
+                        ImageDetailFrag.getInstance(getPV().getRecordDAOpe().getNoNullRecords(getPV().getUsedRecords()),record.getPos(),xyBean));
+            }else{
+                FragUtil.getInstance().start(getBaseUIAct(),
+                        getPV().getRecordsFrag(),
+                        MainValue.视频,
+                        VideoPlayFrag.getInstance((Record) v.getTag(R.id.data)));
+            }
+                break;
             case R.id.tv_upload:
                 ArrayList<Record>  list = getPV().getRecordDAOpe().getNoNullRecords(getPV().getUsedRecords());
                 final ArrayList<Record> records = new ArrayList<>();
@@ -198,27 +216,4 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordValue> implements V
         }
     }
 
-
-    @Override
-    public void onInterupt(int i, View view) {
-        switch (i){
-            case ViewListener.TYPE_ONCLICK:
-                Record record = (Record) view.getTag(R.id.data);
-                if(record.getLocpath()==null){
-                    return;
-                }
-                if(getPV().getType().equals("image")){
-                    XYBean xyBean = new XYBean((view.getLeft()+view.getRight())/2,(view.getTop()+view.getBottom())/2);
-                    FragManager2.getInstance().setAnim(false).start(getBaseUIAct(),
-                            MainValue.图片,
-                            ImageDetailFrag.getInstance(getPV().getRecordDAOpe().getNoNullRecords(getPV().getUsedRecords()),record.getPos(),xyBean));
-                }else{
-                    FragManager2.getInstance().setStartAnim(R.anim.fade_in,R.anim.fade_out).setFinishAnim(R.anim.fade_in,R.anim.fade_out).start(getBaseUIAct(),
-                            MainValue.视频,
-                            VideoPlayFrag.getInstance((Record) view.getTag(R.id.data)));
-                }
-
-                break;
-        }
-    }
 }

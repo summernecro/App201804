@@ -23,11 +23,11 @@ public class RecordsValue extends BaseValue {
 
     ArrayList<Tiplab> tiplabs = new ArrayList<>();
 
-    private int pos[] = new int[2];
+    private ArrayList<Integer> pos = new ArrayList<>();
 
     private ArrayList<String> sorts = new ArrayList<>();
 
-    FolderFrag folderFrag;
+    ArrayList<FolderFrag> folderFrags = new ArrayList<>();
 
     RecordsDAOpe recordsDAOpe = new RecordsDAOpe();
 
@@ -35,12 +35,13 @@ public class RecordsValue extends BaseValue {
         sorts.add("按日期排序");
         sorts.add("按标签排序");
         sorts.add("按文件夹排序");
+        pos.add(0,0);
     }
 
     public FolderFrag getFolderFrag() {
-        if(folderFrag==null){
-            folderFrag = new FolderFrag();
+        if(folderFrags.size()==0){
+            folderFrags.add(new FolderFrag());
         }
-        return folderFrag;
+        return folderFrags.get(0);
     }
 }

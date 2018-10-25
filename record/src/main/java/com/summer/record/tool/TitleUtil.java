@@ -99,7 +99,7 @@ public class TitleUtil {
         return itemRecordTitleSearchBinding.getRoot().getVisibility();
     }
 
-    public static void refreshList(ItemRecordTitleSearchBinding itemRecordTitleSearchBinding,Activity activity,ArrayList<Tiplab> tiplabs, ViewListener listener){
+    public static void refreshList(ItemRecordTitleSearchBinding itemRecordTitleSearchBinding,Activity activity,ArrayList<Tiplab> tiplabs, View.OnClickListener listener){
         itemRecordTitleSearchBinding.recycleTips.setAdapter(new AppsDataBindingAdapter(activity, R.layout.item_tiplab_text, BR.item_tiplab_text,tiplabs,listener){
             @Override
             public void onBindViewHolder(AppViewHolder holder, int position) {

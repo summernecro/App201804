@@ -37,7 +37,7 @@ import java.util.ArrayList;
 
 public class RecordUIOpe extends BaseUIOpe<FragMainImageBinding> {
 
-    public void loadImages(final ArrayList<Record> images, ViewListener listener) {
+    public void loadImages(final ArrayList<Record> images, View.OnClickListener listener) {
 
         if (getBind().recycle.getAdapter() == null) {
             final RequestOptions requestOptions = new RequestOptions();

@@ -5,6 +5,7 @@ package com.summer.record.ui.main.record.image.imageshow;
 import com.android.lib.GlideApp;
 import com.android.lib.base.ope.BaseUIOpe;
 import com.android.lib.util.ToastUtil;
+import com.github.florent37.viewanimator.AnimationListener;
 import com.summer.record.data.Record;
 import com.summer.record.data.RecordURL;
 import com.summer.record.databinding.FragMainImageImagedetailImageBinding;
@@ -55,5 +56,23 @@ public class ImageShowUIOpe extends BaseUIOpe<FragMainImageImagedetailImageBindi
 
     public void setshow(ImageDetailFrag imageDetailFrag){
         imageDetailFrag.getPV().setShow(getBind().tvDes);
+    }
+
+    @Override
+    public void onStart() {
+
+    }
+
+    @Override
+    public void onRemove(AnimationListener.Stop stopListener) {
+        stopListener.onStop();
+    }
+
+    @Override
+    public void onBackIn() {
+    }
+
+    @Override
+    public void onBackOut() {
     }
 }
