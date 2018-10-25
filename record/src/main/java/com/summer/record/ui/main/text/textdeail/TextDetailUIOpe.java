@@ -36,7 +36,7 @@ public class TextDetailUIOpe extends BaseUIOpe<FragTextTextdetailBinding>{
     @Override
     public void initUI() {
         super.initUI();
-        TitleUtil.initTitle(getActivity(),getView().findViewById(R.id.recordtitle));
+        //TitleUtil.initTitle(getActivity(),getView().findViewById(R.id.recordtitle));
     }
 
     public void initText(Record record){

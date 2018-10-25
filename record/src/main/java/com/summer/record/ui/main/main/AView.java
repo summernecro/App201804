@@ -17,13 +17,13 @@ import android.widget.TextView;
 
 import com.android.lib.base.adapter.AppsDataBindingAdapter;
 import com.android.lib.base.fragment.BaseUIFrag;
+import com.android.lib.base.fragment.FragUtil;
 import com.android.lib.base.interf.OnFinishListener;
 import com.android.lib.base.listener.ViewListener;
 import com.android.lib.bean.AppViewHolder;
 import com.android.lib.network.news.NetAdapter;
 import com.android.lib.network.news.UINetAdapter;
 import com.android.lib.util.NullUtil;
-import com.android.lib.util.fragment.two.FragManager2;
 import com.github.florent37.viewanimator.AnimationListener;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.summer.record.BR;
@@ -71,7 +71,7 @@ public class AView extends RelativeLayout implements RefreshI,View.OnClickListen
     }
 
 
-    public void showHideSort(boolean show, ArrayList<String> sorts, ViewListener listener){
+    public void showHideSort(boolean show, ArrayList<String> sorts, OnClickListener listener){
         if(show){
             if(getActMainABinding().sortlist.getAdapter()==null){
                 getActMainABinding().sortlist.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -100,7 +100,7 @@ public class AView extends RelativeLayout implements RefreshI,View.OnClickListen
         }
     }
 
-    public void switchSort(int id,ArrayList<String> sorts, ViewListener listener){
+    public void switchSort(int id,ArrayList<String> sorts, OnClickListener listener){
         showHideSort(getActMainABinding().sortlist.getVisibility()!=View.VISIBLE,sorts,listener);
     }
 
@@ -108,6 +108,17 @@ public class AView extends RelativeLayout implements RefreshI,View.OnClickListen
     @OnClick({ R.id.tv_refresh,R.id.tv_upload,R.id.tv_down,R.id.tv_search,R.id.tv_sort,R.id.iv_search_back})
     public void onClick(final View v) {
         switch (v.getId()){
+            case R.id.item_tiplab_text:
+                int pos = (int) v.getTag(R.id.position);
+                NetDataWork.Tip.getRecordsFromTip(getContext(), (Tiplab) v.getTag(R.id.data), new UINetAdapter<ArrayList<Record>>(getContext()) {
+                    @Override
+                    public void onSuccess(ArrayList<Record> o) {
+                        super.onSuccess(o);
+                        TitleUtil.showHideSearch(getActMainABinding().search);
+                        refresh(o);
+                    }
+                });
+                break;
             case R.id.iv_search_back:
                 TitleUtil.showHideSearch(getActMainABinding().search);
                 //FragManager2.getInstance().setAnim(false).start(getAct(),getMoudle(),getMoudleid(), RecordsFrag.getInstance(getAct().getMoudle()));
@@ -116,35 +127,29 @@ public class AView extends RelativeLayout implements RefreshI,View.OnClickListen
                 TitleUtil.showHideSearch(getActMainABinding().search);
                 break;
             case R.id.tv_sort:
-                switchSort(v.getId(),MainValue.sorts, new ViewListener() {
-                    @Override
-                    public void onInterupt(int i, View view) {
-                        switchSort(v.getId(),MainValue.sorts, null) ;
-                        switch (i){
-                            case ViewListener.TYPE_ONCLICK:
-                                FragManager2.getInstance().clear(getAct(),getMoudle());
-                                switch ((int)view.getTag(R.id.position)){
-                                    //按日期排序
-                                    case 0:
-                                        FragManager2.getInstance().setAnim(false).start(getAct(),getMoudle(),getMoudleid(), RecordsFrag.getInstance(getAct().getMoudle()));
-                                        break;
-                                        //按标签排序
-                                    case 1:
-                                        FragManager2.getInstance().setAnim(false).start(getAct(),getMoudle(),getMoudleid(), TipFrag.getInstance(getAct().getMoudle()));
-                                        break;
-                                    //按文件夹排序
-                                    case 2:
-                                        FragManager2.getInstance().setAnim(false).start(getAct(),getMoudle(),getMoudleid(), FolderFrag.getInstance(getAct().getMoudle()));
-                                        break;
-                                }
-                                break;
-                        }
-                    }
-                });
+                switchSort(v.getId(),MainValue.sorts, this);
+                break;
+            case R.id.item_sort_text:
+                switchSort(v.getId(),MainValue.sorts, null) ;
+                FragUtil.getInstance().clear(getAct(),getMoudle());
+                switch ((int)v.getTag(R.id.position)){
+                    //按日期排序
+                    case 0:
+                        FragUtil.getInstance().start(getAct(),null,getMoudle(),getMoudleid(), RecordsFrag.getInstance(getAct().getMoudle()));
+                        break;
+                    //按标签排序
+                    case 1:
+                        FragUtil.getInstance().start(getAct(),null,getMoudle(),getMoudleid(), TipFrag.getInstance(getAct().getMoudle()));
+                        break;
+                    //按文件夹排序
+                    case 2:
+                        FragUtil.getInstance().start(getAct(),null,getMoudle(),getMoudleid(), FolderFrag.getInstance(getAct().getMoudle()));
+                        break;
+                }
                 break;
             default:
                 v.setTag(this);
-                (FragManager2.getInstance().getCurrentFrag(getMoudle())).onClick(v);
+                (FragUtil.getInstance().getCurrentFrag(getMoudle())).onClick(v);
                 break;
         }
     }
@@ -152,7 +157,8 @@ public class AView extends RelativeLayout implements RefreshI,View.OnClickListen
 
     @Override
     public void refresh(ArrayList<Record> o){
-        FragManager2.getInstance().setAnim(false).start(getAct(),getMoudle(),getMoudleid(), RecordFrag.getInstance(null,getMoudle(),null,o));
+        FragUtil.getInstance().clear(getAct(),getMoudle());
+        FragUtil.getInstance().start(getAct(),null,getMoudle(),getMoudleid(), RecordFrag.getInstance(null,getMoudle(),null,o));
     }
 
 
@@ -166,20 +172,7 @@ public class AView extends RelativeLayout implements RefreshI,View.OnClickListen
             @Override
             public void onSuccess(final ArrayList<Tiplab> o) {
                 super.onSuccess(o);
-                TitleUtil.refreshList(getActMainABinding().search,getAct(),o, new ViewListener() {
-                    @Override
-                    public void onInterupt(final int i, final View view) {
-                        int pos = (int) view.getTag(R.id.position);
-                        NetDataWork.Tip.getRecordsFromTip(getContext(), o.get(pos), new UINetAdapter<ArrayList<Record>>(getContext()) {
-                            @Override
-                            public void onSuccess(ArrayList<Record> o) {
-                                super.onSuccess(o);
-                                TitleUtil.showHideSearch(getActMainABinding().search);
-                                refresh(o);
-                            }
-                        });
-                    }
-                });
+                TitleUtil.refreshList(getActMainABinding().search,getAct(),o, AView.this);
             }
         });
     }
@@ -209,7 +202,7 @@ public class AView extends RelativeLayout implements RefreshI,View.OnClickListen
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if(actionId== EditorInfo.IME_ACTION_GO){
             //TitleUtil.showHideSearch(getActMainABinding().search);
-            BaseUIFrag frag = FragManager2.getInstance().getCurrentFrag(getMoudle());
+            BaseUIFrag frag = FragUtil.getInstance().getCurrentFrag(getMoudle());
             if(frag instanceof AddTipI){
                 AddTipI addTipI = (AddTipI) frag;
                 addTipI.addTip(v.getText().toString());

@@ -8,10 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.lib.base.fragment.BaseUIFrag;
+import com.android.lib.base.fragment.FragUtil;
 import com.android.lib.base.interf.OnFinishListener;
 import com.android.lib.base.interf.OnLoadingAdapter;
 import com.android.lib.base.listener.ViewListener;
-import com.android.lib.util.fragment.two.FragManager2;
 import com.summer.record.R;
 import com.summer.record.data.Folder;
 import com.summer.record.data.Record;
@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import butterknife.OnClick;
 import butterknife.Optional;
 
-public class FolderFrag extends BaseUIFrag<FolderUIOpe,FolderValue> implements ViewListener{
+public class FolderFrag extends BaseUIFrag<FolderUIOpe,FolderValue>{
 
 
     public static FolderFrag getInstance(String atype){
@@ -71,12 +71,14 @@ public class FolderFrag extends BaseUIFrag<FolderUIOpe,FolderValue> implements V
     }
 
     @Override
-    public void onInterupt(int i, View view) {
-        switch (i){
-            case  ViewListener.TYPE_ONCLICK:
-                Folder folder = (Folder) view.getTag(R.id.data);
-                FragManager2.getInstance().setAnim(false).start(getBaseUIAct(),getPV().getAtype(),RecordFrag.getInstance(null,getPV().getAtype(),null, folder.getRecords()));
-                break;
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()){
+            case R.id.item_record_folder:
+            Folder folder = (Folder) v.getTag(R.id.data);
+                FragUtil.getInstance().start(getBaseUIAct(),FolderFrag.this,getPV().getAtype(),RecordFrag.getInstance(null,getPV().getAtype(),null, folder.getRecords()));
+
+            break;
         }
     }
 }

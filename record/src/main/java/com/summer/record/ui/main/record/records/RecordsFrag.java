@@ -2,7 +2,12 @@ package com.summer.record.ui.main.record.records;
 
 //by summer on 2018-06-25.
 
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.interf.OnFinishListener;
@@ -10,8 +15,8 @@ import com.android.lib.base.listener.ViewListener;
 import com.android.lib.network.news.NetAdapter;
 import com.android.lib.network.news.UINetAdapter;
 import com.android.lib.util.LoadUtil;
+import com.android.lib.util.LogUtil;
 import com.android.lib.util.NullUtil;
-import com.android.lib.util.fragment.two.FragManager2;
 import com.summer.record.R;
 import com.summer.record.data.NetDataWork;
 import com.summer.record.data.Record;
@@ -97,7 +102,7 @@ public class RecordsFrag extends BaseUIFrag<RecordsUIOpe,RecordsValue> implement
                 });
                 break;
             default:
-                RecordFrag recordFrag = (RecordFrag) getPV().getImageFrags().get(getPV().getPos()[0]);
+                RecordFrag recordFrag = (RecordFrag) getPV().getImageFrags().get(getPV().getPos().get(0));
                 recordFrag.onClick(v);
                 break;
         }

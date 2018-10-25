@@ -51,7 +51,7 @@ public class TextUIOpe extends BaseUIOpe<FragMainTextBinding> {
         TitleUtil.addSearhView(getFrag());
     }
 
-    public void initTexts(ArrayList<Record> texts, ViewListener listener){
+    public void initTexts(ArrayList<Record> texts, View.OnClickListener listener){
         if(getBind().recycle.getAdapter()==null){
             getBind().recycle.setLayoutManager(new GridLayoutManager(getActivity(),2));
             getBind().recycle.setAdapter(new AppsDataBindingAdapter(getActivity(), R.layout.item_text_text, BR.item_text_text,texts,listener){
@@ -78,7 +78,7 @@ public class TextUIOpe extends BaseUIOpe<FragMainTextBinding> {
         }
     }
 
-    public void refreshList(ArrayList<Tiplab> tiplabs, ViewListener listener){
+    public void refreshList(ArrayList<Tiplab> tiplabs, View.OnClickListener listener){
         ItemRecordTitleSearchBinding itemRecordTitleSearchBinding = DataBindingUtil.bind(((ViewGroup)getView()).getChildAt( ((ViewGroup) getView()).getChildCount()-1));
         if(itemRecordTitleSearchBinding.recycleTips.getAdapter()==null){
             itemRecordTitleSearchBinding.recycleTips.setAdapter(new AppsDataBindingAdapter(getActivity(), R.layout.item_tiplab_text, BR.item_tiplab_text,tiplabs,listener));

@@ -5,6 +5,7 @@ package com.summer.record.ui.main.text.text;
 import android.view.View;
 
 import com.android.lib.base.fragment.BaseUIFrag;
+import com.android.lib.base.fragment.FragUtil;
 import com.android.lib.base.interf.OnFinishListener;
 import com.android.lib.base.listener.ViewListener;
 import com.android.lib.network.bean.res.BaseResBean;
@@ -12,7 +13,6 @@ import com.android.lib.network.news.NetAdapter;
 import com.android.lib.network.news.UINetAdapter;
 import com.android.lib.util.GsonUtil;
 import com.android.lib.util.LogUtil;
-import com.android.lib.util.fragment.two.FragManager2;
 import com.android.lib.view.bottommenu.Msg;
 import com.raizlabs.android.dbflow.sql.language.Select;
 import com.summer.record.R;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import butterknife.OnClick;
 import butterknife.Optional;
 
-public class TextFrag extends BaseUIFrag<TextUIOpe,TextValue> implements ViewListener,RefreshI {
+public class TextFrag extends BaseUIFrag<TextUIOpe,TextValue> implements RefreshI {
 
     @Override
     public void initNow() {
@@ -134,18 +134,12 @@ public class TextFrag extends BaseUIFrag<TextUIOpe,TextValue> implements ViewLis
             case R.id.tv_search:
                // TitleUtil.showHideSearch(((MainAct)getActivity()).getPU().getItemRecordTitleSearchBinding());
                 break;
-        }
-    }
-
-
-    @Override
-    public void onInterupt(int i, View view) {
-        switch (i){
-            case ViewListener.TYPE_ONCLICK:
-                FragManager2.getInstance().setStartAnim(R.anim.fade_in,R.anim.fade_out).setFinishAnim(R.anim.fade_in,R.anim.fade_out).start(getBaseUIAct(), MainValue.文字, TextDetailFrag.getInstance((Record) view.getTag(R.id.data)));
+            case R.id.item_text_text:
+                FragUtil.getInstance().start(getBaseUIAct(),this, MainValue.文字, TextDetailFrag.getInstance((Record) v.getTag(R.id.data)));
                 break;
         }
     }
+
 
     @Override
     public void refresh(ArrayList<Record> o) {

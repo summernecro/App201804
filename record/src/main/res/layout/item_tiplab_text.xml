@@ -8,6 +8,7 @@
     </data>
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/item_tiplab_text"
         android:elevation="2dp"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
