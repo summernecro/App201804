@@ -16,6 +16,7 @@ import com.android.lib.base.listener.ViewListener;
 import com.android.lib.base.ope.BaseUIOpe;
 import com.android.lib.bean.AppViewHolder;
 import com.android.lib.util.LogUtil;
+import com.android.lib.util.ToastUtil;
 import com.android.lib.util.system.HandleUtil;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.florent37.viewanimator.AnimationListener;
@@ -24,9 +25,11 @@ import com.summer.record.BR;
 import com.summer.record.R;
 import com.summer.record.data.Folder;
 import com.summer.record.data.Record;
+import com.summer.record.data.RecordURL;
 import com.summer.record.databinding.FragMainImageBinding;
 import com.summer.record.databinding.ItemImageImageBinding;
 import com.summer.record.databinding.ItemRecordFolderBinding;
+import com.summer.record.ui.main.record.image.NetAdapter;
 import com.summer.record.ui.main.record.records.RecordsFrag;
 
 import java.io.File;
@@ -63,7 +66,15 @@ public class RecordUIOpe extends BaseUIOpe<FragMainImageBinding> {
                             ItemImageImageBinding item = (ItemImageImageBinding) holder.viewDataBinding;
                             item.getRoot().setTag(com.android.lib.R.id.data, this.list.get(position));
                             item.getRoot().setTag(com.android.lib.R.id.position, Integer.valueOf(position));
-                            GlideApp.with(context).asBitmap().centerCrop().load(images.get(position).getUri()).into(item.ivVideo);
+
+                            File file = new File(images.get(position).getLocpath());
+                            if(file.exists()){
+                                GlideApp.with(context).asBitmap().centerCrop().load(images.get(position).getLocpath()).into(item.ivVideo);
+                            }else{
+                                GlideApp.with(context).asBitmap().centerCrop().apply(requestOptions).load(RecordURL.getNetUrl(images.get(position).getNetpath())).into(item.ivVideo);
+                            }
+
+
                             item.getRoot().setOnClickListener(this);
                             item.getRoot().setClickable(true);
                             item.getRoot().setAlpha(1f);
