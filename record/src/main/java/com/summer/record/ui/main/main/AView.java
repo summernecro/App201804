@@ -23,6 +23,7 @@ import com.android.lib.base.listener.ViewListener;
 import com.android.lib.bean.AppViewHolder;
 import com.android.lib.network.news.NetAdapter;
 import com.android.lib.network.news.UINetAdapter;
+import com.android.lib.util.ClickUtil;
 import com.android.lib.util.NullUtil;
 import com.github.florent37.viewanimator.AnimationListener;
 import com.github.florent37.viewanimator.ViewAnimator;
@@ -107,6 +108,7 @@ public class AView extends RelativeLayout implements RefreshI,View.OnClickListen
     @Optional
     @OnClick({ R.id.tv_refresh,R.id.tv_upload,R.id.tv_down,R.id.tv_search,R.id.tv_sort,R.id.iv_search_back})
     public void onClick(final View v) {
+        ClickUtil.getInstance().init(v);
         switch (v.getId()){
             case R.id.item_tiplab_text:
                 int pos = (int) v.getTag(R.id.position);

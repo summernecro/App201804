@@ -92,17 +92,17 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordValue>{
                 }
             });
 
-            NetDataWork.Data.getRecordInfo(getBaseUIAct(),getPV().getType(),getPV().getTimedu(), new UINetAdapter<Records>(getBaseUIFrag()) {
-                @Override
-                public void onSuccess(Records o) {
-                    super.onSuccess(o);
-                    if(o==null){
-                        return;
-                    }
-                    getPV().getRecordDAOpe().setRecordsInfo(o);
-                    getPV().setTitleStr(o.getDoneNum()+"/"+o.getAllNum()+getPV().getYear());
-                }
-            });
+//            NetDataWork.Data.getRecordInfo(getBaseUIAct(),getPV().getType(),getPV().getTimedu(), new UINetAdapter<Records>(getBaseUIFrag()) {
+//                @Override
+//                public void onSuccess(Records o) {
+//                    super.onSuccess(o);
+//                    if(o==null){
+//                        return;
+//                    }
+//                    getPV().getRecordDAOpe().setRecordsInfo(o);
+//                    getPV().setTitleStr(o.getDoneNum()+"/"+o.getAllNum()+getPV().getYear());
+//                }
+//            });
         }
 
     }
