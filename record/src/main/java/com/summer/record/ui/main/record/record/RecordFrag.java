@@ -2,6 +2,7 @@ package com.summer.record.ui.main.record.record;
 
 //by summer on 2018-03-27.
 
+import android.os.Bundle;
 import android.view.View;
 
 import com.android.lib.base.fragment.BaseUIFrag;
@@ -9,6 +10,7 @@ import com.android.lib.base.interf.OnFinishListener;
 import com.android.lib.base.interf.OnLoadingAdapter;
 import com.android.lib.base.listener.ViewListener;
 import com.android.lib.bean.databean.XYBean;
+import com.android.lib.constant.ValueConstant;
 import com.android.lib.network.bean.res.BaseResBean;
 import com.android.lib.network.news.UINetAdapter;
 import com.android.lib.util.LogUtil;
@@ -45,7 +47,8 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordValue> implements V
         }
         recordFrag.getPV().setRecordsFrag(recordsFrag);
         recordFrag.getPV().setType(type);
-        recordFrag.getPV().setOriRecords(records);
+        recordFrag.getPV().setOriRecords(records);Bundle bundle = new Bundle();
+        recordFrag.getArguments().putSerializable(ValueConstant.DATA_DATA,recordFrag.getPV());
         return recordFrag;
     }
 
