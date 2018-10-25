@@ -67,13 +67,14 @@ public class RecordUIOpe extends BaseUIOpe<FragMainImageBinding> {
                             item.getRoot().setTag(com.android.lib.R.id.data, this.list.get(position));
                             item.getRoot().setTag(com.android.lib.R.id.position, Integer.valueOf(position));
 
-                            File file = new File(images.get(position).getLocpath());
-                            if(file.exists()){
-                                GlideApp.with(context).asBitmap().centerCrop().load(images.get(position).getLocpath()).into(item.ivVideo);
-                            }else{
-                                GlideApp.with(context).asBitmap().centerCrop().apply(requestOptions).load(RecordURL.getNetUrl(images.get(position).getNetpath())).into(item.ivVideo);
-                            }
-
+//                            File file = new File(images.get(position).getLocpath());
+//                            if(file.exists()){
+//                                GlideApp.with(context).asBitmap().centerCrop().load(images.get(position).getLocpath()).into(item.ivVideo);
+//                            }else{
+//                                GlideApp.with(context).asBitmap().centerCrop().load(RecordURL.getNetUrl(images.get(position).getNetpath())).into(item.ivVideo);
+//                            }
+                            //GlideApp.with(context).asBitmap().centerCrop().load(images.get(position).getLocpath()).into(item.ivVideo);
+                            GlideApp.with(context).asBitmap().centerCrop().load(images.get(position).getUri()).into(item.ivVideo);
 
                             item.getRoot().setOnClickListener(this);
                             item.getRoot().setClickable(true);
