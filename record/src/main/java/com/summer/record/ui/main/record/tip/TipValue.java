@@ -13,12 +13,4 @@ public class TipValue extends BaseValue {
 
     private String atype;
 
-    public TipValue(){
-
-    LoadUtil loadUtil = new LoadUtil();
-
-    public TipValue() {
-        UpdateIndicator updateIndicator = new UpdateIndicator();
-        loadUtil.setIndicator(updateIndicator);
-    }
 }
