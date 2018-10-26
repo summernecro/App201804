@@ -1,10 +1,10 @@
 package com.summer.record.data;
 
 public class RecordURL {
-    protected static final String 奔溃日志 = "http://www.summernecro.com:8079/server/crash/sendCrash";
+    protected static final String 奔溃日志 = "http://222.186.36.75:8888:8888/server/crash/sendCrash";
     protected static final String HTTP前缀 = "http://";
     protected static String 项目名 = "/record";
-    protected static String 正式域名 = "www.summernecro.com:8888";
+    protected static String 正式域名 = "222.186.36.75:8888";
     protected static String 测试域名 = "192.168.20.150:8079";
     protected static String 域名 = 正式域名;
     protected static String 正式文件路径;

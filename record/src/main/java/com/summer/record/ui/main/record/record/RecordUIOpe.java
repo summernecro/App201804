@@ -116,6 +116,12 @@ public class RecordUIOpe extends BaseUIOpe<FragMainImageBinding> {
     }
 
 
+    public void notifyDataSetChangedRecylce(){
+        if (getBind().recycle.getAdapter() != null) {
+            getBind().recycle.getAdapter().notifyDataSetChanged();
+        }
+    }
+
     public void scrollToPos(ArrayList<Record> records, Record record) {
         LogUtil.E(record.getId());
         GridLayoutManager gridLayoutManager = (GridLayoutManager) getBind().recycle.getLayoutManager();
