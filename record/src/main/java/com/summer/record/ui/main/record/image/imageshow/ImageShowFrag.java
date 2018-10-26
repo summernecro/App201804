@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.constant.ValueConstant;
+import com.github.florent37.viewanimator.AnimationListener;
 import com.summer.record.R;
 import com.summer.record.data.Record;
 import com.summer.record.tool.ViewTool;
@@ -57,5 +58,23 @@ public class ImageShowFrag extends BaseUIFrag<ImageShowUIOpe,ImageShowValue> {
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onStart(AnimationListener.Stop stopListener) {
+        stopListener.onStop();
+    }
+
+    @Override
+    public void onRemove(AnimationListener.Stop stopListener) {
+        stopListener.onStop();
+    }
+
+    @Override
+    public void onBackIn() {
+    }
+
+    @Override
+    public void onBackOut() {
     }
 }

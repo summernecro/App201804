@@ -57,22 +57,4 @@ public class ImageShowUIOpe extends BaseUIOpe<FragMainImageImagedetailImageBindi
     public void setshow(ImageDetailFrag imageDetailFrag){
         imageDetailFrag.getPV().setShow(getBind().tvDes);
     }
-
-    @Override
-    public void onStart() {
-
-    }
-
-    @Override
-    public void onRemove(AnimationListener.Stop stopListener) {
-        stopListener.onStop();
-    }
-
-    @Override
-    public void onBackIn() {
-    }
-
-    @Override
-    public void onBackOut() {
-    }
 }

@@ -104,17 +104,4 @@ public class RecordsUIOpe extends BaseUIOpe<FragMainImagesBinding> {
         showHideSort(getBind().sortlist.getVisibility()!=View.VISIBLE,sorts,listener);
     }
 
-//
-//    public void onStart() {
-//    }
-//
-//    public void onBackOut() {
-//    }
-//
-//    public void onRemove(AnimationListener.Stop stopListener) {
-//        stopListener.onStop();
-//    }
-//
-//    public void onBackIn() {
-//    }
 }

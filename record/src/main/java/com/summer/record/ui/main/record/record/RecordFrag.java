@@ -47,7 +47,8 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordValue>{
         }
         recordFrag.getPV().setRecordsFrag(recordsFrag);
         recordFrag.getPV().setType(type);
-        recordFrag.getPV().setOriRecords(records);Bundle bundle = new Bundle();
+        recordFrag.getPV().setOriRecords(records);
+        Bundle bundle = new Bundle();
         recordFrag.getArguments().putSerializable(ValueConstant.DATA_DATA,recordFrag.getPV());
         return recordFrag;
     }
@@ -92,17 +93,17 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordValue>{
                 }
             });
 
-//            NetDataWork.Data.getRecordInfo(getBaseUIAct(),getPV().getType(),getPV().getTimedu(), new UINetAdapter<Records>(getBaseUIFrag()) {
-//                @Override
-//                public void onSuccess(Records o) {
-//                    super.onSuccess(o);
-//                    if(o==null){
-//                        return;
-//                    }
-//                    getPV().getRecordDAOpe().setRecordsInfo(o);
-//                    getPV().setTitleStr(o.getDoneNum()+"/"+o.getAllNum()+getPV().getYear());
-//                }
-//            });
+            NetDataWork.Data.getRecordInfo(getBaseUIAct(),getPV().getType(),getPV().getTimedu(), new UINetAdapter<Records>(getBaseUIFrag()) {
+                @Override
+                public void onSuccess(Records o) {
+                    super.onSuccess(o);
+                    if(o==null){
+                        return;
+                    }
+                    getPV().getRecordDAOpe().setRecordsInfo(o);
+                    getPV().setTitleStr(o.getDoneNum()+"/"+o.getAllNum()+getPV().getYear());
+                }
+            });
         }
 
     }
