@@ -62,6 +62,10 @@ public class RecordsUIOpe extends BaseUIOpe<FragMainImagesBinding> {
 
     }
 
+    public int getCurrentItem(){
+        return getBind().viewpager.getCurrentItem();
+    }
+
     public RecordFrag getCurrentFrag(ArrayList<Fragment> imageFrags){
         return (RecordFrag) imageFrags.get(getBind().viewpager.getCurrentItem());
     }
@@ -113,13 +117,4 @@ public class RecordsUIOpe extends BaseUIOpe<FragMainImagesBinding> {
 //
 //    public void onBackIn() {
 //    }
-
-
-    @Override
-    public void onBackIn() {
-        super.onBackIn();
-        RecordsFrag recordsFrag = (RecordsFrag) getFrag();
-        RecordFrag recordFrag  = (RecordFrag) recordsFrag.getPV().getImageFrags().get(getBind().viewpager.getCurrentItem());
-        recordFrag.getPU().notifyDataSetChangedRecylce();
-    }
 }

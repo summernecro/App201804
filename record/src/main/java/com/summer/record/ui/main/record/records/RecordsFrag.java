@@ -166,4 +166,12 @@ public class RecordsFrag extends BaseUIFrag<RecordsUIOpe,RecordsValue> implement
             }
         });
     }
+
+
+    @Override
+    public void onBackIn() {
+        super.onBackIn();
+        RecordFrag recordFrag  = (RecordFrag) getPV().getImageFrags().get(getPU().getCurrentItem());
+        recordFrag.getPU().notifyDataSetChangedRecylce();
+    }
 }
