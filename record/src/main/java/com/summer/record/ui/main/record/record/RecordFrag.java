@@ -9,7 +9,6 @@ import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.fragment.FragUtil;
 import com.android.lib.base.interf.OnFinishListener;
 import com.android.lib.base.interf.OnLoadingAdapter;
-import com.android.lib.base.listener.ViewListener;
 import com.android.lib.bean.databean.XYBean;
 import com.android.lib.constant.ValueConstant;
 import com.android.lib.network.bean.res.BaseResBean;
@@ -49,7 +48,7 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordValue>{
         recordFrag.getPV().setType(type);
         recordFrag.getPV().setOriRecords(records);
         Bundle bundle = new Bundle();
-        recordFrag.getArguments().putSerializable(ValueConstant.DATA_DATA,recordFrag.getPV());
+        //recordFrag.getArguments().putSerializable(ValueConstant.DATA_DATA,recordFrag.getPV());
         return recordFrag;
     }
 

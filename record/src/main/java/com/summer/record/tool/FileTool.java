@@ -49,6 +49,29 @@ public class FileTool {
         return  videos;
     }
 
+
+
+
+    public static Record getLastRecord(Context context){
+        ContentResolver contentResolver = context.getContentResolver();
+        ArrayList<Record> videos = new ArrayList<>();
+        Cursor cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,null,null,null);
+        cursor.moveToLast();
+        File file = new File(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)));
+        if(!file.exists()){
+            return null;
+        }
+        Record record = new Record(Record.ATYPE_IMAGE,
+                cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)),
+                file.getPath(),
+                cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_ADDED))*1000,
+                cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_MODIFIED))*1000,
+                cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME))
+        );
+        record.init();
+        return record;
+    }
+
     public static ArrayList<Record> getRecords(Context context,String type,String[] timeduraion, OnFinishListener onFinishListener){
         switch (type){
             case Record.ATYPE_IMAGE:

@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.interf.OnFinishListener;
-import com.android.lib.base.listener.ViewListener;
 import com.android.lib.network.news.NetAdapter;
 import com.android.lib.network.news.UINetAdapter;
 import com.android.lib.util.LoadUtil;

@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
 
 import com.android.lib.base.interf.OnFinishListener;
-import com.android.lib.base.listener.BaseOnPagerChangeListener;
+import com.android.lib.base.interf.listener.BaseOnPagerChangeListener;
 import com.android.lib.base.ope.BaseUIOpe;
 import com.android.lib.bean.databean.XYBean;
 import com.github.florent37.viewanimator.ViewAnimator;

@@ -4,7 +4,6 @@ import android.view.View;
 
 import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.fragment.FragUtil;
-import com.android.lib.base.listener.ViewListener;
 import com.android.lib.network.news.UINetAdapter;
 import com.android.lib.network.newsf.UIFNetAdapter;
 import com.summer.record.R;

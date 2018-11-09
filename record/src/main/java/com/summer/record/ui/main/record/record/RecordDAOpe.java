@@ -5,6 +5,7 @@ package com.summer.record.ui.main.record.record;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.android.lib.base.activity.BaseUIActivity;
 import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.interf.OnFinishListener;
 import com.android.lib.base.interf.OnLoadingInterf;
@@ -226,6 +227,15 @@ public class RecordDAOpe extends BaseDAOpe {
         BaseReqBean baseReqBean = new BaseReqBean();
         baseReqBean.setData(GsonUtil.getInstance().toJson(videos));
         NetDataWork.Data.updateRecords(baseUIFrag.getBaseUIAct(),baseReqBean,adapter);
+    }
+
+    public void updateRecords(BaseUIActivity activity, ArrayList<Record> videos, NetI<ArrayList<Record>> adapter){
+        if(videos==null){
+            return;
+        }
+        BaseReqBean baseReqBean = new BaseReqBean();
+        baseReqBean.setData(GsonUtil.getInstance().toJson(videos));
+        NetDataWork.Data.updateRecords(activity,baseReqBean,adapter);
     }
 
     private int pagesize = 250;

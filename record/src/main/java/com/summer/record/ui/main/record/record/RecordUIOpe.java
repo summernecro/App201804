@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.android.lib.GlideApp;
 import com.android.lib.base.adapter.AppsDataBindingAdapter;
-import com.android.lib.base.listener.ViewListener;
 import com.android.lib.base.ope.BaseUIOpe;
 import com.android.lib.bean.AppViewHolder;
 import com.android.lib.util.LogUtil;

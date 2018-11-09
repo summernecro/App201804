@@ -7,7 +7,6 @@ import android.view.View;
 import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.fragment.FragUtil;
 import com.android.lib.base.interf.OnFinishListener;
-import com.android.lib.base.listener.ViewListener;
 import com.android.lib.network.bean.res.BaseResBean;
 import com.android.lib.network.news.NetAdapter;
 import com.android.lib.network.news.UINetAdapter;

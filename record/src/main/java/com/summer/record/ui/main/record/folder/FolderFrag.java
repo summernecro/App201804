@@ -11,7 +11,6 @@ import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.fragment.FragUtil;
 import com.android.lib.base.interf.OnFinishListener;
 import com.android.lib.base.interf.OnLoadingAdapter;
-import com.android.lib.base.listener.ViewListener;
 import com.summer.record.R;
 import com.summer.record.data.Folder;
 import com.summer.record.data.Record;

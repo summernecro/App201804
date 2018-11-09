@@ -10,8 +10,7 @@ import android.view.View;
 
 import com.android.lib.base.adapter.AppBasePagerAdapter;
 import com.android.lib.base.adapter.AppsDataBindingAdapter;
-import com.android.lib.base.listener.BaseOnPagerChangeListener;
-import com.android.lib.base.listener.ViewListener;
+import com.android.lib.base.interf.listener.BaseOnPagerChangeListener;
 import com.android.lib.base.ope.BaseUIOpe;
 import com.android.lib.util.LogUtil;
 import com.github.florent37.viewanimator.AnimationListener;
@@ -57,6 +56,7 @@ public class RecordsUIOpe extends BaseUIOpe<FragMainImagesBinding> {
         imageFrags.clear();
         for(int i=0;i<strs.size();i++){
             RecordFrag recordFrag = RecordFrag.getInstance(strs.get(i),type, recordsFrag,null);
+            recordFrag.setBooleanAnim(new Boolean[]{false,true,true,true});
             imageFrags.add(recordFrag);
         }
 

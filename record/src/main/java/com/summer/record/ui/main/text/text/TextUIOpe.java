@@ -19,8 +19,6 @@ import android.widget.TextView;
 import com.android.lib.GlideApp;
 import com.android.lib.base.adapter.AppsDataBindingAdapter;
 import com.android.lib.base.interf.OnFinishListener;
-import com.android.lib.base.listener.BaseTextWather;
-import com.android.lib.base.listener.ViewListener;
 import com.android.lib.base.ope.BaseUIOpe;
 import com.android.lib.bean.AppViewHolder;
 import com.android.lib.util.ScreenUtil;

@@ -8,7 +8,10 @@ import com.android.lib.view.bottommenu.BottomMenuBean;
 import com.summer.record.R;
 import com.summer.record.data.Record;
 import com.summer.record.data.Tiplab;
+import com.summer.record.service.OneReceiver;
+import com.summer.record.service.PhotoMoniter;
 import com.summer.record.ui.main.record.folder.FolderFrag;
+import com.summer.record.ui.main.record.record.RecordDAOpe;
 import com.summer.record.ui.main.record.records.RecordsFrag;
 import com.summer.record.ui.main.record.records.RecordsFrag;
 import com.summer.record.ui.main.text.text.TextFrag;
@@ -50,6 +53,11 @@ public class MainValue extends BaseValue{
 
     private MainDAOpe mainDAOpe = new MainDAOpe();
 
+    private PhotoMoniter photoMoniter;
+
+    private RecordDAOpe recordDAOpe;
+
+    private OneReceiver oneReceiver;
 
     public MainValue(){
         fragments.add(RecordsFrag.getInstance(Record.ATYPE_VIDEO));
@@ -59,7 +67,13 @@ public class MainValue extends BaseValue{
         sorts.add("按日期排序");
         sorts.add("按标签排序");
         sorts.add("按文件夹排序");
+        recordDAOpe= new RecordDAOpe();
+        oneReceiver= new OneReceiver();
     }
+
+
+
+
 
 
 

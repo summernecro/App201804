@@ -4,6 +4,7 @@ package com.summer.record.ui.main.main;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -19,7 +20,6 @@ import com.android.lib.base.adapter.AppsDataBindingAdapter;
 import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.fragment.FragUtil;
 import com.android.lib.base.interf.OnFinishListener;
-import com.android.lib.base.listener.ViewListener;
 import com.android.lib.bean.AppViewHolder;
 import com.android.lib.network.news.NetAdapter;
 import com.android.lib.network.news.UINetAdapter;
@@ -129,7 +129,8 @@ public class AView extends RelativeLayout implements RefreshI,View.OnClickListen
                 TitleUtil.showHideSearch(getActMainABinding().search);
                 break;
             case R.id.tv_sort:
-                switchSort(v.getId(),MainValue.sorts, this);
+                getAct().startActivity(new Intent(getAct(),MainAct.class));
+                //switchSort(v.getId(),MainValue.sorts, this);
                 break;
             case R.id.item_sort_text:
                 switchSort(v.getId(),MainValue.sorts, null) ;

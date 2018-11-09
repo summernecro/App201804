@@ -130,6 +130,13 @@ public class NetDataWork {
         }
     }
 
+    public static class Welcome{
+        public static void getWelUrl(Context context, NetI<com.summer.record.data.Welcome> adapter){
+            BaseReqBean baseReqBean = new BaseReqBean();
+            NetGet.getData(context,RecordURL.获取地址("/welcome/getWelUrl"),baseReqBean,adapter);
+        }
+    }
+
 
 
 

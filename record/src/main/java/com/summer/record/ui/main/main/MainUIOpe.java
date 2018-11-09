@@ -17,8 +17,6 @@ import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.fragment.FragUtil;
 import com.android.lib.base.interf.OnFinishListener;
 import com.android.lib.base.interf.view.OnAppItemSelectListener;
-import com.android.lib.base.listener.BaseTextWather;
-import com.android.lib.base.listener.ViewListener;
 import com.android.lib.base.ope.BaseUIOpe;
 import com.android.lib.util.ScreenUtil;
 import com.android.lib.util.StringUtil;
