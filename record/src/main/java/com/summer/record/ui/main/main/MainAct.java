@@ -50,7 +50,7 @@ public class MainAct extends BaseUIActivity<MainUIOpe,MainValue> implements OnAp
         stopService(new Intent(this, ClipSevice.class));
         startService(new Intent(this, ClipSevice.class));
         onAppItemSelect(null,null,0);
-        PhotoMoniter.registerContentObserver(this, new OnFinishListener() {
+        PhotoMoniter photoMoniter = PhotoMoniter.registerContentObserver(this, new OnFinishListener() {
             @Override
             public void onFinish(Object o) {
                 Record record = FileTool.getLastRecord(getBaseContext());
@@ -65,6 +65,7 @@ public class MainAct extends BaseUIActivity<MainUIOpe,MainValue> implements OnAp
                 });
             }
         });
+        getPV().setPhotoMoniter(photoMoniter);
     }
 
     @Override

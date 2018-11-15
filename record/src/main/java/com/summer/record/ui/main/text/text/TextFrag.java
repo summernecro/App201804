@@ -17,6 +17,7 @@ import com.raizlabs.android.dbflow.sql.language.Select;
 import com.summer.record.R;
 import com.summer.record.data.NetDataWork;
 import com.summer.record.data.Record;
+import com.summer.record.data.Record_Table;
 import com.summer.record.data.Records;
 import com.summer.record.tool.TitleUtil;
 import com.summer.record.ui.main.main.MainAct;
@@ -78,15 +79,17 @@ public class TextFrag extends BaseUIFrag<TextUIOpe,TextValue> implements Refresh
     @Override
     public void dealMesage(Msg event) {
         LogUtil.E("TextDB");
-        ArrayList<Record> list = (ArrayList<Record>) new Select().from(Record.class).queryList();
-        getPU().initTexts(list,this);
-        ArrayList<Record> records = new ArrayList<>();
-        records.add((Record) event.data);
-        if(GsonUtil.getInstance().toJson(records.get(0)).equals(getPV().getTemStr())){
+        Record record = (Record) event.data;
+        if(GsonUtil.getInstance().toJson(record).equals(getPV().getTemStr())){
             return;
         }
-        getPV().setTemStr(GsonUtil.getInstance().toJson(records.get(0)));
-        getPV().getRecordDAOpe().updateRecords(getBaseUIFrag(),records,new NetAdapter<ArrayList<Record>>(getBaseUIAct()));
+        getPV().setTemStr(GsonUtil.getInstance().toJson(record));
+        getPV().getList().add(0,record);
+        getPU().initTexts(getPV().getList(),this);
+
+        ArrayList<Record> rs = new ArrayList<>();
+        rs.add(record);
+        getPV().getRecordDAOpe().updateRecords(getBaseUIFrag(),rs,new NetAdapter<ArrayList<Record>>(getBaseUIAct()));
 
     }
 
@@ -108,7 +111,9 @@ public class TextFrag extends BaseUIFrag<TextUIOpe,TextValue> implements Refresh
                                 @Override
                                 public void onSuccess(ArrayList<Record> o) {
                                     super.onSuccess(o);
-                                    getPU().initTexts(o,TextFrag.this);
+                                    getPV().getList().clear();
+                                    getPV().getList().addAll(o);
+                                    getPU().initTexts(getPV().getList(),TextFrag.this);
                                 }
 
                                 @Override
