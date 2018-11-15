@@ -219,6 +219,15 @@ public class RecordDAOpe extends BaseDAOpe {
         NetGet.downLoadFile(RecordURL.getNetUrl(record.getNetpath()),record.locpath,adapter);
     }
 
+    public void updateRecords(Context context, ArrayList<Record> videos, NetI<ArrayList<Record>> adapter){
+        if(videos==null){
+            return;
+        }
+        BaseReqBean baseReqBean = new BaseReqBean();
+        baseReqBean.setData(GsonUtil.getInstance().toJson(videos));
+        NetDataWork.Data.updateRecords(context,baseReqBean,adapter);
+    }
+
 
     public void updateRecords(BaseUIFrag baseUIFrag, ArrayList<Record> videos, NetI<ArrayList<Record>> adapter){
         if(videos==null){

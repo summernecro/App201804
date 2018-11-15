@@ -87,9 +87,6 @@ public class TextFrag extends BaseUIFrag<TextUIOpe,TextValue> implements Refresh
         getPV().getList().add(0,record);
         getPU().initTexts(getPV().getList(),this);
 
-        ArrayList<Record> rs = new ArrayList<>();
-        rs.add(record);
-        getPV().getRecordDAOpe().updateRecords(getBaseUIFrag(),rs,new NetAdapter<ArrayList<Record>>(getBaseUIAct()));
 
     }
 

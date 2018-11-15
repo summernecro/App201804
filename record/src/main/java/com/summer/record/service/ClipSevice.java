@@ -10,16 +10,22 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import com.android.lib.network.news.NetAdapter;
 import com.android.lib.util.LogUtil;
 import com.android.lib.view.bottommenu.Msg;
 import com.summer.record.data.Record;
+import com.summer.record.ui.main.record.record.RecordDAOpe;
 import com.summer.record.ui.main.text.text.TextFrag;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
+
 public class ClipSevice extends Service {
 
     long time = 0;
+
+    RecordDAOpe recordDAOpe = new RecordDAOpe();
 
     @Override
     public void onCreate() {
@@ -41,6 +47,11 @@ public class ClipSevice extends Service {
                     record.content = item.getText().toString();
                     record.ctime = System.currentTimeMillis();
                     record.save();
+
+                    ArrayList<Record> rs = new ArrayList<>();
+                    rs.add(record);
+                    recordDAOpe.updateRecords(getBaseContext(),rs,new NetAdapter<ArrayList<Record>>(getApplicationContext()));
+
                     EventBus.getDefault().post(new Msg(ClipSevice.class.getName(), TextFrag.class.getName(),record));
                 }
             }
