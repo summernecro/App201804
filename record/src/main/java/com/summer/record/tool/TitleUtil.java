@@ -4,8 +4,6 @@ package com.summer.record.tool;
 
 import android.app.Activity;
 import android.content.Context;
-import android.databinding.DataBindingUtil;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +23,7 @@ import com.summer.record.ui.main.main.MainAct;
 
 import java.util.ArrayList;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import butterknife.ButterKnife;
 
 import static com.android.lib.R2.id.context;

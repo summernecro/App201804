@@ -5,7 +5,6 @@ package com.summer.record.ui.main.main;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -23,7 +22,12 @@ import com.summer.record.service.PhotoMoniter;
 import com.summer.record.tool.FileTool;
 import com.summer.record.ui.main.record.image.NetAdapter;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
 
 public class MainAct extends BaseUIActivity<MainUIOpe,MainValue> implements OnAppItemSelectListener,View.OnClickListener {
 
@@ -31,7 +35,6 @@ public class MainAct extends BaseUIActivity<MainUIOpe,MainValue> implements OnAp
     @Override
     protected void initNow() {
         super.initNow();
-        LogUtil.E("eeee2"+System.currentTimeMillis());
         if(!new PermissionUtil().go检查权限(this,getPV().getMainDAOpe().getPermissions())){
             return;
         }
@@ -43,7 +46,6 @@ public class MainAct extends BaseUIActivity<MainUIOpe,MainValue> implements OnAp
         IntentFilter filter = new IntentFilter();
         filter.addAction(KeepLiveService.class.getSimpleName());
         getActivity().registerReceiver(getPV().getOneReceiver(), filter);
-
 
 
         getPU().initFrag(this,getPV().getFragments(),MainValue.模块ID,MainValue.模块);
@@ -94,5 +96,15 @@ public class MainAct extends BaseUIActivity<MainUIOpe,MainValue> implements OnAp
         super.onDestroy();
         FragUtil.getInstance().clear();
         PhotoMoniter.unregisterContentObserver(this, getPV().getPhotoMoniter());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void deal(TitleBus titleBus){
+        getPU().updateTitle(getPV().getPos(), titleBus.str);
+    }
+
+    @Override
+    protected boolean registerEventBus() {
+        return true;
     }
 }

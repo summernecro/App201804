@@ -1,6 +1,6 @@
 package com.summer.record.ui.main.record.tip;
 
-import android.support.v7.widget.GridLayoutManager;
+
 import android.view.View;
 
 import com.android.lib.base.adapter.AppsDataBindingAdapter;
@@ -17,6 +17,8 @@ import com.summer.record.databinding.ItemRecordTiplabBinding;
 import com.summer.record.ui.view.UpdateIndicator;
 
 import java.util.ArrayList;
+
+import androidx.recyclerview.widget.GridLayoutManager;
 
 public class TipUIOpe extends BaseUIOpe<FragRecordTipBinding> {
 

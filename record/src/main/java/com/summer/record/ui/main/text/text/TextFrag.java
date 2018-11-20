@@ -53,6 +53,9 @@ public class TextFrag extends BaseUIFrag<TextUIOpe,TextValue> implements Refresh
                 getPV().getRecords().addAll(o);
                 getPV().getList().clear();
                 getPV().getList().addAll(o);
+                for(int i=0;i<getPV().getList().size();i++){
+                    getPV().getList().get(i).init();
+                }
                 getPU().initTexts(getPV().getList(),TextFrag.this);
             }
         });

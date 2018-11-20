@@ -2,16 +2,7 @@ package com.summer.record.ui.main.text.text;
 
 //by summer on 2018-03-27.
 
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -30,10 +21,19 @@ import com.summer.record.data.Tiplab;
 import com.summer.record.data.text.Text;
 import com.summer.record.databinding.FragMainTextBinding;
 import com.summer.record.databinding.ItemRecordTitleSearchBinding;
+import com.summer.record.databinding.ItemTextTextBinding;
 import com.summer.record.tool.TitleUtil;
+import com.summer.record.ui.main.main.TitleBus;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.ButterKnife;
 
 public class TextUIOpe extends BaseUIOpe<FragMainTextBinding> {
@@ -49,18 +49,23 @@ public class TextUIOpe extends BaseUIOpe<FragMainTextBinding> {
         TitleUtil.addSearhView(getFrag());
     }
 
-    public void initTexts(ArrayList<Record> texts, View.OnClickListener listener){
+    public void initTexts(final ArrayList<Record> texts, View.OnClickListener listener){
         if(getBind().recycle.getAdapter()==null){
-            getBind().recycle.setLayoutManager(new GridLayoutManager(getActivity(),2));
-            getBind().recycle.setAdapter(new AppsDataBindingAdapter(getActivity(), R.layout.item_text_text, BR.item_text_text,texts,listener){
-                public void onBindViewHolder(AppViewHolder holder, int position) {
-                    ViewDataBinding viewDataBinding = holder.viewDataBinding;
-                    viewDataBinding.getRoot().setTag(com.android.lib.R.id.data, this.list.get(position));
-                    viewDataBinding.getRoot().setTag(com.android.lib.R.id.position, Integer.valueOf(position));
-                    viewDataBinding.getRoot().setOnClickListener(this);
-                    viewDataBinding.getRoot().setOnLongClickListener(this);
-                    viewDataBinding.setVariable(this.vari, this.list.get(position));
-                    viewDataBinding.executePendingBindings();
+            getBind().recycle.setLayoutManager(new LinearLayoutManager(getActivity()));
+            getBind().recycle.setAdapter(new AppsDataBindingAdapter(getActivity(), R.layout.item_text_text, BR.itemtexttext,texts,true,listener){
+
+            });
+            getBind().recycle.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+                int line = -1;
+                @Override
+                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                    int i= getBind().recycle.getChildAdapterPosition(recyclerView.getChildAt(0));
+                    if(i!=line){
+                        EventBus.getDefault().post(new TitleBus(texts.get(i).getDateStr()));//mainact
+                        line = i;
+                    }
                 }
             });
         }else{
@@ -79,7 +84,7 @@ public class TextUIOpe extends BaseUIOpe<FragMainTextBinding> {
     public void refreshList(ArrayList<Tiplab> tiplabs, View.OnClickListener listener){
         ItemRecordTitleSearchBinding itemRecordTitleSearchBinding = DataBindingUtil.bind(((ViewGroup)getView()).getChildAt( ((ViewGroup) getView()).getChildCount()-1));
         if(itemRecordTitleSearchBinding.recycleTips.getAdapter()==null){
-            itemRecordTitleSearchBinding.recycleTips.setAdapter(new AppsDataBindingAdapter(getActivity(), R.layout.item_tiplab_text, BR.item_tiplab_text,tiplabs,listener));
+            itemRecordTitleSearchBinding.recycleTips.setAdapter(new AppsDataBindingAdapter(getActivity(), R.layout.item_tiplab_text, BR.itemTiplabText,tiplabs,listener));
         }else{
             itemRecordTitleSearchBinding.recycleTips.getAdapter().notifyDataSetChanged();
         }

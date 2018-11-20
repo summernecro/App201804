@@ -5,8 +5,6 @@ package com.summer.record.ui.main.main;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -42,6 +40,8 @@ import com.summer.record.ui.main.record.tip.TipFrag;
 
 import java.util.ArrayList;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Optional;
@@ -129,8 +129,8 @@ public class AView extends RelativeLayout implements RefreshI,View.OnClickListen
                 TitleUtil.showHideSearch(getActMainABinding().search);
                 break;
             case R.id.tv_sort:
-                getAct().startActivity(new Intent(getAct(),MainAct.class));
-                //switchSort(v.getId(),MainValue.sorts, this);
+                //getAct().startActivity(new Intent(getAct(),MainAct.class));
+                switchSort(v.getId(),MainValue.sorts, this);
                 break;
             case R.id.item_sort_text:
                 switchSort(v.getId(),MainValue.sorts, null) ;
@@ -200,6 +200,9 @@ public class AView extends RelativeLayout implements RefreshI,View.OnClickListen
         this.moudle = moudle;
     }
 
+    public void updateTitle(String str){
+        actMainABinding.title.tvLab.setText(str);
+    }
 
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {

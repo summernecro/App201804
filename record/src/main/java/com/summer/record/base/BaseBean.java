@@ -2,7 +2,6 @@ package com.summer.record.base;
 
 //by summer on 2018-04-25.
 
-import android.support.annotation.NonNull;
 
 import com.raizlabs.android.dbflow.annotation.ColumnIgnore;
 import com.raizlabs.android.dbflow.config.FlowManager;
@@ -12,6 +11,8 @@ import com.raizlabs.android.dbflow.structure.InvalidDBConfiguration;
 import com.raizlabs.android.dbflow.structure.Model;
 import com.raizlabs.android.dbflow.structure.ModelAdapter;
 import com.raizlabs.android.dbflow.structure.database.DatabaseWrapper;
+
+import androidx.annotation.NonNull;
 
 public class BaseBean extends com.android.lib.bean.BaseBean  implements Model {
 

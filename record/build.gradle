@@ -29,14 +29,15 @@ android {
         enabled = true
     }
 
-    buildToolsVersion '28.0.3'
+    //buildToolsVersion '28.0.3'
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    api 'com.github.summernecro:ALib:v0.1.1.16'
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    api 'com.github.summernecro:ALib:v0.1.2.1'
     api 'com.shuyu:GSYVideoPlayer:4.1.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
     api "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
     api "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"

@@ -2,9 +2,6 @@ package com.summer.record.ui.main.record.image;
 
 //by summer on 2018-03-28.
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
 
 import com.android.lib.base.interf.OnFinishListener;
@@ -21,6 +18,10 @@ import com.summer.record.ui.main.main.MainAct;
 import com.summer.record.ui.main.record.image.imageshow.ImageShowFrag;
 
 import java.util.ArrayList;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 public class ImageDetailUIOpe extends BaseUIOpe<FragMainImageImagedetailBinding> {
 

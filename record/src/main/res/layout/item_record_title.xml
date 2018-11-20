@@ -7,14 +7,12 @@
             type="String" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:elevation="4dp"
         android:background="@drawable/drwable_main_color"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:paddingTop="20dp"
         android:layout_height="58dp">
-
 
 
 
@@ -87,5 +85,5 @@
             android:layout_width="30dp"
             android:layout_height="30dp" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

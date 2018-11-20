@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.android.lib.util.ScreenUtil;
@@ -15,6 +14,8 @@ import com.summer.record.R;
 import com.summer.record.data.Record;
 
 import java.util.ArrayList;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class VideoItemDecoration extends RecyclerView.ItemDecoration {
     

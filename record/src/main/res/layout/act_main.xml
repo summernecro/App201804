@@ -6,12 +6,11 @@
             type="String" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:background="@color/white"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
 <com.android.lib.view.bottommenu.BottomMenuView
     android:background="@color/white"
@@ -55,5 +54,5 @@
             android:background="@drawable/actionbar_shadow_up"
             android:layout_height="wrap_content"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -2,10 +2,8 @@ package com.summer.record.ui.main.record.record;
 
 //by summer on 2018-03-27.
 
-import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +12,15 @@ import com.android.lib.GlideApp;
 import com.android.lib.base.adapter.AppsDataBindingAdapter;
 import com.android.lib.base.ope.BaseUIOpe;
 import com.android.lib.bean.AppViewHolder;
+import com.android.lib.network.news.NetGet;
 import com.android.lib.util.LogUtil;
 import com.android.lib.util.ToastUtil;
 import com.android.lib.util.system.HandleUtil;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.github.florent37.viewanimator.AnimationListener;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.summer.record.BR;
@@ -28,11 +31,19 @@ import com.summer.record.data.RecordURL;
 import com.summer.record.databinding.FragMainImageBinding;
 import com.summer.record.databinding.ItemImageImageBinding;
 import com.summer.record.databinding.ItemRecordFolderBinding;
+import com.summer.record.ui.main.main.TitleBus;
 import com.summer.record.ui.main.record.image.NetAdapter;
 import com.summer.record.ui.main.record.records.RecordsFrag;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class RecordUIOpe extends BaseUIOpe<FragMainImageBinding> {
 
@@ -40,9 +51,9 @@ public class RecordUIOpe extends BaseUIOpe<FragMainImageBinding> {
 
         if (getBind().recycle.getAdapter() == null) {
             final RequestOptions requestOptions = new RequestOptions();
-            requestOptions.encodeQuality(10).centerCrop().placeholder(R.color.color_TRANSPARENT).skipMemoryCache(false).override(100, 100);
+            requestOptions.encodeQuality(10).centerCrop().placeholder(R.color.color_TRANSPARENT).skipMemoryCache(false);
             getBind().recycle.setLayoutManager(new GridLayoutManager(getActivity(), RecordValue.num));
-            getBind().recycle.setAdapter(new AppsDataBindingAdapter(getActivity(), R.layout.item_image_image, BR.item_image_image, images, listener) {
+            getBind().recycle.setAdapter(new AppsDataBindingAdapter(getActivity(), R.layout.item_image_image, BR.itemImageImage, images, listener) {
 
                 @Override
                 public int getItemViewType(int position) {
@@ -59,7 +70,7 @@ public class RecordUIOpe extends BaseUIOpe<FragMainImageBinding> {
                 }
 
                 @Override
-                public void onBindViewHolder(AppViewHolder holder, int position) {
+                public void onBindViewHolder(AppViewHolder holder, final int position) {
                     switch (getItemViewType(position)) {
                         case 1:
                             ItemImageImageBinding item = (ItemImageImageBinding) holder.viewDataBinding;
@@ -70,10 +81,23 @@ public class RecordUIOpe extends BaseUIOpe<FragMainImageBinding> {
 //                            if(file.exists()){
 //                                GlideApp.with(context).asBitmap().centerCrop().load(images.get(position).getLocpath()).into(item.ivVideo);
 //                            }else{
-//                                GlideApp.with(context).asBitmap().centerCrop().load(RecordURL.getNetUrl(images.get(position).getNetpath())).into(item.ivVideo);
+//                                GlideApp.with(context).asBitmap().centerCrop().load(RecordURL.getNetUrl(images.get(position).getNetpath())).listener(new RequestListener<Bitmap>() {
+//                                    @Override
+//                                    public boolean onLoadFailed(GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+//                                        return false;
+//                                    }
+//
+//                                    @Override
+//                                    public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+//                                        if(Record.ATYPE_IMAGE.equals(images.get(position).atype)){
+//                                            NetGet.downLoadFile(RecordURL.getNetUrl(images.get(position).getNetpath()),images.get(position).locpath,new NetAdapter(getActivity()));
+//                                        }
+//                                        return true;
+//                                    }
+//                                }).into(item.ivVideo);
 //                            }
                             //GlideApp.with(context).asBitmap().centerCrop().load(images.get(position).getLocpath()).into(item.ivVideo);
-                            GlideApp.with(context).asBitmap().centerCrop().load(images.get(position).getUri()).into(item.ivVideo);
+                            GlideApp.with(context).asBitmap().centerCrop().apply(requestOptions).load(images.get(position).getUri()).into(item.ivVideo);
 
                             item.getRoot().setOnClickListener(this);
                             item.getRoot().setClickable(true);
@@ -100,12 +124,27 @@ public class RecordUIOpe extends BaseUIOpe<FragMainImageBinding> {
             final RecordFrag recordFrag = (RecordFrag) getFrag();
             getBind().recycle.addItemDecoration(new VideoItemDecoration(getActivity(), images, RecordValue.num));
             getBind().recycle.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+                int line = -1;
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
                     int i= getBind().recycle.getChildAdapterPosition(recyclerView.getChildAt(0));
-                    if(i>=0){
+                    if(i>=0&&((i/6)!=line)){
+                        line = i/6;
+                        EventBus.getDefault().post(new TitleBus(images.get(i).getDateStr()));//mainact
                         //recordFrag.getPV().getRecordsFrag().getPU().updateTitle(images.get(i).getDateStr());
+                    }
+                }
+
+                @Override
+                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+//                    getBind().recycle.setTag(R.id.data,newState);
+                    if(newState==RecyclerView.SCROLL_STATE_IDLE){
+                        //GlideApp.with(getActivity()).resumeRequests();
+                    }else{
+                       // GlideApp.with(getActivity()).pauseRequests();
                     }
                 }
             });

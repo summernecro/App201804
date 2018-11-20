@@ -3,8 +3,9 @@ package com.summer.record.ui.view;
 //by summer on 2018-04-10.
 
 import android.content.Context;
-import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class GridConstraintLayout extends ConstraintLayout {
 

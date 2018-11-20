@@ -4,7 +4,6 @@ package com.summer.record.ui.main.main;
 
 import android.Manifest;
 import android.content.Context;
-import android.support.v4.app.Fragment;
 
 import com.android.lib.base.activity.BaseUIActivity;
 import com.android.lib.base.fragment.BaseUIFrag;

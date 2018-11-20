@@ -2,7 +2,6 @@ package com.summer.record.ui.main.record.records;
 
 //by summer on 2018-06-25.
 
-import android.support.v4.app.Fragment;
 
 import com.android.lib.base.ope.BaseValue;
 import com.summer.record.data.Tiplab;
@@ -10,6 +9,7 @@ import com.summer.record.ui.main.record.folder.FolderFrag;
 
 import java.util.ArrayList;
 
+import androidx.fragment.app.Fragment;
 import lombok.Getter;
 import lombok.Setter;
 @Getter

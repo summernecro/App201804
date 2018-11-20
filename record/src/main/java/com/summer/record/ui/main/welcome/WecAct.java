@@ -12,6 +12,7 @@ import com.android.lib.network.news.NetGet;
 import com.android.lib.network.news.UINetAdapter;
 import com.android.lib.util.GsonUtil;
 import com.android.lib.util.LogUtil;
+import com.android.lib.util.SPUtil;
 import com.android.lib.util.system.HandleUtil;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.summer.record.app.RecordApp;
@@ -30,34 +31,31 @@ public class WecAct extends BaseUIActivity<WelUIOpe,WelValue> {
     @Override
     protected void initNow() {
         super.initNow();
+        getPU().load(getPV().getUrl());
         NetDataWork.Welcome.getWelUrl(this, new UINetAdapter<Welcome>(this) {
             @Override
             public void onNetFinish(boolean haveData, String url, BaseResBean baseResBean) {
-                Welcome w=new Welcome();
+                final Welcome w=new Welcome();
                 w.setUrl(getPV().getUrl());
                 if(haveData){
                     Welcome welcome = GsonUtil.getInstance().fromJson(GsonUtil.getInstance().toJson(baseResBean.getResult()), Welcome.class);
                     w.setUrl(welcome.getUrl()==null?getPV().getUrl():welcome.getUrl());
+                    SPUtil.getInstance().saveStr(WelValue.welurl, welcome.getUrl());
                 }
-                long start = System.currentTimeMillis();
-                getPU().load(w.getUrl());
-                init();
-                long end = System.currentTimeMillis();
 
-                long time =4000;
-
-                if(4000<(end-start)){
-                    time = 100;
-                }else{
-                    time =  4000-(end-start);
-                }
-                HandleUtil.getInstance().postDelayed(new Runnable() {
+                WelLoadOpe.start(System.currentTimeMillis(), new OnFinishListener() {
                     @Override
-                    public void run() {
+                    public void onFinish(Object o) {
+                        getPU().load(w.getUrl());
+                        init();
+                    }
+                }, new OnFinishListener() {
+                    @Override
+                    public void onFinish(Object o) {
                         startActivity(new Intent(getActivity(),MainAct.class));
                         finish();
                     }
-                },time);
+                });
             }
         });
 
@@ -107,5 +105,10 @@ public class WecAct extends BaseUIActivity<WelUIOpe,WelValue> {
         NetAdapter.cache  = true;
         LogUtil.CAN_LOGIN = true;
         NetGet.test = false;
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 }

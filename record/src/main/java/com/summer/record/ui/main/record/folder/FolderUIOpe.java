@@ -2,8 +2,6 @@ package com.summer.record.ui.main.record.folder;
 
 //by summer on 2018-09-25.
 
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.android.lib.base.adapter.AppsDataBindingAdapter;
@@ -19,6 +17,8 @@ import com.summer.record.databinding.ItemRecordFolderBinding;
 import com.summer.record.tool.TitleUtil;
 
 import java.util.ArrayList;
+
+import androidx.recyclerview.widget.GridLayoutManager;
 
 public class FolderUIOpe extends BaseUIOpe<FragRecordFolderBinding> {
 

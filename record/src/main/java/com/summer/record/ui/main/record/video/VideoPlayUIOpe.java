@@ -12,6 +12,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.summer.record.R;
 import com.summer.record.data.Record;
+import com.summer.record.data.RecordURL;
 import com.summer.record.databinding.FragMainVideoVideoplayBinding;
 import com.summer.record.tool.TitleUtil;
 
@@ -22,7 +23,14 @@ public class VideoPlayUIOpe extends BaseUIOpe<FragMainVideoVideoplayBinding> {
 
     public void play(Record video) {
         getBind().tvDes.setText(video.getLocpath());
-        getBind().videoplayer.setUp(video.getLocpath(), false, new File(""), "视频播放");
+        File file = new File(video.getLocpath());
+        if(file.exists()){
+            getBind().videoplayer.setUp(video.getLocpath(), false, new File(""), "视频播放");
+        }else{
+            if(video.getNetpath()!=null){
+                getBind().videoplayer.setUp(RecordURL.getNetUrl(video.getNetpath()), false, new File(video.getLocpath()), "视频播放");
+            }
+        }
         //外部辅助的旋转，帮助全屏
         final OrientationUtils orientationUtils = new OrientationUtils((Activity) getActivity(), getBind().videoplayer);
         //初始化不打开外部的旋转

@@ -2,7 +2,6 @@ package com.summer.record.tool;
 
 //by summer on 2018-09-11.
 
-import android.support.annotation.NonNull;
 
 import com.android.lib.base.interf.OnFinishListener;
 import com.raizlabs.android.dbflow.config.FlowManager;
@@ -20,6 +19,8 @@ import com.summer.record.data.Record_Table;
 import com.summer.record.data.db.RecordDataBase;
 
 import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
 
 public class DBTool {
 

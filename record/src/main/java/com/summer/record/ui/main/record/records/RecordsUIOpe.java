@@ -3,9 +3,6 @@ package com.summer.record.ui.main.record.records;
 //by summer on 2018-06-25.
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.android.lib.base.adapter.AppBasePagerAdapter;
@@ -24,6 +21,10 @@ import com.summer.record.ui.main.record.record.RecordFrag;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class RecordsUIOpe extends BaseUIOpe<FragMainImagesBinding> {
 
@@ -82,7 +83,7 @@ public class RecordsUIOpe extends BaseUIOpe<FragMainImagesBinding> {
         if(show){
             if(getBind().sortlist.getAdapter()==null){
                 getBind().sortlist.setLayoutManager(new LinearLayoutManager(getActivity()));
-                getBind().sortlist.setAdapter(new AppsDataBindingAdapter(getActivity(),R.layout.item_sort_text,BR.item_sort_text,sorts,listener));
+                getBind().sortlist.setAdapter(new AppsDataBindingAdapter(getActivity(),R.layout.item_sort_text,BR.itemSortText,sorts,listener));
             }
             ViewAnimator.animate( getBind().sortlist).translationY(-getBind().sortlist.getHeight(),0).duration(500).onStart(new AnimationListener.Start() {
                 @Override

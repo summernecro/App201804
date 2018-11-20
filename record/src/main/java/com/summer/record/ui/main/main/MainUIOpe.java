@@ -2,9 +2,6 @@ package com.summer.record.ui.main.main;
 
 //by summer on 2018-03-27.
 
-import android.databinding.DataBindingUtil;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,5 +109,18 @@ public class MainUIOpe extends BaseUIOpe<ActMainBinding>{
     }
 
 
+    public void updateTitle(int index,String str){
+        switch (index){
+            case 0:
+                getBind().containVideo.updateTitle(str);
+                break;
+            case 1:
+                getBind().containImage.updateTitle(str);
+                break;
+            case 2:
+                getBind().containText.updateTitle(str);
+                break;
+        }
+    }
 
 }

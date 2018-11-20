@@ -8,7 +8,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 
 import com.android.lib.network.news.NetAdapter;
 import com.android.lib.util.LogUtil;
@@ -20,6 +19,8 @@ import com.summer.record.ui.main.text.text.TextFrag;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+
+import androidx.annotation.Nullable;
 
 public class ClipSevice extends Service {
 

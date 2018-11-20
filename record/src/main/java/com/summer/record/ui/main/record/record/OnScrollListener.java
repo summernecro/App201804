@@ -1,6 +1,7 @@
 package com.summer.record.ui.main.record.record;
 
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public interface OnScrollListener {
 

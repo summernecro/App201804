@@ -2,8 +2,6 @@ package com.summer.record.ui.main.text.textdeail;
 
 //by summer on 2018-04-26.
 
-import android.databinding.DataBindingUtil;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

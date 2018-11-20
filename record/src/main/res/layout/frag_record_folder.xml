@@ -6,13 +6,13 @@
             type="String" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycle"
             android:scrollbars="vertical"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -22,7 +22,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp" />
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:visibility="gone"
             android:id="@+id/sortlist"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -31,5 +31,5 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
