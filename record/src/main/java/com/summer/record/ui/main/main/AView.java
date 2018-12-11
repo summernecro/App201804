@@ -44,9 +44,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 import butterknife.Optional;
 
-public class AView extends RelativeLayout implements RefreshI,View.OnClickListener,OnFinishListener,TextView.OnEditorActionListener {
+public class AView extends RelativeLayout implements RefreshI,View.OnClickListener,OnFinishListener,TextView.OnEditorActionListener,View.OnLongClickListener {
 
     ActMainABinding actMainABinding;
 
@@ -103,6 +104,15 @@ public class AView extends RelativeLayout implements RefreshI,View.OnClickListen
 
     public void switchSort(int id,ArrayList<String> sorts, OnClickListener listener){
         showHideSort(getActMainABinding().sortlist.getVisibility()!=View.VISIBLE,sorts,listener);
+    }
+
+
+    @Optional
+    @OnLongClick({R.id.tv_refresh})
+    public boolean onLongClick(View v) {
+        v.setTag(this);
+        (FragUtil.getInstance().getCurrentFrag(getMoudle())).onLongClick(v);
+        return true;
     }
 
     @Optional

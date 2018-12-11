@@ -52,6 +52,9 @@ public class RecordValue extends BaseValue {
     @Setter
     @Getter
     RecordDAOpe recordDAOpe = new RecordDAOpe();
+    @Setter
+    @Getter
+    private boolean isdoing = false;
 
     public RecordValue(){
         UpdateIndicator updateIndicator = new UpdateIndicator();

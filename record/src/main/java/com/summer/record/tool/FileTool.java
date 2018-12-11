@@ -43,7 +43,7 @@ public class FileTool {
             );
             record.init();
             videos.add(record);
-            onFinishListener.onFinish(i);
+            onFinishListener.onFinish(record);
             i++;
         }
         return  videos;
@@ -102,7 +102,7 @@ public class FileTool {
             );
             record.init();
             images.add(record);
-            onFinishListener.onFinish(i);
+            onFinishListener.onFinish(record);
             i++;
         }
         return  images;

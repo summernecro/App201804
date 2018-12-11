@@ -3,6 +3,7 @@
     package="com.summer.record">
 
     <application
+        android:largeHeap="true"
         android:name=".app.RecordApp"
         android:persistent="true"
         tools:replace="android:label,android:theme"

@@ -17,6 +17,7 @@
 
 
     <TextView
+        android:singleLine="true"
         android:textSize="@dimen/hv_dimen_text_title_a"
         android:layout_marginLeft="10dp"
         app:layout_constraintLeft_toLeftOf="parent"

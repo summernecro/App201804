@@ -265,12 +265,12 @@ public class RecordDAOpe extends BaseDAOpe {
         }
         final int finalEnd = end;
 
-        updateRecords(baseUIFrag, list, new UINetAdapter<ArrayList<Record>>(baseUIFrag,UINetAdapter.Loading) {
+        updateRecords(baseUIFrag, list, new UINetAdapter<ArrayList<Record>>(baseUIFrag) {
             @Override
             public void onNetFinish(boolean haveData, String url, final BaseResBean baseResBean) {
                 super.onNetFinish(haveData, url, baseResBean);
                 list.clear();
-                adapter.onFinish(start+""+ finalEnd);
+                adapter.onFinish("第"+start+"至"+ finalEnd);
                 final int i = index+1;
                 new AsyncTask<String, String, String>() {
                     @Override

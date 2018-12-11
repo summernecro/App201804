@@ -103,6 +103,10 @@ public class MainAct extends BaseUIActivity<MainUIOpe,MainValue> implements OnAp
         getPU().updateTitle(getPV().getPos(), titleBus.str);
     }
 
+    public void deal(String lab){
+        getPU().updateTitle(getPV().getPos(),lab);
+    }
+
     @Override
     protected boolean registerEventBus() {
         return true;

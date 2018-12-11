@@ -4,6 +4,7 @@ package com.summer.record.ui.main.record.records;
 
 
 import com.android.lib.base.ope.BaseValue;
+import com.android.lib.util.LoadUtil;
 import com.summer.record.data.Tiplab;
 import com.summer.record.ui.main.record.folder.FolderFrag;
 
@@ -30,6 +31,8 @@ public class RecordsValue extends BaseValue {
     ArrayList<FolderFrag> folderFrags = new ArrayList<>();
 
     RecordsDAOpe recordsDAOpe = new RecordsDAOpe();
+
+    private LoadUtil loadUtil = new LoadUtil();
 
     public RecordsValue() {
         sorts.add("按日期排序");

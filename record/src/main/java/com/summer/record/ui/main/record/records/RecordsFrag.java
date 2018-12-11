@@ -5,6 +5,7 @@ package com.summer.record.ui.main.record.records;
 import android.view.View;
 
 import com.android.lib.base.fragment.BaseUIFrag;
+import com.android.lib.base.fragment.FragUtil;
 import com.android.lib.base.interf.OnFinishListener;
 import com.android.lib.network.news.NetAdapter;
 import com.android.lib.network.news.UINetAdapter;
@@ -30,6 +31,7 @@ import com.summer.record.ui.main.record.record.RecordValue;
 import java.util.ArrayList;
 
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 import butterknife.Optional;
 
 public class RecordsFrag extends BaseUIFrag<RecordsUIOpe,RecordsValue> implements RefreshI,View.OnClickListener,OnFinishListener {
@@ -54,6 +56,15 @@ public class RecordsFrag extends BaseUIFrag<RecordsUIOpe,RecordsValue> implement
     }
 
     @Optional
+    @OnLongClick({R.id.tv_refresh})
+    public boolean onLongClick(View v) {
+        v.setTag(this);
+        RecordFrag recordFrag = (RecordFrag) getPV().getImageFrags().get(getPV().getPos().get(0));
+        recordFrag.onLongClick(v);
+        return true;
+    }
+
+    @Optional
     @OnClick({ R.id.tv_refresh,R.id.tv_upload,R.id.tv_down,R.id.tv_search,R.id.tv_sort,R.id.iv_search_back})
     public void onClick(View v) {
         super.onClick(v);
@@ -67,34 +78,43 @@ public class RecordsFrag extends BaseUIFrag<RecordsUIOpe,RecordsValue> implement
                 AView aView1 = (AView) v.getTag();
                 TitleUtil.showHideSearch(aView1.getActMainABinding().search);
                 break;
-            case R.id.tv_refresh:
-                ArrayList<Record> all = FileTool.getRecords(getBaseUIAct(), getPV().getType(),new String[]{DBTool.getLastReCordCTime(getPV().getType())+"",""+(System.currentTimeMillis()/1000)}, new OnFinishListener() {
-                    @Override
-                    public void onFinish(Object o) {
-                    }
-                });
-                final ArrayList<Record> records = new ArrayList<>();
-                new RecordDAOpe().updateRecordsStep(0, records, RecordsFrag.this, new RecordDAOpe().getNoNullRecords( all), new OnFinishListener() {
-                    @Override
-                    public void onFinish(Object o) {
-                        if(!(o instanceof String)){
-                            NetDataWork.Data.getAllRecords(getBaseUIAct(), getPV().getType(),new String[]{DBTool.getLastReCordCTime(getPV().getType())+"",""+(System.currentTimeMillis()/1000)},new UINetAdapter<ArrayList<Record>>(getBaseUIFrag(),UINetAdapter.Loading) {
-                                @Override
-                                public void onSuccess(ArrayList<Record> o) {
-                                    super.onSuccess(o);
-                                    DBTool.saveRecords(o, new OnFinishListener() {
-                                        @Override
-                                        public void onFinish(Object o) {
-                                            getPU().initFrag(RecordsFrag.this,getPV().getType(),getPV().getRecordsDAOpe().getYears(getBaseUIAct(),getPV().getType(),DBTool.getMaxMinYear(getPV().getType())),getPV().getImageFrags());
-                                            getPU().initViewPager(getChildFragmentManager(),getContext(),getPV().getImageFrags(),getPV().getPos());
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    }
-                });
-                break;
+//            case R.id.tv_refresh:
+//                startLoading();
+//                ArrayList<Record> all = FileTool.getRecords(getBaseUIAct(), getPV().getType(),new String[]{DBTool.getLastReCordCTime(getPV().getType())+"",""+(System.currentTimeMillis()/1000)}, new OnFinishListener() {
+//                    @Override
+//                    public void onFinish(Object o) {
+//                    }
+//                });
+//
+//                final ArrayList<Record> records = new ArrayList<>();
+//                new RecordDAOpe().updateRecordsStep(0, records, RecordsFrag.this, new RecordDAOpe().getNoNullRecords( all), new OnFinishListener() {
+//                    @Override
+//                    public void onFinish(Object o) {
+//                        if(!(o instanceof String)){
+//                            NetDataWork.Data.getAllRecords(getBaseUIAct(), getPV().getType(),new String[]{DBTool.getLastReCordCTime(getPV().getType())+"",""+(System.currentTimeMillis()/1000)},new UINetAdapter<ArrayList<Record>>(getBaseUIFrag(),UINetAdapter.Loading) {
+//                                @Override
+//                                public void onSuccess(ArrayList<Record> o) {
+//                                    super.onSuccess(o);
+//                                    DBTool.saveRecords(o, new OnFinishListener() {
+//                                        @Override
+//                                        public void onFinish(Object o) {
+//                                            getPU().initFrag(RecordsFrag.this,getPV().getType(),getPV().getRecordsDAOpe().getYears(getBaseUIAct(),getPV().getType(),DBTool.getMaxMinYear(getPV().getType())),getPV().getImageFrags());
+//                                            getPU().initViewPager(getChildFragmentManager(),getContext(),getPV().getImageFrags(),getPV().getPos());
+//                                            stopLoading();
+//                                        }
+//                                    });
+//                                }
+//
+//                                @Override
+//                                public void onFail(boolean haveData, String msg) {
+//                                    super.onFail(haveData, msg);
+//                                    stopLoading();
+//                                }
+//                            });
+//                        }
+//                    }
+//                });
+//                break;
             default:
                 RecordFrag recordFrag = (RecordFrag) getPV().getImageFrags().get(getPV().getPos().get(0));
                 recordFrag.onClick(v);

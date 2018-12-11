@@ -15,14 +15,18 @@ import com.android.lib.network.bean.res.BaseResBean;
 import com.android.lib.network.news.UINetAdapter;
 import com.android.lib.util.LogUtil;
 import com.android.lib.util.ToastUtil;
+import com.android.lib.util.system.HandleUtil;
 import com.summer.record.R;
 import com.summer.record.data.NetDataWork;
 import com.summer.record.data.Record;
 import com.summer.record.data.Records;
+import com.summer.record.tool.DBTool;
 import com.summer.record.tool.DateUtil;
+import com.summer.record.tool.FileTool;
 import com.summer.record.tool.TitleUtil;
 import com.summer.record.ui.main.main.AView;
 import com.summer.record.ui.main.record.image.ImageDetailFrag;
+import com.summer.record.ui.main.record.image.NetAdapter;
 import com.summer.record.ui.main.record.records.RecordsFrag;
 import com.summer.record.ui.main.main.MainAct;
 import com.summer.record.ui.main.main.MainValue;
@@ -32,6 +36,7 @@ import com.summer.record.ui.view.UpdateIndicator;
 import java.util.ArrayList;
 
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 import butterknife.Optional;
 
 public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordValue>{
@@ -106,6 +111,22 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordValue>{
         }
 
     }
+
+    @Optional
+    @OnLongClick({R.id.tv_refresh})
+    public boolean onLongClick(View v) {
+        switch (v.getId()){
+            case R.id.tv_refresh:
+                //长按
+                v.setTag(R.id.data1,false);
+                onClick(v);
+                break;
+        }
+        return true;
+    }
+
+
+
     @Optional
     @OnClick({ R.id.tv_refresh,R.id.tv_upload,R.id.tv_down,R.id.tv_search,R.id.tv_sort,R.id.iv_search_back})
     public void onClick(View v) {
@@ -130,31 +151,34 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordValue>{
             }
                 break;
             case R.id.tv_upload:
+                startLoading();
                 ArrayList<Record>  list = getPV().getRecordDAOpe().getNoNullRecords(getPV().getUsedRecords());
                 final ArrayList<Record> records = new ArrayList<>();
                 getPV().getRecordDAOpe().updateRecordsStep(0,records,getBaseUIFrag(), list, new OnFinishListener() {
                     @Override
                     public void onFinish(Object o) {
                         if(!(o instanceof String)){
+                            stopLoading();
+                            ToastUtil.getInstance().showShort(getActivity(),"后台正在上传文件" );
                             getPV().getRecordDAOpe().uploadRecords(0,getBaseUIAct(),records , new OnFinishListener() {
                                 @Override
                                 public void onFinish(Object o) {
                                     if(o==null){
-//                                        NetDataWork.Data.getAllRecords(getBaseAct(), Record.ATYPE_IMAGE,getPV().getTimedu(),new UINetAdapter<ArrayList<Record>>(getBaseUIFrag(),UINetAdapter.Loading) {
-//                                            @Override
-//                                            public void onSuccess(ArrayList<Record> o) {
-//                                                super.onSuccess(o);
-//                                                getPV().reAddDateUsedRecord(getPD().dealRecord(o));
-//                                                getPU().loadImages(getPV().getUsedRecords(),RecordFrag.this);
-//                                            }
-//
-//                                            @Override
-//                                            public void onNetFinish(boolean haveData, String url, BaseResBean baseResBean) {
-//                                                super.onNetFinish(haveData, url, baseResBean);
-//                                                getPV().setTitleStr(baseResBean.getOther().toString()+getPV().getYear());
-//                                                ( (MainAct)getBaseUIAct()).getPU().updateTitle(getPV().getTitleStr());
-//                                            }
-//                                        });
+                                        NetDataWork.Data.getAllRecords(getBaseUIAct(), Record.ATYPE_IMAGE,getPV().getTimedu(),new UINetAdapter<ArrayList<Record>>(getBaseUIFrag(),UINetAdapter.Loading) {
+                                            @Override
+                                            public void onSuccess(ArrayList<Record> o) {
+                                                super.onSuccess(o);
+                                                getPV().reAddDateUsedRecord(getPV().getRecordDAOpe().dealRecord(o,6));
+                                                getPU().loadImages(getPV().getUsedRecords(),RecordFrag.this);
+                                            }
+
+                                            @Override
+                                            public void onNetFinish(boolean haveData, String url, BaseResBean baseResBean) {
+                                                super.onNetFinish(haveData, url, baseResBean);
+                                                getPV().setTitleStr(baseResBean.getOther().toString()+getPV().getYear());
+                                                ( (MainAct)getBaseUIAct()).getPU().updateTitle(getPV().getTitleStr());
+                                            }
+                                        });
                                     }else{
                                         Record record = (Record) o;
 //                                    getPU().scrollToPos(getPD().getRecords(), record);
@@ -212,6 +236,88 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordValue>{
             case R.id.iv_search_back:
                 break;
             case R.id.tv_search:
+                break;
+                //刷新按钮
+            case R.id.tv_refresh:
+                if(getPV().isIsdoing()){
+                    ToastUtil.getInstance().showShort(getActivity(),"请勿频繁操作" );
+                    return;
+                }
+                getPV().setIsdoing(true);
+                //从相册获取所有图片文件记录
+                final MainAct mainAct = (MainAct) getBaseUIAct();
+                ArrayList<Record> images = FileTool.getRecords(getActivity(), getPV().getType(), getPV().timedu, new OnFinishListener() {
+                    @Override
+                    public void onFinish(Object o) {
+                        Record record1 = (Record) o;
+                        mainAct.deal("获取"+record1.getLocpath());
+                    }
+                });
+
+                ArrayList<Record> rs = new ArrayList<>();
+                if(v.getTag(R.id.data1)!=null){
+                    for(int i=0;i<Math.min(100,images.size() );i++){
+                        rs.add(images.get(i));
+                    }
+                }
+                v.setTag(R.id.data1,null);
+
+                //上传本地未上传记录
+                final ArrayList<Record> records1 = new ArrayList<>();
+                getPV().getRecordDAOpe().updateRecordsStep(0, records1, RecordFrag.this, rs, new OnFinishListener() {
+                    @Override
+                    public void onFinish(Object o) {
+                        mainAct.deal("更新记录"+o);
+                        //上传记录完成
+                        if(!(o instanceof String)){
+                            //上传未上传的图片文件
+                            getPV().getRecordDAOpe().uploadRecords(0, getActivity(), records1, new OnFinishListener() {
+                                @Override
+                                public void onFinish(Object o) {
+                                    //上传完成
+                                    if(o==null){
+                                        //上传所有图片后 下载记录列表
+                                        NetDataWork.Data.getAllRecords(getActivity(),getPV().getType() ,getPV().timedu , new NetAdapter<ArrayList<Record>>(getActivity()){
+                                            @Override
+                                            public void onSuccess(final ArrayList<Record> o) {
+                                                super.onSuccess(o);
+                                                mainAct.deal("已下载所有记录真正存储");
+                                                //将下载的记录列表存在本地数据库
+                                                //initNow();
+
+                                                DBTool.update(0,true,getPV().getType(),o, getPV().timedu, new OnFinishListener() {
+                                                    @Override
+                                                    public void onFinish(Object o) {
+                                                        mainAct.deal("完成");
+                                                        getPV().setIsdoing(false);
+                                                        HandleUtil.getInstance().postDelayed(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                initNow();
+                                                            }
+                                                        }, 1000);
+                                                    }
+                                                });
+                                            }
+
+                                            @Override
+                                            public void onFail(boolean haveData, String msg) {
+                                                super.onFail(haveData, msg);
+                                                mainAct.deal("2"+msg);
+                                                stopLoading();
+                                                getPV().setIsdoing(false);
+                                            }
+                                        });
+                                    }else{
+                                        //上传了第X条
+                                        Record record2 = (Record) o;
+                                        mainAct.deal(""+record2.getName());
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
                 break;
         }
     }

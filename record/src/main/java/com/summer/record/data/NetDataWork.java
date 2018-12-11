@@ -24,6 +24,13 @@ public class NetDataWork {
             NetGet.postData(context,RecordURL.获取地址("/record/updateRecords"),baseBean,adapter);
         }
 
+
+        public static void updateRecords(Context context, ArrayList<Record> records, NetI<ArrayList<Record>> adapter){
+            BaseReqBean baseReqBean = new BaseReqBean();
+            baseReqBean.setData(GsonUtil.getInstance().toJson(records));
+            NetGet.postData(context,RecordURL.获取地址("/record/updateRecords"),baseReqBean,adapter);
+        }
+
         public static void getAllRecords(Context context,String atype, String[] timedu,NetI<ArrayList<Record>> adapter){
             Record record = new Record();
             record.setAtype(atype);

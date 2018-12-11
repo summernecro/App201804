@@ -16,6 +16,7 @@ import com.android.lib.network.news.NetGet;
 import com.android.lib.util.LogUtil;
 import com.android.lib.util.ToastUtil;
 import com.android.lib.util.system.HandleUtil;
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
@@ -49,10 +50,19 @@ public class RecordUIOpe extends BaseUIOpe<FragMainImageBinding> {
 
     public void loadImages(final ArrayList<Record> images, View.OnClickListener listener) {
 
+//                Glide.get(getActivity()).clearMemory();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                Glide.get(getActivity()).clearDiskCache();
+//            }
+//        }).start();
+
         if (getBind().recycle.getAdapter() == null) {
             final RequestOptions requestOptions = new RequestOptions();
-            requestOptions.encodeQuality(10).centerCrop().placeholder(R.color.color_TRANSPARENT).skipMemoryCache(false);
+            requestOptions.encodeQuality(5).centerCrop().placeholder(R.color.color_TRANSPARENT).skipMemoryCache(false);
             getBind().recycle.setLayoutManager(new GridLayoutManager(getActivity(), RecordValue.num));
+            getBind().recycle.setTag(R.id.data,RecyclerView.SCROLL_STATE_IDLE);
             getBind().recycle.setAdapter(new AppsDataBindingAdapter(getActivity(), R.layout.item_image_image, BR.itemImageImage, images, listener) {
 
                 @Override
@@ -77,27 +87,19 @@ public class RecordUIOpe extends BaseUIOpe<FragMainImageBinding> {
                             item.getRoot().setTag(com.android.lib.R.id.data, this.list.get(position));
                             item.getRoot().setTag(com.android.lib.R.id.position, Integer.valueOf(position));
 
-//                            File file = new File(images.get(position).getLocpath());
-//                            if(file.exists()){
-//                                GlideApp.with(context).asBitmap().centerCrop().load(images.get(position).getLocpath()).into(item.ivVideo);
-//                            }else{
-//                                GlideApp.with(context).asBitmap().centerCrop().load(RecordURL.getNetUrl(images.get(position).getNetpath())).listener(new RequestListener<Bitmap>() {
-//                                    @Override
-//                                    public boolean onLoadFailed(GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-//                                        return false;
-//                                    }
-//
-//                                    @Override
-//                                    public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-//                                        if(Record.ATYPE_IMAGE.equals(images.get(position).atype)){
-//                                            NetGet.downLoadFile(RecordURL.getNetUrl(images.get(position).getNetpath()),images.get(position).locpath,new NetAdapter(getActivity()));
-//                                        }
-//                                        return true;
-//                                    }
-//                                }).into(item.ivVideo);
-//                            }
+                            File file = new File(images.get(position).getLocpath());
+
+                            //本地存在加载本地图片
+                            if(file.exists()){
+                                GlideApp.with(context).asBitmap().centerCrop().apply(requestOptions).load(images.get(position).getLocpath()).into(item.ivVideo);
+                            }else{
+                                //本地不存在 不滑动时加载网络图片
+                                if((int)(getBind().recycle.getTag(R.id.data))==RecyclerView.SCROLL_STATE_IDLE){
+                                    //GlideApp.with(context).asBitmap().centerCrop().apply(requestOptions).load(RecordURL.getNetUrl(images.get(position).getNetpath())).into(item.ivVideo);
+                                }
+                            }
                             //GlideApp.with(context).asBitmap().centerCrop().load(images.get(position).getLocpath()).into(item.ivVideo);
-                            GlideApp.with(context).asBitmap().centerCrop().apply(requestOptions).load(images.get(position).getUri()).into(item.ivVideo);
+                            //GlideApp.with(context).asBitmap().centerCrop().apply(requestOptions).load(images.get(position).getUri()).into(item.ivVideo);
 
                             item.getRoot().setOnClickListener(this);
                             item.getRoot().setClickable(true);
@@ -140,8 +142,9 @@ public class RecordUIOpe extends BaseUIOpe<FragMainImageBinding> {
                 @Override
                 public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
-//                    getBind().recycle.setTag(R.id.data,newState);
+                    getBind().recycle.setTag(R.id.data,newState);
                     if(newState==RecyclerView.SCROLL_STATE_IDLE){
+                        //getBind().recycle.getAdapter().notifyDataSetChanged();
                         //GlideApp.with(getActivity()).resumeRequests();
                     }else{
                        // GlideApp.with(getActivity()).pauseRequests();

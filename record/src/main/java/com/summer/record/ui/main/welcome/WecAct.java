@@ -102,7 +102,7 @@ public class WecAct extends BaseUIActivity<WelUIOpe,WelValue> {
                 NetDataWork.Crash.insert(getApplicationContext(),crash,new com.summer.record.ui.main.record.image.NetAdapter<Boolean>(getApplicationContext()));
             }
         });
-        NetAdapter.cache  = true;
+        NetAdapter.cache  = false;
         LogUtil.CAN_LOGIN = true;
         NetGet.test = false;
     }
