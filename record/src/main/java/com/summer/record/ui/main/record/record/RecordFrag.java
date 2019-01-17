@@ -259,6 +259,8 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordValue>{
                     for(int i=0;i<Math.min(100,images.size() );i++){
                         rs.add(images.get(i));
                     }
+                }else{
+                    rs.addAll(images);
                 }
                 v.setTag(R.id.data1,null);
 
@@ -283,8 +285,6 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordValue>{
                                                 super.onSuccess(o);
                                                 mainAct.deal("已下载所有记录真正存储");
                                                 //将下载的记录列表存在本地数据库
-                                                //initNow();
-
                                                 DBTool.update(0,true,getPV().getType(),o, getPV().timedu, new OnFinishListener() {
                                                     @Override
                                                     public void onFinish(Object o) {
@@ -293,6 +293,7 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordValue>{
                                                         HandleUtil.getInstance().postDelayed(new Runnable() {
                                                             @Override
                                                             public void run() {
+                                                                getPV().getOriRecords().clear();
                                                                 initNow();
                                                             }
                                                         }, 1000);

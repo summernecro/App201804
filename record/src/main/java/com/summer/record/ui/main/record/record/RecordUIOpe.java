@@ -88,7 +88,7 @@ public class RecordUIOpe extends BaseUIOpe<FragMainImageBinding> {
                             item.getRoot().setTag(com.android.lib.R.id.position, Integer.valueOf(position));
 
                             File file = new File(images.get(position).getLocpath());
-
+                            GlideApp.with(context).asBitmap().centerCrop().apply(requestOptions).load(R.color.white).into(item.ivVideo);
                             //本地存在加载本地图片
                             if(file.exists()){
                                 GlideApp.with(context).asBitmap().centerCrop().apply(requestOptions).load(images.get(position).getLocpath()).into(item.ivVideo);
