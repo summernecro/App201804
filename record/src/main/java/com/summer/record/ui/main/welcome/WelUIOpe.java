@@ -8,6 +8,10 @@ import com.summer.record.databinding.ActWelBinding;
 public class WelUIOpe extends BaseUIOpe<ActWelBinding> {
 
     public void load(String str){
-        GlideApp.with(getActivity()).asBitmap().centerCrop().load(str).into(getBind().welImage);
+        if(str.toLowerCase().endsWith("gif")){
+            GlideApp.with(getActivity()).asGif().centerCrop().load(str).into(getBind().welImage);
+        }else{
+            GlideApp.with(getActivity()).asBitmap().centerCrop().load(str).into(getBind().welImage);
+        }
     }
 }
