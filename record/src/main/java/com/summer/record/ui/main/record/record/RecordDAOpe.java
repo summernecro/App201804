@@ -4,6 +4,7 @@ package com.summer.record.ui.main.record.record;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 
 import com.android.lib.base.activity.BaseUIActivity;
 import com.android.lib.base.fragment.BaseUIFrag;
@@ -115,6 +116,7 @@ public class RecordDAOpe extends BaseDAOpe {
             }
             map.get(date).add(videos.get(i));
         }
+       //用空记录补完空余
         String[] strs = new String[map.keySet().size()];
         strs = map.keySet().toArray(strs);
         for(int i=0;i<strs.length;i++){
@@ -139,6 +141,7 @@ public class RecordDAOpe extends BaseDAOpe {
             }
         }
 
+        //排序日期 冒泡排序法
         for(int i=0;i<timestr.size();i++){
             for(int j=0;j<timestr.size()-1-i;j++){
                 if(timestr.get(j)>timestr.get(j+1)){
@@ -148,11 +151,29 @@ public class RecordDAOpe extends BaseDAOpe {
                 }
             }
         }
+        //从大到小排序 转化日期
         ArrayList<String> ss = new ArrayList<>();
         for(int i=timestr.size()-1;i>=0;i--){
             Date d=new Date(timestr.get(i));
             format.setTimeZone(TimeZone.getTimeZone("UTC"));
             ss.add(format.format(d));
+        }
+
+        //某一天的记录按日期倒叙
+        for(int i=0;i<ss.size();i++){
+            ArrayList<Record> records = map.get(ss.get(i));
+            ArrayList<Record> datas = new ArrayList<>();
+            for(int j=records.size()-1;j>=0;j--){
+                //去掉空的站位记录
+                if(!TextUtils.isEmpty(records.get(j).getAtype())){
+                    datas.add(records.get(j));
+                }
+            }
+            int size = records.size()-datas.size();
+            for(int a=0;a<size;a++){
+                datas.add(new Record("",-1,null,0l,0l,records.get(0).getUtime(),null));
+            }
+            map.put(ss.get(i),datas);
         }
 
         for(int i=0;i<ss.size();i++){
