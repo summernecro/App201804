@@ -12,6 +12,10 @@ android {
         versionName "1.0"
         multiDexEnabled true
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
     }
 
     buildTypes {
@@ -34,9 +38,9 @@ android {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-    api 'com.github.summernecro:ALib:v0.1.2.1'
+    api 'com.github.summernecro:ALib:v0.1.2.2'
     api 'com.shuyu:GSYVideoPlayer:4.1.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
     api "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
