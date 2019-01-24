@@ -17,8 +17,6 @@ import lombok.Setter;
 public class RecordValue extends BaseValue {
 
     @Getter
-    LoadUtil loadUtil= new LoadUtil();
-    @Getter
     String[] timedu = new String[2];
 
     @Setter
@@ -56,9 +54,9 @@ public class RecordValue extends BaseValue {
     @Getter
     private boolean isdoing = false;
 
+    UpdateIndicator updateIndicator = new UpdateIndicator();
+
     public RecordValue(){
-        UpdateIndicator updateIndicator = new UpdateIndicator();
-        loadUtil.setIndicator(updateIndicator);
     }
 
     public void reAddAllDateRecord(ArrayList<Record> records){
@@ -85,5 +83,11 @@ public class RecordValue extends BaseValue {
         return "\u3000\u3000"+year;
     }
 
+    public UpdateIndicator getUpdateIndicator() {
+        return updateIndicator;
+    }
 
+    public void setUpdateIndicator(UpdateIndicator updateIndicator) {
+        this.updateIndicator = updateIndicator;
+    }
 }

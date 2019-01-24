@@ -6,6 +6,7 @@ import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.fragment.FragUtil;
 import com.android.lib.network.news.UINetAdapter;
 import com.android.lib.network.newsf.UIFNetAdapter;
+import com.android.lib.util.LoadUtil;
 import com.summer.record.R;
 import com.summer.record.data.Folder;
 import com.summer.record.data.NetDataWork;
@@ -49,7 +50,7 @@ public class TipFrag extends BaseUIFrag<TipUIOpe,TipValue> {
         super.onClick(v);
         switch (v.getId()){
             case R.id.item_record_tiplab:
-                getPU().getLoadUtil().startLoadingDefault(getContext(), getBaseUIRoot(),getResources().getColor(R.color.color_red_500));
+                LoadUtil.getInstance().startLoading(getContext(), getBaseUIRoot(),"");
                 Tiplab tiplab = (Tiplab) v.getTag(R.id.data);
                 NetDataWork.Tip.getImageRecordsFromTip(getBaseUIAct(), tiplab, new UIFNetAdapter<ArrayList<Record>>(getBaseUIFrag()) {
 
@@ -61,7 +62,7 @@ public class TipFrag extends BaseUIFrag<TipUIOpe,TipValue> {
                     @Override
                     public void onResult(boolean success, String msg, ArrayList<Record> o) {
                         super.onResult(success, msg, o);
-                        getPU().getLoadUtil().stopLoading(getBaseUIRoot());
+                        LoadUtil.getInstance().stopLoading(getBaseUIRoot());
                         if(success){
                             FragUtil.getInstance().start(getBaseUIAct(),TipFrag.this,Record.ATYPE_IMAGE,RecordFrag.getInstance(null,Record.ATYPE_IMAGE,null, o));
                         }

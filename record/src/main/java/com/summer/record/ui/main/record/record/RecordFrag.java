@@ -13,6 +13,7 @@ import com.android.lib.bean.databean.XYBean;
 import com.android.lib.constant.ValueConstant;
 import com.android.lib.network.bean.res.BaseResBean;
 import com.android.lib.network.news.UINetAdapter;
+import com.android.lib.util.LoadUtil;
 import com.android.lib.util.LogUtil;
 import com.android.lib.util.ToastUtil;
 import com.android.lib.util.system.HandleUtil;
@@ -66,15 +67,15 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordValue>{
                 public void onFinish(Object o) {
                     getPV().reAddAllDateRecord((ArrayList<Record>) o);
                     getPU().loadImages(getPV().getUsedRecords(),RecordFrag.this);
-                    getPV().getLoadUtil().stopLoading(getBaseUIRoot());
+                    LoadUtil.getInstance().stopLoading(getBaseUIRoot());
                 }
             });
         }else{
             getPV().getRecordDAOpe().getImages(getBaseUIAct(),RecordValue.num,getPV().getType(),getPV().getTimedu(), new OnLoadingAdapter() {
                 @Override
                 public void onStarLoading(Object o) {
-                    ((UpdateIndicator)getPV().getLoadUtil().getIndicator()).setContext(getContext());
-                    getPV().getLoadUtil().startLoadingDefault(getContext(), getBaseUIRoot(),getResources().getColor(R.color.color_red_500));
+                    getPV().getUpdateIndicator().setContext(getContext());
+                    LoadUtil.getInstance().startLoading(getContext(), getBaseUIRoot(),"",getPV().getUpdateIndicator());
                 }
 
                 @Override
@@ -85,7 +86,7 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordValue>{
                         public void onFinish(Object o) {
                             getPV().reAddAllDateRecord((ArrayList<Record>) o);
                             getPU().loadImages(getPV().getUsedRecords(),RecordFrag.this);
-                            getPV().getLoadUtil().stopLoading(getBaseUIRoot());
+                            LoadUtil.getInstance().stopLoading(getBaseUIRoot());
                         }
                     });
                 }
@@ -93,7 +94,7 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordValue>{
                 @Override
                 public void onProgress(Object o) {
                     super.onProgress(o);
-                    ((UpdateIndicator)getPV().getLoadUtil().getIndicator()).setProgress(o.toString());
+                    getPV().getUpdateIndicator().setProgress(o.toString());
                 }
             });
 
@@ -151,14 +152,14 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordValue>{
             }
                 break;
             case R.id.tv_upload:
-                startLoading();
+                LoadUtil.getInstance().startLoading(getBaseUIAct(), getBaseUIRoot());
                 ArrayList<Record>  list = getPV().getRecordDAOpe().getNoNullRecords(getPV().getUsedRecords());
                 final ArrayList<Record> records = new ArrayList<>();
                 getPV().getRecordDAOpe().updateRecordsStep(0,records,getBaseUIFrag(), list, new OnFinishListener() {
                     @Override
                     public void onFinish(Object o) {
                         if(!(o instanceof String)){
-                            stopLoading();
+                            LoadUtil.getInstance().stopLoading(getBaseUIRoot());
                             ToastUtil.getInstance().showShort(getActivity(),"后台正在上传文件" );
                             getPV().getRecordDAOpe().uploadRecords(0,getBaseUIAct(),records , new OnFinishListener() {
                                 @Override
@@ -305,7 +306,7 @@ public class RecordFrag extends BaseUIFrag<RecordUIOpe,RecordValue>{
                                             public void onFail(boolean haveData, String msg) {
                                                 super.onFail(haveData, msg);
                                                 mainAct.deal("2"+msg);
-                                                stopLoading();
+                                                LoadUtil.getInstance().stopLoading(getBaseUIRoot());
                                                 getPV().setIsdoing(false);
                                             }
                                         });

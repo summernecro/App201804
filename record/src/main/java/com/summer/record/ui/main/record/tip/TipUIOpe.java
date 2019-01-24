@@ -19,19 +19,16 @@ import com.summer.record.ui.view.UpdateIndicator;
 import java.util.ArrayList;
 
 import androidx.recyclerview.widget.GridLayoutManager;
+import lombok.Getter;
 
 public class TipUIOpe extends BaseUIOpe<FragRecordTipBinding> {
 
-
-    LoadUtil loadUtil= new LoadUtil();
+    @Getter
+    UpdateIndicator updateIndicator = new UpdateIndicator();
 
     @Override
     public void initUI() {
         super.initUI();
-        UpdateIndicator updateIndicator = new UpdateIndicator();
-        updateIndicator.setContext(getActivity());
-        loadUtil.setIndicator(updateIndicator);
-
     }
 
     /**
@@ -48,13 +45,5 @@ public class TipUIOpe extends BaseUIOpe<FragRecordTipBinding> {
                 binding.tvName.setText(folders.get(position).getContent());
             }
         });
-    }
-
-    public LoadUtil getLoadUtil() {
-        return loadUtil;
-    }
-
-    public void setLoadUtil(LoadUtil loadUtil) {
-        this.loadUtil = loadUtil;
     }
 }

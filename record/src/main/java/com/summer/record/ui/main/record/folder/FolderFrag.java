@@ -11,6 +11,7 @@ import com.android.lib.base.fragment.BaseUIFrag;
 import com.android.lib.base.fragment.FragUtil;
 import com.android.lib.base.interf.OnFinishListener;
 import com.android.lib.base.interf.OnLoadingAdapter;
+import com.android.lib.util.LoadUtil;
 import com.summer.record.R;
 import com.summer.record.data.Folder;
 import com.summer.record.data.Record;
@@ -44,8 +45,8 @@ public class FolderFrag extends BaseUIFrag<FolderUIOpe,FolderValue>{
         getPV().getFolderDAOpe().getImages(getBaseUIAct(),getPV().getAtype(), new OnLoadingAdapter() {
             @Override
             public void onStarLoading(Object o) {
-                ((UpdateIndicator)getPV().getLoadUtil().getIndicator()).setContext(getContext());
-                getPV().getLoadUtil().startLoadingDefault(getContext(), getBaseUIRoot(),getResources().getColor(R.color.color_red_500));
+                getPV().getUpdateIndicator().setContext(getContext());
+                LoadUtil.getInstance().startLoading(getContext(), getBaseUIRoot(),"",getPV().getUpdateIndicator());
             }
 
             @Override
@@ -56,7 +57,7 @@ public class FolderFrag extends BaseUIFrag<FolderUIOpe,FolderValue>{
                     public void onFinish(Object o) {
                         getPV().setFolders((ArrayList<Folder>) o);
                         getPU().loadRecordByFolder(getPV().getFolders(),FolderFrag.this);
-                        getPV().getLoadUtil().stopLoading(getBaseUIRoot());
+                        LoadUtil.getInstance().stopLoading(getBaseUIRoot());
                     }
                 });
             }
@@ -64,7 +65,7 @@ public class FolderFrag extends BaseUIFrag<FolderUIOpe,FolderValue>{
             @Override
             public void onProgress(Object o) {
                 super.onProgress(o);
-                ((UpdateIndicator)getPV().getLoadUtil().getIndicator()).setProgress(o.toString());
+                getPV().getUpdateIndicator().setProgress(o.toString());
             }
         });
     }

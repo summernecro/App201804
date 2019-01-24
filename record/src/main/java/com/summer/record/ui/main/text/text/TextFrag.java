@@ -73,11 +73,11 @@ public class TextFrag extends BaseUIFrag<TextUIOpe,TextValue> implements Refresh
         });
     }
 
+
     @Override
-    protected boolean is注册事件总线() {
+    protected boolean isRegistEventBus() {
         return true;
     }
-
 
     @Override
     public void dealMesage(Msg event) {

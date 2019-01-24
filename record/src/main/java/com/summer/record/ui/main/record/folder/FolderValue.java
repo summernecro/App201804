@@ -17,20 +17,27 @@ import lombok.Setter;
 @Setter
 public class FolderValue extends BaseValue {
 
-    LoadUtil loadUtil= new LoadUtil();
     ArrayList<Record> OriRecords = new ArrayList<>();
     ArrayList<Folder> folders = new ArrayList<>();
     String atype ;
     FolderDAOpe folderDAOpe = new FolderDAOpe();
 
+    UpdateIndicator updateIndicator = new UpdateIndicator();
+
     private ArrayList<String> sorts = new ArrayList<>();
 
 
     public FolderValue() {
-        UpdateIndicator updateIndicator = new UpdateIndicator();
-        loadUtil.setIndicator(updateIndicator);
         sorts.add("按日期排序");
         sorts.add("按标签排序");
         sorts.add("按文件夹排序");
+    }
+
+    public UpdateIndicator getUpdateIndicator() {
+        return updateIndicator;
+    }
+
+    public void setUpdateIndicator(UpdateIndicator updateIndicator) {
+        this.updateIndicator = updateIndicator;
     }
 }

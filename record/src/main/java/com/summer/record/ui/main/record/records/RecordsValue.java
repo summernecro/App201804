@@ -32,7 +32,6 @@ public class RecordsValue extends BaseValue {
 
     RecordsDAOpe recordsDAOpe = new RecordsDAOpe();
 
-    private LoadUtil loadUtil = new LoadUtil();
 
     public RecordsValue() {
         sorts.add("按日期排序");
